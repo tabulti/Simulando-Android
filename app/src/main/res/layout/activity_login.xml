@@ -4,6 +4,10 @@
     android:id="@+id/activity_login"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:paddingBottom="@dimen/activity_vertical_margin"
+    android:paddingLeft="@dimen/activity_horizontal_margin"
+    android:paddingRight="@dimen/activity_horizontal_margin"
+    android:paddingTop="@dimen/activity_vertical_margin"
     tools:context="com.certimais.UI.Login.LoginActivity">
 
     <LinearLayout
@@ -15,10 +19,38 @@
             android:id="@+id/btnLoginFacebook"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:paddingBottom="@dimen/spacing_xmicro"
-            android:paddingTop="@dimen/spacing_xmicro"
-            android:layout_margin="@dimen/activity_horizontal_margin"/>
+            android:layout_marginBottom="@dimen/spacing_xmicro"
+            android:paddingBottom="@dimen/spacing_tiny"
+            android:paddingTop="@dimen/spacing_tiny" />
 
+        <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="@dimen/activity_vertical_margin"
+            android:layout_marginTop="@dimen/activity_vertical_margin"
+            android:gravity="center"
+            android:orientation="horizontal">
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:layout_weight="1"
+                android:background="@color/line_divider" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:paddingLeft="@dimen/spacing_micro"
+                android:paddingRight="@dimen/spacing_micro"
+                android:text="@string/login_divider"/>
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:layout_gravity="center"
+                android:layout_weight="1"
+                android:background="@color/line_divider" />
+        </LinearLayout>
 
         <android.support.design.widget.TextInputLayout
             android:layout_width="match_parent"
@@ -47,9 +79,11 @@
         </android.support.design.widget.TextInputLayout>
 
         <Button
+            android:id="@+id/btnLoginEmail"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="@string/login_email" />
+            android:text="@string/login_button"
+            android:theme="@style/AppTheme.PrimaryButton" />
 
     </LinearLayout>
 

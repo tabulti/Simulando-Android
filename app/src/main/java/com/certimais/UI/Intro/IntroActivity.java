@@ -45,12 +45,17 @@ public class IntroActivity extends AppCompatActivity {
             goToDashboard();
         }
 
-        mBtnLogin = (Button) findViewById(R.id.btnLogin);
-        mBtnRegister = (Button) findViewById(R.id.btnRegister);
+        mBtnLogin = (Button) findViewById(R.id.btnLoginIntro);
+        mBtnRegister = (Button) findViewById(R.id.btnRegisterIntro);
 
         mBtnLogin.setOnClickListener(loginListener);
         mBtnRegister.setOnClickListener(registerListener);
 
+    }
+
+    @Override
+    public void onBackPressed() {
+        super.onBackPressed();
     }
 
     public void goToDashboard() {

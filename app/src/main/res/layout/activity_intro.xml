@@ -12,16 +12,16 @@
     tools:context="com.certimais.UI.Intro.IntroActivity">
 
     <Button
-        android:id="@+id/btnLogin"
+        android:id="@+id/btnLoginIntro"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="@string/login" />
+        android:text="@string/login_intro" />
 
     <Button
-        android:id="@+id/btnRegister"
+        android:id="@+id/btnRegisterIntro"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="@string/register" />
+        android:text="@string/register_intro" />
 
 
 </LinearLayout>

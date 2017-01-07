@@ -10,19 +10,21 @@ import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.bumptech.glide.Glide;
+import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.certimais.Manager.SessionManager;
 import com.certimais.Models.User;
 import com.certimais.R;
-import com.certimais.UI.Dashboard.AnswerQuestions.AnswerQuestionsFragment;
+import com.certimais.UI.Dashboard.AnswerQuestions.AnswerQuestionsActivity;
 import com.certimais.UI.Dashboard.Profile.ProfileFragment;
 import com.certimais.UI.Intro.IntroActivity;
+
+import de.hdodenhof.circleimageview.CircleImageView;
 
 public class DashboardActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
@@ -37,7 +39,7 @@ public class DashboardActivity extends AppCompatActivity
     /**
      * Sidemenu content
      */
-    ImageView mIvSideMenuFoto;
+    CircleImageView mIvSideMenuFoto;
     TextView mTvSideMenuNome;
     TextView mTvSideMenuEmail;
 
@@ -74,13 +76,22 @@ public class DashboardActivity extends AppCompatActivity
         mNavView.setNavigationItemSelectedListener(this);
         mHeaderView = mNavView.getHeaderView(0);
 
-        mIvSideMenuFoto = (ImageView) mHeaderView.findViewById(R.id.sideMenuFoto);
+        mIvSideMenuFoto = (CircleImageView) mHeaderView.findViewById(R.id.sideMenuFoto);
         mTvSideMenuNome = (TextView) mHeaderView.findViewById(R.id.sideMenuNome);
         mTvSideMenuEmail = (TextView) mHeaderView.findViewById(R.id.sideMenuEmail);
 
         mTvSideMenuNome.setText(user.nome);
         mTvSideMenuEmail.setText(user.email);
 
+        Glide.with(this)
+                .load(user.urlFoto)
+                .diskCacheStrategy(DiskCacheStrategy.ALL)
+                .placeholder(R.drawable.ic_pick_photo)
+                .error(R.drawable.ic_pick_photo)
+                .override(220, 220)
+                .centerCrop()
+                .dontAnimate()
+                .into(mIvSideMenuFoto);
     }
 
     @Override
@@ -123,8 +134,13 @@ public class DashboardActivity extends AppCompatActivity
 
         Fragment content = null;
 
-        if (id == R.id.menu_profile) {
-            content = new AnswerQuestionsFragment();
+        if(id == R.id.menu_item){
+
+        }
+
+        if (id == R.id.menu_question) {
+            Intent answerQuestions = new Intent(this, AnswerQuestionsActivity.class);
+            startActivity(answerQuestions);
         } else if (id == R.id.menu_logout) {
             mSessionManager.logout();
             goToIntro();
@@ -138,8 +154,8 @@ public class DashboardActivity extends AppCompatActivity
         }
 
 
-        DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
-        drawer.closeDrawer(GravityCompat.START);
+
+        mDrawerLayout.closeDrawer(GravityCompat.START);
         return true;
     }
 

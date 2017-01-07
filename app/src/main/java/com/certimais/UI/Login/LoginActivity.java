@@ -4,6 +4,8 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
+import android.view.View;
+import android.widget.Button;
 import android.widget.EditText;
 
 import com.certimais.Consts.LoginConsts;
@@ -23,6 +25,7 @@ public class LoginActivity extends AppCompatActivity {
     EditText mEdtEmail;
     EditText mEdtPassword;
     LoginButton mBtnLoginFacebook;
+    Button mBtnLogin;
 
     RequestCallback fbRequestCallback = new RequestCallback() {
         @Override
@@ -31,6 +34,13 @@ public class LoginActivity extends AppCompatActivity {
             goToDashboard();
         }
 
+    };
+
+    View.OnClickListener loginEmailListener = new View.OnClickListener() {
+        @Override
+        public void onClick(View v) {
+            logar();
+        }
     };
 
     @Override
@@ -44,6 +54,9 @@ public class LoginActivity extends AppCompatActivity {
 
         mEdtEmail = (EditText) findViewById(R.id.edtEmail);
         mEdtPassword = (EditText) findViewById(R.id.edtPassword);
+        mBtnLogin = (Button) findViewById(R.id.btnLoginEmail);
+
+        mBtnLogin.setOnClickListener(loginEmailListener);
         mBtnLoginFacebook = (LoginButton) findViewById(R.id.btnLoginFacebook);
         mFacebookAuthManager.init(mBtnLoginFacebook, fbRequestCallback);
 
@@ -54,6 +67,20 @@ public class LoginActivity extends AppCompatActivity {
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         mFacebookAuthManager.getCallback().onActivityResult(requestCode, resultCode, data);
+    }
+
+    public void logar() {
+        String email = mEdtEmail.getText().toString();
+        String password = mEdtPassword.getText().toString();
+        User user = new User();
+        user.email=email;
+        user.nome = email;
+
+        Log.d("AUTH_INFO", "EM: " + email + ", Senha: " + password);
+        if (!email.isEmpty() && !password.isEmpty()) {
+            mSessionManager.setCurrentUser(user, LoginConsts.SESSION_LOGIN_API);
+            goToDashboard();
+        }
     }
 
     public void goToDashboard() {
