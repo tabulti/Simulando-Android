@@ -1,66 +1,78 @@
-<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/light_gray"
-    android:clipToPadding="false"
-    android:paddingBottom="12dp"
-    android:scrollbars="none"
-    tools:context="com.certimais.UI.Dashboard.AnswerQuestions.AnswerQuestionsFragment">
+    android:orientation="vertical"
+    tools:context="com.certimais.UI.Dashboard.AnswerQuestions.AnswerQuestionsActivity">
 
-    <LinearLayout
+    <ProgressBar
+        android:id="@+id/loadingQuestion"
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent"
+        android:layout_gravity="center" />
+
+    <ScrollView
+        android:id="@+id/questionPanel"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_marginBottom="@dimen/spacing_medium"
-        android:orientation="vertical">
+        android:clipToPadding="false"
+        android:orientation="vertical"
+        android:paddingBottom="@dimen/spacing_tiny"
+        android:scrollbars="none">
 
-        <TextView
-            android:id="@+id/questionText"
+        <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginBottom="@dimen/spacing_xtiny"
-            android:layout_marginLeft="@dimen/spacing_tiny"
-            android:layout_marginRight="@dimen/spacing_tiny"
-            android:layout_marginTop="@dimen/spacing_xmicro"
-            android:text="@string/large_lorem" />
+            android:orientation="vertical">
 
-        <com.certimais.Components.Alternative
-            android:id="@+id/firstAlternative"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            app:letter="A"
-            app:text="@string/small_lorem" />
+            <TextView
+                android:id="@+id/questionText"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="@dimen/spacing_xtiny"
+                android:layout_marginLeft="@dimen/spacing_tiny"
+                android:layout_marginRight="@dimen/spacing_tiny"
+                android:layout_marginTop="@dimen/spacing_xmicro" />
 
-        <com.certimais.Components.Alternative
-            android:id="@+id/secondAlternative"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            app:letter="B"
-            app:text="@string/small_lorem" />
+            <com.certimais.Components.Alternative
+                android:id="@+id/firstAlternative"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:letter="A"
+                app:text="@string/small_lorem" />
 
-        <com.certimais.Components.Alternative
-            android:id="@+id/thirdAlternative"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            app:letter="C"
-            app:text="@string/small_lorem" />
+            <com.certimais.Components.Alternative
+                android:id="@+id/secondAlternative"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:letter="B"
+                app:text="@string/small_lorem" />
 
-        <com.certimais.Components.Alternative
-            android:id="@+id/fourthAlternative"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            app:letter="D"
-            app:text="@string/small_lorem" />
+            <com.certimais.Components.Alternative
+                android:id="@+id/thirdAlternative"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:letter="C"
+                app:text="@string/small_lorem" />
 
-        <com.certimais.Components.Alternative
-            android:id="@+id/fifthAlternative"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            app:letter="E"
-            app:text="@string/small_lorem" />
+            <com.certimais.Components.Alternative
+                android:id="@+id/fourthAlternative"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:letter="D"
+                app:text="@string/small_lorem" />
 
-    </LinearLayout>
+            <com.certimais.Components.Alternative
+                android:id="@+id/fifthAlternative"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:letter="E"
+                app:text="@string/small_lorem" />
 
-</ScrollView>
+        </LinearLayout>
+    </ScrollView>
+
+</LinearLayout>
 

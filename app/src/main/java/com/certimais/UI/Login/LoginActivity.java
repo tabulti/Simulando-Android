@@ -8,19 +8,24 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 
+import com.certimais.API.User.UserService;
 import com.certimais.Consts.LoginConsts;
+import com.certimais.Interfaces.APICallback;
 import com.certimais.Interfaces.RequestCallback;
-import com.certimais.UI.Dashboard.DashboardActivity;
 import com.certimais.Manager.FacebookAuthManager;
 import com.certimais.Manager.SessionManager;
+import com.certimais.Models.Session;
 import com.certimais.Models.User;
 import com.certimais.R;
+import com.certimais.UI.Dashboard.DashboardActivity;
+import com.certimais.Utils.AppUtils;
 import com.facebook.login.widget.LoginButton;
 
 public class LoginActivity extends AppCompatActivity {
 
     FacebookAuthManager mFacebookAuthManager;
     SessionManager mSessionManager;
+    UserService mUserService;
 
     EditText mEdtEmail;
     EditText mEdtPassword;
@@ -30,7 +35,7 @@ public class LoginActivity extends AppCompatActivity {
     RequestCallback fbRequestCallback = new RequestCallback() {
         @Override
         public void onLoginSuccess(User user) {
-            mSessionManager.setCurrentUser(user, LoginConsts.SESSION_FACEBOOK);
+            mSessionManager.setCurrentUser(user, LoginConsts.SESSION_FACEBOOK, "");
             goToDashboard();
         }
 
@@ -39,7 +44,7 @@ public class LoginActivity extends AppCompatActivity {
     View.OnClickListener loginEmailListener = new View.OnClickListener() {
         @Override
         public void onClick(View v) {
-            logar();
+            auth();
         }
     };
 
@@ -51,6 +56,7 @@ public class LoginActivity extends AppCompatActivity {
         mSessionManager = SessionManager.getInstance(this);
 
         mFacebookAuthManager = new FacebookAuthManager();
+        mUserService = UserService.getInstance(this);
 
         mEdtEmail = (EditText) findViewById(R.id.edtEmail);
         mEdtPassword = (EditText) findViewById(R.id.edtPassword);
@@ -62,24 +68,32 @@ public class LoginActivity extends AppCompatActivity {
 
     }
 
-
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         mFacebookAuthManager.getCallback().onActivityResult(requestCode, resultCode, data);
     }
 
-    public void logar() {
+    public void auth() {
+        AppUtils.showLoadingDialog(this);
         String email = mEdtEmail.getText().toString();
         String password = mEdtPassword.getText().toString();
-        User user = new User();
-        user.email=email;
-        user.nome = email;
 
-        Log.d("AUTH_INFO", "EM: " + email + ", Senha: " + password);
         if (!email.isEmpty() && !password.isEmpty()) {
-            mSessionManager.setCurrentUser(user, LoginConsts.SESSION_LOGIN_API);
-            goToDashboard();
+            mUserService.authUser(email, password, new APICallback() {
+                @Override
+                public void onSuccess(Object response) {
+                    Session session = (Session) response;
+                    mSessionManager.setCurrentUser(session.user, LoginConsts.SESSION_LOGIN_API, session.token);
+                    AppUtils.hideDialog();
+                    goToDashboard();
+                }
+
+                @Override
+                public void onError(String message) {
+                    AppUtils.hideDialog();
+                }
+            });
         }
     }
 

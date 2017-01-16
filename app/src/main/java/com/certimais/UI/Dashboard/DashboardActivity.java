@@ -80,11 +80,11 @@ public class DashboardActivity extends AppCompatActivity
         mTvSideMenuNome = (TextView) mHeaderView.findViewById(R.id.sideMenuNome);
         mTvSideMenuEmail = (TextView) mHeaderView.findViewById(R.id.sideMenuEmail);
 
-        mTvSideMenuNome.setText(user.nome);
+        mTvSideMenuNome.setText(user.aluno.nome);
         mTvSideMenuEmail.setText(user.email);
 
         Glide.with(this)
-                .load(user.urlFoto)
+                .load(user.aluno.urlFoto)
                 .diskCacheStrategy(DiskCacheStrategy.ALL)
                 .placeholder(R.drawable.ic_pick_photo)
                 .error(R.drawable.ic_pick_photo)
@@ -134,13 +134,13 @@ public class DashboardActivity extends AppCompatActivity
 
         Fragment content = null;
 
-        if(id == R.id.menu_item){
-
-        }
-
         if (id == R.id.menu_question) {
             Intent answerQuestions = new Intent(this, AnswerQuestionsActivity.class);
             startActivity(answerQuestions);
+        } else if (id == R.id.menu_performance) {
+
+        }else if(id == R.id.menu_ranking){
+
         } else if (id == R.id.menu_logout) {
             mSessionManager.logout();
             goToIntro();
@@ -152,7 +152,6 @@ public class DashboardActivity extends AppCompatActivity
                     content.getTag()
             ).commit();
         }
-
 
 
         mDrawerLayout.closeDrawer(GravityCompat.START);
