@@ -18,16 +18,16 @@
         android:layout_gravity="center"
         android:layout_marginBottom="@dimen/spacing_xmicro"
         android:layout_marginTop="@dimen/spacing_xmicro"
-        app:civ_border_color="@color/line_divider"
+        app:civ_border_color="@color/gray"
         app:civ_border_width="1dp"
-        app:civ_fill_color="@color/light_gray" />
+        app:civ_fill_color="@color/gray" />
 
     <android.support.design.widget.TextInputLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
 
         <EditText
-            android:id="@+id/edtNome"
+            android:id="@+id/edtName"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:hint="@string/hint_name"

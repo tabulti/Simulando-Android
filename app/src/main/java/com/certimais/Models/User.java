@@ -8,7 +8,7 @@ public class User {
 
     public String id;
     public String email;
-    public String nome;
-    public String urlFoto;
+    public Student aluno;
+
 
 }

@@ -3,6 +3,7 @@ package com.certimais.Manager;
 import android.content.Context;
 import android.util.Log;
 
+import com.certimais.API.APIConsts;
 import com.certimais.Consts.LoginConsts;
 import com.certimais.Models.User;
 import com.facebook.AccessToken;
@@ -31,16 +32,26 @@ public class SessionManager {
         gson = new Gson();
     }
 
-    public void setCurrentUser(User user, String loginType) {
+    public void setCurrentUser(User user, String loginType, String token) {
         preferenceManager.putBoolean(LoginConsts.IS_LOGGED, true);
         preferenceManager.putString(LoginConsts.LOGIN_TYPE, loginType);
         preferenceManager.putString(LoginConsts.CURRENT_USER, gson.toJson(user));
+        preferenceManager.putString(LoginConsts.TOKEN, token);
     }
 
-    public User getCurrentUser(){
+    public User getCurrentUser() {
         String user = preferenceManager.getString(LoginConsts.CURRENT_USER);
         User currentUser = gson.fromJson(user, User.class);
         return currentUser;
+    }
+
+    public void setToken(String token) {
+        preferenceManager.putString(LoginConsts.TOKEN, token);
+    }
+
+    public String getToken() {
+        String token = preferenceManager.getString(LoginConsts.TOKEN);
+        return token;
     }
 
     public boolean isLogged() {
