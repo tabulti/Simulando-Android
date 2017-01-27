@@ -8,20 +8,35 @@
     android:paddingLeft="@dimen/activity_horizontal_margin"
     android:paddingRight="@dimen/activity_horizontal_margin"
     android:paddingTop="@dimen/activity_vertical_margin"
-    tools:context="com.certimais.UI.Login.LoginActivity">
+    tools:context="com.simulando.UI.Login.LoginActivity">
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentTop="true"
         android:orientation="vertical">
 
-        <com.facebook.login.widget.LoginButton
+        <Button
             android:id="@+id/btnLoginFacebook"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginBottom="@dimen/spacing_xmicro"
-            android:paddingBottom="@dimen/spacing_tiny"
-            android:paddingTop="@dimen/spacing_tiny" />
+            android:backgroundTint="@color/facebook_btn_color"
+            android:drawableLeft="@drawable/ic_facebook"
+            android:gravity="left|center_vertical"
+            android:text="@string/facebook_login_button"
+            android:theme="@style/AppTheme.SocialButton" />
+
+        <Button
+            android:id="@+id/btnLoginGoogle"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:backgroundTint="@color/google_btn_color"
+            android:drawableLeft="@drawable/ic_google"
+            android:gravity="left|center_vertical"
+            android:text="@string/google_login_button"
+            android:visibility="gone"
+            android:theme="@style/AppTheme.SocialButton" />
 
         <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
             android:layout_width="wrap_content"
@@ -42,7 +57,7 @@
                 android:layout_height="wrap_content"
                 android:paddingLeft="@dimen/spacing_micro"
                 android:paddingRight="@dimen/spacing_micro"
-                android:text="@string/login_divider"/>
+                android:text="@string/login_divider" />
 
             <View
                 android:layout_width="match_parent"
@@ -83,6 +98,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="@string/login_button"
+            android:textAllCaps="false"
             android:theme="@style/AppTheme.PrimaryButton" />
 
     </LinearLayout>

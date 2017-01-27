@@ -5,7 +5,7 @@
     android:layout_height="match_parent"
     android:background="@color/light_gray"
     android:orientation="vertical"
-    tools:context="com.certimais.UI.Dashboard.AnswerQuestions.AnswerQuestionsActivity">
+    tools:context="com.simulando.UI.Dashboard.AnswerQuestions.AnswerQuestionsActivity">
 
     <ProgressBar
         android:id="@+id/loadingQuestion"
@@ -36,35 +36,35 @@
                 android:layout_marginRight="@dimen/spacing_tiny"
                 android:layout_marginTop="@dimen/spacing_xmicro" />
 
-            <com.certimais.Components.Alternative
+            <com.simulando.Components.Alternative
                 android:id="@+id/firstAlternative"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 app:letter="A"
                 app:text="@string/small_lorem" />
 
-            <com.certimais.Components.Alternative
+            <com.simulando.Components.Alternative
                 android:id="@+id/secondAlternative"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 app:letter="B"
                 app:text="@string/small_lorem" />
 
-            <com.certimais.Components.Alternative
+            <com.simulando.Components.Alternative
                 android:id="@+id/thirdAlternative"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 app:letter="C"
                 app:text="@string/small_lorem" />
 
-            <com.certimais.Components.Alternative
+            <com.simulando.Components.Alternative
                 android:id="@+id/fourthAlternative"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 app:letter="D"
                 app:text="@string/small_lorem" />
 
-            <com.certimais.Components.Alternative
+            <com.simulando.Components.Alternative
                 android:id="@+id/fifthAlternative"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
