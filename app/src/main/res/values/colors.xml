@@ -1,8 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <color name="colorPrimary">#406581</color>
-    <color name="colorPrimaryDark">#395A73</color>
-    <color name="colorAccent">#26A69A</color>
+    <color name="colorPrimary">#45657F</color>
+    <color name="colorPrimaryDark">#374F67</color>
+    <color name="colorAccent">#2C9A8F</color>
+
+    <!-- Login -->
+    <color name="facebook_btn_color">#3B5998</color>
+    <color name="google_btn_color">#D34836</color>
 
     <!-- General Colors -->
     <color name="black">#000000</color>

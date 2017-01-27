@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
-    package="com.certimais">
+    package="com.simulando">
 
     <!-- Permissions -->
     <uses-permission android:name="android.permission.INTERNET" />
@@ -9,14 +9,14 @@
 
     <application
         android:allowBackup="true"
-        android:icon="@mipmap/ic_launcher"
+        android:icon="@mipmap/icon"
         android:label="@string/app_name"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
 
         <!-- App Activities -->
         <activity
-            android:name=".UI.Splash.SplashActivity"
+            android:name="com.simulando.UI.Splash.SplashActivity"
             android:theme="@style/SplashTheme">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -25,41 +25,41 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".UI.Dashboard.DashboardActivity"
+            android:name="com.simulando.UI.Dashboard.DashboardActivity"
             android:label="@string/home_label"
             android:theme="@style/AppTheme.NoActionBar" />
 
         <activity
-            android:name=".UI.Dashboard.AnswerQuestions.AnswerQuestionsActivity"
-            android:parentActivityName=".UI.Dashboard.DashboardActivity">
+            android:name="com.simulando.UI.Dashboard.AnswerQuestions.AnswerQuestionsActivity"
+            android:parentActivityName="com.simulando.UI.Dashboard.DashboardActivity">
 
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value=".UI.Dashboard.DashboardActivity" />
+                android:value="com.simulando.UI.Dashboard.DashboardActivity" />
         </activity>
 
         <activity
-            android:name=".UI.Intro.IntroActivity"
+            android:name="com.simulando.UI.Intro.IntroActivity"
             android:theme="@style/AppTheme.NoTitle" />
 
         <activity
-            android:name=".UI.Login.LoginActivity"
+            android:name="com.simulando.UI.Login.LoginActivity"
             android:label="@string/login_label"
             android:launchMode="singleTop"
-            android:parentActivityName=".UI.Intro.IntroActivity">
+            android:parentActivityName="com.simulando.UI.Intro.IntroActivity">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value=".UI.Intro.IntroActivity" />
+                android:value="com.simulando.UI.Intro.IntroActivity" />
         </activity>
         <activity
-            android:name=".UI.Register.RegisterActivity"
+            android:name="com.simulando.UI.Register.RegisterActivity"
             android:configChanges="orientation|screenSize"
             android:label="@string/register_label"
             android:launchMode="singleTop"
-            android:parentActivityName=".UI.Intro.IntroActivity">
+            android:parentActivityName="com.simulando.UI.Intro.IntroActivity">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value=".UI.Intro.IntroActivity" />
+                android:value="com.simulando.UI.Intro.IntroActivity" />
         </activity>
 
         <!-- Third-party Activities -->
