@@ -7,13 +7,13 @@ import com.android.volley.Request;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonObjectRequest;
+import com.google.gson.Gson;
 import com.simulando.Interfaces.APICallback;
 import com.simulando.Manager.ApiManager;
 import com.simulando.Models.Session;
-import com.simulando.Models.UserAuthInfo;
 import com.simulando.Models.User;
+import com.simulando.Models.UserAuthInfo;
 import com.simulando.Utils.APIUtils;
-import com.google.gson.Gson;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -74,7 +74,7 @@ public class UserService {
 
     public void authUser(UserAuthInfo info, final APICallback callback) {
         Map<String, String> params = APIUtils.getParams(info);
-
+        Log.d("URI", UserAPIConsts.ENDPOINT_AUTH_USER);
         JsonObjectRequest authRequest = new JsonObjectRequest(Request.Method.POST,
                 UserAPIConsts.ENDPOINT_AUTH_USER,
                 new JSONObject(params),

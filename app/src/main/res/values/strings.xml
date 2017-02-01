@@ -5,6 +5,15 @@
     <string name="home_label" translatable="false">Home</string>
     <string name="login_label">Login</string>
     <string name="register_label">Cadastre-se</string>
+
+    <!-- Alerts String -->
+    <string name="no_connection">Você não possui conexão com a internet. Conecte-se e tente novamente.</string>
+    <string name="invalid_email">Email inválido.</string>
+    <string name="invalid_password">Senha inválida.</string>
+    <string name="wrong_login_info">Usuário ou senha inválida.</string>
+    <string name="dialog_positive_button">Ok</string>
+
+    <!-- Test Strings -->
     <string name="small_lorem">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Accusantium animi autem error excepturi minima modi necessitatibus odio tempore tenetur voluptate.
         Atque delectus ducimus ipsum molestiae obcaecati repellat tempora! Ratione, totam.</string>
     <string name="large_lorem">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Accusantium animi autem error excepturi minima modi necessitatibus odio tempore tenetur voluptate.
@@ -46,6 +55,10 @@
     <string name="menu_performance">Desempenho</string>
     <string name="menu_ranking">Ranking</string>
     <string name="menu_logout">Sair</string>
+
+    <!-- Profile -->
+    <string name="xp" translatable="false">XP:</string>
+    <string name="start_exam_button">Iniciar Simulado</string>
 
     <!-- Answer Questions -->
     <string name="letter_a">A</string>
