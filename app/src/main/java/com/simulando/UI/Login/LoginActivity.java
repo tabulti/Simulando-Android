@@ -1,8 +1,11 @@
 package com.simulando.UI.Login;
 
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.design.widget.TextInputLayout;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -18,7 +21,9 @@ import com.simulando.Models.User;
 import com.simulando.Models.UserAuthInfo;
 import com.simulando.R;
 import com.simulando.UI.Dashboard.DashboardActivity;
+import com.simulando.UI.Splash.SplashActivity;
 import com.simulando.Utils.AppUtils;
+import com.simulando.Utils.FormUtils;
 
 public class LoginActivity extends AppCompatActivity {
 
@@ -58,6 +63,22 @@ public class LoginActivity extends AppCompatActivity {
         @Override
         public void onClick(View v) {
             int id = v.getId();
+
+            boolean hasConnection = AppUtils.isNetworkAvailable(LoginActivity.this);
+
+            if (!hasConnection) {
+                AppUtils.showMessageDialog(LoginActivity.this,
+                        R.string.no_connection,
+                        R.string.dialog_positive_button,
+                        new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                                dialog.dismiss();
+                            }
+                        }, -1, null);
+                return;
+            }
+
             if (id == R.id.btnLoginFacebook) {
                 mFacebookAuthManager.auth(LoginActivity.this);
             } else if (id == R.id.btnLoginGoogle) {
@@ -78,8 +99,8 @@ public class LoginActivity extends AppCompatActivity {
         mFacebookAuthManager = new FacebookAuthManager();
         mUserService = UserService.getInstance(this);
 
-        mEdtEmail = (EditText) findViewById(R.id.edtEmail);
-        mEdtPassword = (EditText) findViewById(R.id.edtPassword);
+        mEdtEmail = (EditText) findViewById(R.id.email);
+        mEdtPassword = (EditText) findViewById(R.id.password);
         mBtnLoginEmail = (Button) findViewById(R.id.btnLoginEmail);
         mBtnLoginFacebook = (Button) findViewById(R.id.btnLoginFacebook);
         mBtnLoginGoogle = (Button) findViewById(R.id.btnLoginGoogle);
@@ -98,27 +119,38 @@ public class LoginActivity extends AppCompatActivity {
 
     public void auth() {
         AppUtils.showLoadingDialog(this);
+
         String email = mEdtEmail.getText().toString();
         String password = mEdtPassword.getText().toString();
 
         UserAuthInfo authInfo = new UserAuthInfo(false, "", "", email, password, "");
 
-        if (!email.isEmpty() && !password.isEmpty()) {
-            mUserService.authUser(authInfo, new APICallback() {
-                @Override
-                public void onSuccess(Object response) {
-                    Session session = (Session) response;
-                    mSessionManager.setCurrentUser(session.user, LoginConsts.SESSION_LOGIN_API, session.token);
-                    AppUtils.goToDashboard(LoginActivity.this);
-                }
+        mUserService.authUser(authInfo, new APICallback() {
+            @Override
+            public void onSuccess(Object response) {
+                Session session = (Session) response;
+                mSessionManager.setCurrentUser(session.user, LoginConsts.SESSION_LOGIN_API, session.token);
+                AppUtils.goToDashboard(LoginActivity.this);
+            }
 
-                @Override
-                public void onError(String message) {
-                    AppUtils.hideDialog();
-                }
-            });
-        }
+            @Override
+            public void onError(String message) {
+                AppUtils.hideDialog();
+                AppUtils.showMessageDialog(LoginActivity.this,
+                        R.string.wrong_login_info,
+                        R.string.dialog_positive_button,
+                        new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                                dialog.dismiss();
+
+                            }
+                        }, -1, null);
+
+            }
+        });
     }
+
 
     @Override
     protected void onStop() {

@@ -15,7 +15,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_centerHorizontal="true"
-        android:layout_marginTop="@dimen/spacing_large"
+        android:layout_marginTop="@dimen/spacing_normal"
         android:src="@drawable/splash" />
 
     <LinearLayout
@@ -30,9 +30,9 @@
             android:layout_height="wrap_content"
             android:layout_marginRight="@dimen/spacing_micro"
             android:layout_weight="1"
-            android:background="@drawable/button_intro"
+            android:background="@drawable/transparent_button"
             android:text="@string/login_intro"
-            android:theme="@style/AppTheme.IntroButton" />
+            android:theme="@style/AppTheme.TransparentButton" />
 
         <Button
             android:id="@+id/btnRegisterIntro"
@@ -40,9 +40,9 @@
             android:layout_height="wrap_content"
             android:layout_marginLeft="@dimen/spacing_micro"
             android:layout_weight="1"
-            android:background="@drawable/button_intro"
+            android:background="@drawable/transparent_button"
             android:text="@string/register_intro"
-            android:theme="@style/AppTheme.IntroButton" />
+            android:theme="@style/AppTheme.TransparentButton" />
     </LinearLayout>
 
 
