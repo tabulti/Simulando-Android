@@ -1,14 +1,13 @@
 package com.simulando.UI.Splash;
 
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 
 import com.simulando.Manager.SessionManager;
-import com.simulando.R;
 import com.simulando.UI.Intro.IntroActivity;
 import com.simulando.Utils.AppUtils;
+import com.simulando.Utils.CommonUtils;
 import com.facebook.FacebookSdk;
 
 /**

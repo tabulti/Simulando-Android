@@ -5,6 +5,7 @@
     android:layout_margin="@dimen/spacing_xmicro">
 
     <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        android:id="@+id/examCard"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="@color/colorAccent"
@@ -15,19 +16,27 @@
             android:id="@+id/examTitle"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_margin="@dimen/spacing_micro"
-            android:text="1º Simulado de História"
+            android:layout_marginBottom="@dimen/spacing_xmicro"
             android:textAlignment="center"
             android:textColor="@color/white"
             android:textSize="20sp"
             android:textStyle="bold" />
 
         <TextView
+            android:id="@+id/examQuestions"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textAlignment="center"
+            android:textColor="@color/white"
+            android:textSize="16sp"
+            android:textStyle="bold" />
+
+        <TextView
             android:id="@+id/examDate"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/spacing_xmicro"
             android:layout_marginBottom="@dimen/spacing_xmicro"
-            android:text="Simulado estará disponível a partir de 10/10/2010 até 20/10/2010"
             android:textAlignment="center"
             android:textColor="@color/white"
             android:textSize="16sp"
