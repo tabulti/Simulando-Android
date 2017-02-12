@@ -7,7 +7,7 @@
     <string name="register_label">Cadastre-se</string>
 
     <!-- Alerts String -->
-    <string name="no_connection">Você não possui conexão com a internet. Conecte-se e tente novamente.</string>
+    <string name="no_connection">Verifique sua conexão e tente novamente.</string>
     <string name="invalid_email">Email inválido.</string>
     <string name="invalid_password">Senha inválida.</string>
     <string name="wrong_login_info">Usuário ou senha inválida.</string>
@@ -59,8 +59,12 @@
     <!-- Profile -->
     <string name="xp" translatable="false">XP:</string>
     <string name="start_exam_button">Iniciar Simulado</string>
+    <string name="ranking_position">Pos.</string>
+    <string name="ranking_profile_name">Aluno</string>
+    <string name="ranking_score">Pontos</string>
 
-    <!-- Answer Questions -->
+    <!-- Exams String -->
+    <string name="available_date">Disponível das</string>
     <string name="letter_a">A</string>
     <string name="letter_b">B</string>
     <string name="letter_c">C</string>

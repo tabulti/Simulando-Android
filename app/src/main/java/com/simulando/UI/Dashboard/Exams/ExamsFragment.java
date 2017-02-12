@@ -5,19 +5,24 @@ import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.simulando.API.Exam.ExamService;
 import com.simulando.Adapters.ExamsListAdapter;
+import com.simulando.Interfaces.APICallback;
 import com.simulando.Models.Exam;
 import com.simulando.R;
 
+import java.lang.reflect.Array;
 import java.util.ArrayList;
 
 
 public class ExamsFragment extends Fragment {
 
+    ExamService mExamService;
 
     RecyclerView mRecyclerView;
     ArrayList<Exam> mExamsList;
@@ -32,17 +37,20 @@ public class ExamsFragment extends Fragment {
 
         View view = inflater.inflate(R.layout.fragment_exams, container, false);
 
+        mExamService = ExamService.getInstance(getActivity());
+
         mRecyclerView = (RecyclerView) view.findViewById(R.id.exams);
         mRecyclerView.setHasFixedSize(true);
-
         mExamsList = new ArrayList<>();
-        generateItem();
+
+        getExams();
+
         mAdapter = new ExamsListAdapter(getActivity(), mExamsList);
 
         LinearLayoutManager mLayoutManager = new LinearLayoutManager(getActivity());
         mLayoutManager.setOrientation(LinearLayoutManager.VERTICAL);
 
-        if (mExamsList.size() > 0 && mAdapter != null) {
+        if (mAdapter != null) {
             mRecyclerView.setAdapter(mAdapter);
         }
 
@@ -51,10 +59,20 @@ public class ExamsFragment extends Fragment {
         return view;
     }
 
-    public void generateItem() {
-        for (int i = 0; i < 10; i++) {
-            mExamsList.add(new Exam((i + 1) + "º Simulado"));
-        }
+    public void getExams() {
+        mExamService.getExams(new APICallback() {
+            @Override
+            public void onSuccess(Object response) {
+                mExamsList = (ArrayList<Exam>) response;
+                mAdapter.updateList(mExamsList);
+                mAdapter.notifyDataSetChanged();
+            }
+
+            @Override
+            public void onError(String message) {
+
+            }
+        });
     }
 
 }

@@ -16,7 +16,7 @@ import com.simulando.Consts.AppConsts;
 import com.simulando.Interfaces.APICallback;
 import com.simulando.Models.UserAuthInfo;
 import com.simulando.R;
-import com.simulando.Utils.AppUtils;
+import com.simulando.Utils.CommonUtils;
 
 import java.io.IOException;
 
@@ -88,17 +88,17 @@ public class RegisterActivity extends AppCompatActivity {
         if (!password.equals(repeatPassword)) {
             Log.d("REGISTER", "SENHAS DIFERENTES");
         } else {
-            AppUtils.showLoadingDialog(this);
+            CommonUtils.showLoadingDialog(this);
             UserAuthInfo userAuthInfo = new UserAuthInfo(false, name, "", email, password, "https://cdn2.iconfinder.com/data/icons/circle-icons-1/64/profle-64.png");
             mUserService.registerUser(userAuthInfo, new APICallback() {
                 @Override
                 public void onSuccess(Object response) {
-                    AppUtils.hideDialog();
+                    CommonUtils.hideDialog();
                 }
 
                 @Override
                 public void onError(String message) {
-                    AppUtils.hideDialog();
+                    CommonUtils.hideDialog();
                 }
             });
 

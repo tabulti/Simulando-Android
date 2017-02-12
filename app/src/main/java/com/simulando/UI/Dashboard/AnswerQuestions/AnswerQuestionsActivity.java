@@ -98,7 +98,7 @@ public class AnswerQuestionsActivity extends AppCompatActivity {
          * 'dialog' de feedback da questão.
          */
         mInflater = LayoutInflater.from(this);
-        mDialogLayout = mInflater.inflate(R.layout.dialog_feedback_layout, null);
+        mDialogLayout = mInflater.inflate(R.layout.feedback_layout, null);
         mAlertBuilder = new AlertDialog.Builder(this);
         mAlertBuilder.setView(mDialogLayout);
         mAlertDialog = mAlertBuilder.create();
@@ -302,12 +302,12 @@ public class AnswerQuestionsActivity extends AppCompatActivity {
         mTvSubjectsList.setVisibility(View.GONE);
         if (isCorrect) {
             mTvFeedback.setText(getResources().getString(R.string.feedback_text_correct));
-            mIvIconFeedback.setImageResource(R.drawable.ic_correct_answer);
+            mIvIconFeedback.setImageResource(R.drawable.emoticon_correct);
         } else {
             mTvFeedback.setText(getResources().getString(R.string.feedback_text_incorrect));
             //mTvSubjectsList.setVisibility(View.VISIBLE);
             //mTvSubjectsList.setText(subjectList);
-            mIvIconFeedback.setImageResource(R.drawable.ic_incorrect_answer);
+            mIvIconFeedback.setImageResource(R.drawable.emoticon_wrong);
         }
         mAlertDialog.show();
     }

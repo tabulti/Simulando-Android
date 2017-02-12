@@ -1,6 +1,5 @@
 package com.simulando.UI.Intro;
 
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
@@ -10,7 +9,6 @@ import android.widget.Button;
 import com.simulando.R;
 import com.simulando.UI.Login.LoginActivity;
 import com.simulando.UI.Register.RegisterActivity;
-import com.simulando.Utils.AppUtils;
 
 public class IntroActivity extends AppCompatActivity {
 

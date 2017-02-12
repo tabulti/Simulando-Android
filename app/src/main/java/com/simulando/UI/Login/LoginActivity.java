@@ -1,14 +1,13 @@
 package com.simulando.UI.Login;
 
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.design.widget.TextInputLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.Toast;
 
 import com.simulando.API.User.UserService;
 import com.simulando.Consts.LoginConsts;
@@ -20,10 +19,9 @@ import com.simulando.Models.Session;
 import com.simulando.Models.User;
 import com.simulando.Models.UserAuthInfo;
 import com.simulando.R;
-import com.simulando.UI.Dashboard.DashboardActivity;
-import com.simulando.UI.Splash.SplashActivity;
 import com.simulando.Utils.AppUtils;
-import com.simulando.Utils.FormUtils;
+import com.simulando.Utils.CommonUtils;
+import com.simulando.Utils.NetworkUtils;
 
 public class LoginActivity extends AppCompatActivity {
 
@@ -40,7 +38,7 @@ public class LoginActivity extends AppCompatActivity {
     RequestCallback fbRequestCallback = new RequestCallback() {
         @Override
         public void onLoginSuccess(User user) {
-            AppUtils.showLoadingDialog(LoginActivity.this);
+            CommonUtils.showLoadingDialog(LoginActivity.this);
             UserAuthInfo userInfo = new UserAuthInfo(true, user.nome, "", user.email, user.id, user.photo);
             mUserService.authUser(userInfo, new APICallback() {
                 @Override
@@ -64,18 +62,10 @@ public class LoginActivity extends AppCompatActivity {
         public void onClick(View v) {
             int id = v.getId();
 
-            boolean hasConnection = AppUtils.isNetworkAvailable(LoginActivity.this);
+            boolean hasConnection = NetworkUtils.isNetworkAvailable(LoginActivity.this);
 
             if (!hasConnection) {
-                AppUtils.showMessageDialog(LoginActivity.this,
-                        R.string.no_connection,
-                        R.string.dialog_positive_button,
-                        new DialogInterface.OnClickListener() {
-                            @Override
-                            public void onClick(DialogInterface dialog, int which) {
-                                dialog.dismiss();
-                            }
-                        }, -1, null);
+                AppUtils.showToast(getApplicationContext(), R.string.no_connection, Toast.LENGTH_SHORT);
                 return;
             }
 
@@ -118,7 +108,7 @@ public class LoginActivity extends AppCompatActivity {
     }
 
     public void auth() {
-        AppUtils.showLoadingDialog(this);
+        CommonUtils.showLoadingDialog(this);
 
         String email = mEdtEmail.getText().toString();
         String password = mEdtPassword.getText().toString();
@@ -135,17 +125,8 @@ public class LoginActivity extends AppCompatActivity {
 
             @Override
             public void onError(String message) {
-                AppUtils.hideDialog();
-                AppUtils.showMessageDialog(LoginActivity.this,
-                        R.string.wrong_login_info,
-                        R.string.dialog_positive_button,
-                        new DialogInterface.OnClickListener() {
-                            @Override
-                            public void onClick(DialogInterface dialog, int which) {
-                                dialog.dismiss();
+                CommonUtils.hideDialog();
 
-                            }
-                        }, -1, null);
 
             }
         });
@@ -155,16 +136,7 @@ public class LoginActivity extends AppCompatActivity {
     @Override
     protected void onStop() {
         super.onStop();
-        AppUtils.hideDialog();
-    }
-
-    /**
-     * Navega até a dashboard
-     */
-    public void goToDashboard() {
-        Intent intent = new Intent(this, DashboardActivity.class);
-        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
-        startActivity(intent);
+        CommonUtils.hideDialog();
     }
 
 
