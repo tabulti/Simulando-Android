@@ -12,11 +12,14 @@ import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 import com.simulando.API.Questions.QuestionsAPIConsts;
 import com.simulando.API.Questions.QuestionsService;
+import com.simulando.API.User.UserAPIConsts;
 import com.simulando.Interfaces.APICallback;
 import com.simulando.Manager.ApiManager;
 import com.simulando.Manager.SessionManager;
 import com.simulando.Models.Exam;
 import com.simulando.Models.Question;
+import com.simulando.Models.Session;
+import com.simulando.Models.User;
 import com.simulando.Utils.APIUtils;
 
 import org.json.JSONArray;
@@ -58,7 +61,7 @@ public class ExamService {
 
     public void getExams(final APICallback callback) {
         JsonObjectRequest request = new JsonObjectRequest(Request.Method.GET,
-                ExamAPIConsts.ENDPOINT_EXAM_INFO,
+                ExamAPIConsts.ENDPOINT_EXAMS,
                 null,
                 new Response.Listener<JSONObject>() {
                     @Override
@@ -71,7 +74,8 @@ public class ExamService {
                             e.printStackTrace();
                         }
 
-                        Type listType = new TypeToken<ArrayList<Exam>>(){}.getType();
+                        Type listType = new TypeToken<ArrayList<Exam>>() {
+                        }.getType();
                         ArrayList<Exam> exams = mResponseManager.fromJson(content.toString(), listType);
 
                         callback.onSuccess(exams);
@@ -93,6 +97,37 @@ public class ExamService {
         };
 
         mApiManager.addToRequestQueue(request);
+
+    }
+
+    public void getExam(String examId, final APICallback callback) {
+        final String URL = ExamAPIConsts.ENDPOINT_EXAM_INFO + "/" + examId;
+        JsonObjectRequest examRequest = new JsonObjectRequest(Request.Method.GET,
+                URL,
+                null,
+                new Response.Listener<JSONObject>() {
+                    @Override
+                    public void onResponse(JSONObject response) {
+                        Log.d("RES", response.toString());
+                        callback.onSuccess(response);
+                    }
+                },
+                new Response.ErrorListener() {
+                    @Override
+                    public void onErrorResponse(VolleyError error) {
+                        callback.onError("ERROR");
+                    }
+                }) {
+            @Override
+            public Map<String, String> getHeaders() throws AuthFailureError {
+                token = mSessionManager.getToken();
+                headers = APIUtils.getHeaders(token);
+                return headers;
+            }
+        };
+
+
+        mApiManager.addToRequestQueue(examRequest);
 
     }
 

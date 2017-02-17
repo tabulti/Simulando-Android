@@ -74,7 +74,6 @@ public class UserService {
 
     public void authUser(UserAuthInfo info, final APICallback callback) {
         Map<String, String> params = APIUtils.getParams(info);
-        Log.d("URI", UserAPIConsts.ENDPOINT_AUTH_USER);
         JsonObjectRequest authRequest = new JsonObjectRequest(Request.Method.POST,
                 UserAPIConsts.ENDPOINT_AUTH_USER,
                 new JSONObject(params),

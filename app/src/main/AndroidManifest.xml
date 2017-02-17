@@ -31,6 +31,17 @@
 
         <activity
             android:name="com.simulando.UI.Dashboard.AnswerQuestions.AnswerQuestionsActivity"
+            android:configChanges="orientation|screenSize"
+            android:parentActivityName="com.simulando.UI.Dashboard.DashboardActivity">
+
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="com.simulando.UI.Dashboard.DashboardActivity" />
+        </activity>
+
+        <activity
+            android:name="com.simulando.UI.Dashboard.Exams.AnswerExamActivity"
+            android:configChanges="orientation|screenSize"
             android:parentActivityName="com.simulando.UI.Dashboard.DashboardActivity">
 
             <meta-data

@@ -123,8 +123,8 @@ public class DashboardActivity extends AppCompatActivity
         mTabLayout.setupWithViewPager(mViewPager);
 
         mTabLayout.getTabAt(0).setIcon(R.drawable.ic_exam);
-        mTabLayout.getTabAt(1).setIcon(R.drawable.ic_points);
-        mTabLayout.getTabAt(2).setIcon(R.drawable.ic_ranking);
+        //mTabLayout.getTabAt(1).setIcon(R.drawable.ic_points);
+        mTabLayout.getTabAt(1).setIcon(R.drawable.ic_ranking);
 
         /**
          * Adiciona as informações do
