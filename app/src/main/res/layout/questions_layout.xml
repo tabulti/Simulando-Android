@@ -27,6 +27,51 @@
             android:layout_height="wrap_content"
             android:orientation="vertical">
 
+            <RelativeLayout
+                android:id="@+id/examQuestionBox"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/spacing_xmicro"
+                android:visibility="gone">
+
+                <!--  This is the main content -->
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_marginBottom="@dimen/spacing_xtiny"
+                    android:layout_marginLeft="@dimen/spacing_micro"
+                    android:layout_marginRight="@dimen/spacing_micro"
+                    android:layout_marginTop="@dimen/spacing_xtiny"
+                    android:background="@drawable/question_text_box"
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:id="@+id/examQuestionText"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_centerInParent="true"
+                        android:paddingBottom="@dimen/spacing_tiny"
+                        android:paddingLeft="@dimen/spacing_tiny"
+                        android:paddingRight="@dimen/spacing_tiny"
+                        android:paddingTop="@dimen/spacing_xsmallest"
+                        android:text="@string/large_lorem" />
+
+                </RelativeLayout>
+
+                <!--  This is the title label -->
+                <TextView
+                    android:id="@+id/examQuestionNumber"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="30dp"
+                    android:background="@drawable/question_number_box"
+                    android:padding="@dimen/spacing_tiny"
+                    android:text="Questão 1/10"
+                    android:textColor="@color/white"
+                    android:textStyle="bold" />
+            </RelativeLayout>
+
+
             <TextView
                 android:id="@+id/questionText"
                 android:layout_width="match_parent"

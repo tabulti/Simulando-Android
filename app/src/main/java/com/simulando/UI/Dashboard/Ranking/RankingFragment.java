@@ -50,8 +50,8 @@ public class RankingFragment extends Fragment {
 
     public void init() {
         mRankItems = new ArrayList<>();
-        for (int i = 0; i < 20; i++) {
-            mRankItems.add(new RankItem(i, "", "Luciano", "780"));
+        for (int i = 0; i < 10; i++) {
+            mRankItems.add(new RankItem(i + 1, "", "Luciano", "780"));
         }
     }
 

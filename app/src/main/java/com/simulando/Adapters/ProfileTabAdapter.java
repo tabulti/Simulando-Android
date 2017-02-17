@@ -5,9 +5,7 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentStatePagerAdapter;
 
-import com.simulando.R;
-import com.simulando.UI.Dashboard.Achievements.AchievementFragment;
-import com.simulando.UI.Dashboard.Exams.ExamsFragment;
+import com.simulando.UI.Dashboard.Exams.ExamsListFragment;
 import com.simulando.UI.Dashboard.Ranking.RankingFragment;
 
 /**
@@ -17,7 +15,7 @@ import com.simulando.UI.Dashboard.Ranking.RankingFragment;
 public class ProfileTabAdapter extends FragmentStatePagerAdapter {
 
     Context mContext;
-    final int PAGES_COUNT = 3;
+    final int PAGES_COUNT = 2;
 
     public ProfileTabAdapter(FragmentManager fm, Context context) {
         super(fm);
@@ -27,9 +25,9 @@ public class ProfileTabAdapter extends FragmentStatePagerAdapter {
     @Override
     public Fragment getItem(int position) {
         if (position == 0) {
-            return new ExamsFragment();
+            return new ExamsListFragment();
         } else if (position == 1) {
-            return new AchievementFragment();
+            return new RankingFragment();
         } else {
             return new RankingFragment();
         }

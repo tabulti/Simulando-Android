@@ -14,6 +14,8 @@ public class AppConsts {
     public static final int PREF_PRIVATE_MODE = 0;
     public static final String PREF_NAME = "MyPref";
 
+    public static final int LOAD_QUESTION_ACTION = 350;
+    public static final int CLOSE_DIALOG_ACTION = 351;
     public static final int PICK_PHOTO = 100;
 
 

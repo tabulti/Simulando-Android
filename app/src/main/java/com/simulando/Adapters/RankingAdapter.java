@@ -1,6 +1,8 @@
 package com.simulando.Adapters;
 
 import android.content.Context;
+import android.graphics.Color;
+import android.graphics.Typeface;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -56,10 +58,20 @@ public class RankingAdapter extends BaseAdapter {
             view = LayoutInflater.from(mContext).inflate(R.layout.ranking_item_layout, parent, false);
             holder = new ViewHolder(view);
             view.setTag(holder);
-
         } else {
             view = convertView;
             holder = (ViewHolder) view.getTag();
+        }
+
+        if(position % 2 == 0){
+            view.setBackgroundColor(Color.WHITE);
+        }else{
+            view.setBackgroundColor(mContext.getResources().getColor(R.color.light_gray));
+        }
+
+        if(rankingItem.getPosition() <= 3){
+            holder.mTvPosition.setTypeface(null, Typeface.BOLD);
+            holder.mTvPosition.setTextSize(16);
         }
 
         holder.mTvPosition.setText(rankingItem.position + "º");

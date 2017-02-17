@@ -1,22 +1,22 @@
 package com.simulando.UI.Dashboard.AnswerQuestions;
 
+import android.content.pm.ActivityInfo;
 import android.os.Bundle;
+import android.support.v4.app.DialogFragment;
+import android.support.v4.app.FragmentManager;
 import android.support.v7.app.ActionBar;
-import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.text.Html;
-import android.util.Log;
-import android.view.LayoutInflater;
 import android.view.View;
-import android.widget.Button;
-import android.widget.ImageView;
 import android.widget.ProgressBar;
+import android.widget.RelativeLayout;
 import android.widget.ScrollView;
 import android.widget.TextView;
 
 import com.simulando.API.Answer.AnswerService;
 import com.simulando.API.Questions.QuestionsService;
 import com.simulando.Components.Alternative;
+import com.simulando.Consts.AppConsts;
 import com.simulando.Interfaces.APICallback;
 import com.simulando.Models.Answer;
 import com.simulando.Models.GenericResponse;
@@ -24,13 +24,14 @@ import com.simulando.Models.Question;
 import com.simulando.R;
 import com.simulando.Utils.Timer;
 
-public class AnswerQuestionsActivity extends AppCompatActivity {
+public class AnswerQuestionsActivity extends AppCompatActivity implements FeedbackDialogFragment.FinishDialogListener {
 
 
     ProgressBar mPbLoadingQuestion;
     ActionBar mToolbar;
     QuestionsService mQuestionService;
     AnswerService mAnswerService;
+    FragmentManager mFragmentManager;
 
     /**
      * Variaveis para controle da resposta.
@@ -42,20 +43,13 @@ public class AnswerQuestionsActivity extends AppCompatActivity {
     /**
      * ELementos do Dialog
      */
-    LayoutInflater mInflater;
-    AlertDialog.Builder mAlertBuilder;
-    View mDialogLayout;
-    AlertDialog mAlertDialog;
-
-    ImageView mIvIconFeedback;
-    Button mBtnLoadQuestion;
-    TextView mTvFeedback;
-    TextView mTvSubjectsList;
+    FeedbackDialogFragment mFeedbackDialogFragment;
 
 
     /**
-     * Elemtnso da Questão
+     * Elementos da Questão
      */
+    RelativeLayout mExamQuestionBox;
     ScrollView mQuestionPanel;
     TextView mQuestionText;
     Alternative mFirstAlternative;
@@ -67,7 +61,6 @@ public class AnswerQuestionsActivity extends AppCompatActivity {
     View.OnClickListener mBtnDialogListener = new View.OnClickListener() {
         @Override
         public void onClick(View v) {
-            mAlertDialog.dismiss();
             loadQuestion();
         }
     };
@@ -85,7 +78,7 @@ public class AnswerQuestionsActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_answer_questions);
+        setContentView(R.layout.questions_layout);
 
         mQuestionService = QuestionsService.getInstance(this);
         mAnswerService = AnswerService.getInstance(this);
@@ -97,25 +90,21 @@ public class AnswerQuestionsActivity extends AppCompatActivity {
          * Elementos para criação do
          * 'dialog' de feedback da questão.
          */
-        mInflater = LayoutInflater.from(this);
-        mDialogLayout = mInflater.inflate(R.layout.feedback_layout, null);
-        mAlertBuilder = new AlertDialog.Builder(this);
-        mAlertBuilder.setView(mDialogLayout);
-        mAlertDialog = mAlertBuilder.create();
+        mFragmentManager = getSupportFragmentManager();
+        mFeedbackDialogFragment = FeedbackDialogFragment.newInstance();
+        mFeedbackDialogFragment.setStyle(DialogFragment.STYLE_NORMAL, R.style.FeedbackDialog);
 
-        mIvIconFeedback = (ImageView) mDialogLayout.findViewById(R.id.feedbackIcon);
-        mBtnLoadQuestion = (Button) mDialogLayout.findViewById(R.id.nextQuestion);
-        mBtnLoadQuestion.setOnClickListener(mBtnDialogListener);
-        mTvFeedback = (TextView) mDialogLayout.findViewById(R.id.feedbackText);
-        mTvSubjectsList = (TextView) mDialogLayout.findViewById(R.id.subjectsList);
 
         /**
          * Elementos de apresentação da questão,
          * enunciado e alternativas.
          */
-        mQuestionPanel = (ScrollView) findViewById(R.id.questionPanel);
+        mExamQuestionBox = (RelativeLayout) findViewById(R.id.examQuestionBox);
+        mExamQuestionBox.setVisibility(View.GONE);
 
+        mQuestionPanel = (ScrollView) findViewById(R.id.questionPanel);
         mQuestionText = (TextView) findViewById(R.id.questionText);
+
         mFirstAlternative = (Alternative) findViewById(R.id.firstAlternative);
         mSecondAlternative = (Alternative) findViewById(R.id.secondAlternative);
         mThirdAlternative = (Alternative) findViewById(R.id.thirdAlternative);
@@ -151,9 +140,9 @@ public class AnswerQuestionsActivity extends AppCompatActivity {
             Alternative selected = (Alternative) findViewById(currentAlternativeId);
             Answer questionAnswer = new Answer(selected.getApiID(), selectedAlternativeLetter, elapsedTime);
             if (selectedAlternativeLetter.equals(currentQuestion.resposta)) {
-                showFeedback(true, "Testando");
+                showFeedback(true, 10);
             } else {
-                showFeedback(false, "Testando");
+                showFeedback(false, 20);
             }
             answerQuestion(questionAnswer);
             return;
@@ -295,21 +284,12 @@ public class AnswerQuestionsActivity extends AppCompatActivity {
      * ou errou a questão.
      *
      * @param isCorrect
-     * @param subjectList
+     * @param points
      */
-    public void showFeedback(boolean isCorrect, String subjectList) {
-        //Ao Errar deve ser apresentado os assuntos para estudar
-        mTvSubjectsList.setVisibility(View.GONE);
-        if (isCorrect) {
-            mTvFeedback.setText(getResources().getString(R.string.feedback_text_correct));
-            mIvIconFeedback.setImageResource(R.drawable.emoticon_correct);
-        } else {
-            mTvFeedback.setText(getResources().getString(R.string.feedback_text_incorrect));
-            //mTvSubjectsList.setVisibility(View.VISIBLE);
-            //mTvSubjectsList.setText(subjectList);
-            mIvIconFeedback.setImageResource(R.drawable.emoticon_wrong);
-        }
-        mAlertDialog.show();
+    public void showFeedback(boolean isCorrect, int points) {
+        this.setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
+        mFeedbackDialogFragment.setDialogInfo(isCorrect, points);
+        mFeedbackDialogFragment.show(mFragmentManager, "DialogFeedback");
     }
 
     /**
@@ -323,7 +303,6 @@ public class AnswerQuestionsActivity extends AppCompatActivity {
             @Override
             public void onSuccess(Object response) {
                 GenericResponse resp = (GenericResponse) response;
-                Log.d("REQ_STATUS", resp.status);
             }
 
             @Override
@@ -333,4 +312,20 @@ public class AnswerQuestionsActivity extends AppCompatActivity {
         });
     }
 
+
+    @Override
+    public void onFinishDialog(int action) {
+
+        this.setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_UNSPECIFIED);
+        if (action == AppConsts.LOAD_QUESTION_ACTION) {
+            loadQuestion();
+        } else {
+            onBackPressed();
+        }
+    }
+
+    @Override
+    public void onBackPressed() {
+        super.onBackPressed();
+    }
 }
