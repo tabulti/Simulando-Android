@@ -9,6 +9,7 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
+import com.google.gson.Gson;
 import com.simulando.API.User.UserService;
 import com.simulando.Consts.LoginConsts;
 import com.simulando.Interfaces.APICallback;
@@ -40,6 +41,7 @@ public class LoginActivity extends AppCompatActivity {
         public void onLoginSuccess(User user) {
             CommonUtils.showLoadingDialog(LoginActivity.this);
             UserAuthInfo userInfo = new UserAuthInfo(true, user.nome, "", user.email, user.id, user.photo);
+            Log.d("user", new Gson().toJson(user));
             mUserService.authUser(userInfo, new APICallback() {
                 @Override
                 public void onSuccess(Object response) {

@@ -108,8 +108,17 @@ public class ExamService {
                 new Response.Listener<JSONObject>() {
                     @Override
                     public void onResponse(JSONObject response) {
-                        Log.d("RES", response.toString());
-                        callback.onSuccess(response);
+                        JSONObject content = null;
+
+                        try {
+                            content = response.getJSONObject("data");
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                        }
+
+                        Exam exam = mResponseManager.fromJson(content.toString(), Exam.class);
+
+                        callback.onSuccess(exam);
                     }
                 },
                 new Response.ErrorListener() {

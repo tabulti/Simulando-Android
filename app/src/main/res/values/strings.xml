@@ -8,10 +8,12 @@
 
     <!-- Alerts String -->
     <string name="no_connection">Verifique sua conexão e tente novamente.</string>
+    <string name="no_connection_message">Verifique sua conexão para continuar navegando.</string>
     <string name="invalid_email">Email inválido.</string>
     <string name="invalid_password">Senha inválida.</string>
     <string name="wrong_login_info">Usuário ou senha inválida.</string>
     <string name="dialog_positive_button">Ok</string>
+    <string name="try_again">Tente Novamente</string>
 
     <!-- Test Strings -->
     <string name="small_lorem">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Accusantium animi autem error excepturi minima modi necessitatibus odio tempore tenetur voluptate.
@@ -75,6 +77,7 @@
     <string name="feedback_text_incorrect">Não desista, você consegue.</string>
     <string name="earned_points">Você ganhou +%1$d</string>
     <string name="lost_points">Você perdeu -%1$d</string>
+    <string name="question_number">Questão %1$d/%2$d</string>
 
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
