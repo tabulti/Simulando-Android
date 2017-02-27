@@ -37,28 +37,8 @@
 
         <include layout="@layout/profile_layout" />
 
-        <!--<android.support.v4.view.ViewPager
-            android:id="@+id/container"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_below="@+id/appbar"
-            app:layout_behavior="@string/appbar_scrolling_view_behavior" />-->
-        <!-- <include layout="@layout/nav_content" /> -->
-
     </android.support.design.widget.CoordinatorLayout>
 
-
-    <android.support.design.widget.NavigationView
-        android:id="@+id/nav_view"
-        android:layout_width="wrap_content"
-        android:layout_height="match_parent"
-        android:layout_gravity="start"
-        android:background="@color/colorPrimary"
-        android:fitsSystemWindows="true"
-        app:headerLayout="@layout/nav_header"
-        app:itemBackground="@drawable/nav_item_drawable"
-        app:itemIconTint="@color/white"
-        app:itemTextColor="@color/white"
-        app:menu="@menu/nav_drawer" />
+    <include layout="@layout/navigation_view"></include>
 
 </android.support.v4.widget.DrawerLayout>
