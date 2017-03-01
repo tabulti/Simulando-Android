@@ -90,8 +90,8 @@ public class FacebookAuthManager implements FacebookCallback<LoginResult> {
 
                             user.id = object.getString("id").toString();
                             user.email = object.getString("email").toString();
-                            user.nome = object.getString("name").toString();
-                            user.photo = String.format(Locale.getDefault(), LoginConsts.USER_PICTURE_URL, object.getString("id").toString());
+                            user.name = object.getString("name").toString();
+                            user.profilePicture = String.format(Locale.getDefault(), LoginConsts.USER_PICTURE_URL, object.getString("id").toString());
                             mReqCallback.onLoginSuccess(user);
                         } catch (Exception e) {
                             e.printStackTrace();

@@ -2,20 +2,29 @@ package com.simulando.UI.Register;
 
 import android.content.Intent;
 import android.graphics.Bitmap;
+import android.graphics.Color;
 import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
+import android.support.design.widget.CoordinatorLayout;
+import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
-import android.util.Log;
 import android.view.View;
 import android.widget.Button;
+import android.widget.CompoundButton;
+import android.widget.Switch;
 import android.widget.TextView;
 
 import com.simulando.API.User.UserService;
 import com.simulando.Consts.AppConsts;
-import com.simulando.Interfaces.APICallback;
+import com.simulando.Consts.LoginConsts;
+import com.simulando.Interfaces.Callback;
+import com.simulando.Manager.SessionManager;
+import com.simulando.Models.Session;
 import com.simulando.Models.UserAuthInfo;
 import com.simulando.R;
+import com.simulando.UI.Login.LoginActivity;
+import com.simulando.Utils.AppUtils;
 import com.simulando.Utils.CommonUtils;
 
 import java.io.IOException;
@@ -25,17 +34,22 @@ import de.hdodenhof.circleimageview.CircleImageView;
 public class RegisterActivity extends AppCompatActivity {
 
     UserService mUserService;
+    SessionManager mSessionManager;
+    String language;
 
     Uri mImgUri;
     Bitmap mBitmap;
     CircleImageView mIvCoverPhoto;
     Button mBtnRegister;
 
+    Switch mSwEnglish;
+    Switch mSwSpanish;
     TextView mEdtName;
     TextView mEdtEmail;
     TextView mEdtPassword;
     TextView mEdtRepeatPassword;
 
+    CoordinatorLayout mCoordinatorLayout;
 
     View.OnClickListener coverPhotoListener = new View.OnClickListener() {
         @Override
@@ -51,21 +65,56 @@ public class RegisterActivity extends AppCompatActivity {
         }
     };
 
+    CompoundButton.OnCheckedChangeListener mSwitchListener = new CompoundButton.OnCheckedChangeListener() {
+        @Override
+        public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+            if (buttonView.getId() == R.id.englishLanguage) {
+                if (isChecked) {
+                    language = "ENGLISH";
+                    mSwSpanish.setChecked(false);
+                } else {
+                    language = "SPANISH";
+                    mSwSpanish.setChecked(true);
+                }
+
+            } else {
+                if (isChecked) {
+                    language = "SPANISH";
+                    mSwEnglish.setChecked(false);
+                } else {
+                    language = "ENGLISH";
+                    mSwEnglish.setChecked(true);
+                }
+            }
+        }
+    };
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_register);
 
         mUserService = UserService.getInstance(this);
+        mSessionManager = SessionManager.getInstance(this);
+        mCoordinatorLayout = (CoordinatorLayout) findViewById(R.id.coordinatorLayout);
 
         mEdtName = (TextView) findViewById(R.id.edtName);
         mEdtEmail = (TextView) findViewById(R.id.edtEmail);
         mEdtPassword = (TextView) findViewById(R.id.edtPassword);
         mEdtRepeatPassword = (TextView) findViewById(R.id.edtRepeatPassword);
+        mSwEnglish = (Switch) findViewById(R.id.englishLanguage);
+        mSwSpanish = (Switch) findViewById(R.id.spanishLanguage);
 
-        mIvCoverPhoto = (CircleImageView) findViewById(R.id.coverPhoto);
+        mSwEnglish.setOnCheckedChangeListener(mSwitchListener);
+        mSwSpanish.setOnCheckedChangeListener(mSwitchListener);
+        mSwEnglish.setChecked(true);
+
+
+       /* mIvCoverPhoto = (CircleImageView) findViewById(R.id.coverPhoto);
         mIvCoverPhoto.setImageResource(R.drawable.ic_pick_photo);
         mIvCoverPhoto.setOnClickListener(coverPhotoListener);
+        */
 
         mBtnRegister = (Button) findViewById(R.id.btnRegister);
         mBtnRegister.setOnClickListener(registerListener);
@@ -86,13 +135,17 @@ public class RegisterActivity extends AppCompatActivity {
         String repeatPassword = mEdtRepeatPassword.getText().toString();
 
         if (!password.equals(repeatPassword)) {
-            Log.d("REGISTER", "SENHAS DIFERENTES");
+            AppUtils.showSnackBar(mCoordinatorLayout, R.string.different_passwords);
         } else {
             CommonUtils.showLoadingDialog(this);
-            UserAuthInfo userAuthInfo = new UserAuthInfo(false, name, "", email, password, "https://cdn2.iconfinder.com/data/icons/circle-icons-1/64/profle-64.png");
-            mUserService.registerUser(userAuthInfo, new APICallback() {
+            UserAuthInfo userAuthInfo = new UserAuthInfo(false, name, "", email, password,
+                    "", language);
+            mUserService.registerUser(userAuthInfo, new Callback() {
                 @Override
                 public void onSuccess(Object response) {
+                    Session session = (Session) response;
+                    mSessionManager.setCurrentUser(session.user, LoginConsts.SESSION_LOGIN_API, session.token);
+                    AppUtils.goToDashboard(RegisterActivity.this);
                     CommonUtils.hideDialog();
                 }
 

@@ -1,4 +1,4 @@
-package com.simulando.UI.Dashboard.AnswerQuestions;
+package com.simulando.UI.Dashboard.Questions.AnswerQuestions;
 
 import android.content.pm.ActivityInfo;
 import android.os.Bundle;
@@ -17,11 +17,12 @@ import com.simulando.API.Answer.AnswerService;
 import com.simulando.API.Questions.QuestionsService;
 import com.simulando.Components.Alternative;
 import com.simulando.Consts.AppConsts;
-import com.simulando.Interfaces.APICallback;
+import com.simulando.Interfaces.Callback;
 import com.simulando.Models.Answer;
 import com.simulando.Models.GenericResponse;
 import com.simulando.Models.Question;
 import com.simulando.R;
+import com.simulando.UI.Dashboard.Questions.QuestionFeedback.FeedbackDialogFragment;
 import com.simulando.Utils.Timer;
 
 public class AnswerQuestionsActivity extends AppCompatActivity implements FeedbackDialogFragment.FinishDialogListener {
@@ -38,7 +39,7 @@ public class AnswerQuestionsActivity extends AppCompatActivity implements Feedba
      */
     private Question currentQuestion;
     private int currentAlternativeId = -1;
-    private String selectedAlternativeLetter = "X";
+    private char selectedAlternativeLetter = 'X';
 
     /**
      * ELementos do Dialog
@@ -97,7 +98,7 @@ public class AnswerQuestionsActivity extends AppCompatActivity implements Feedba
 
         /**
          * Elementos de apresentação da questão,
-         * enunciado e alternativas.
+         * enunciado e alternativess.
          */
         mExamQuestionBox = (RelativeLayout) findViewById(R.id.examQuestionBox);
         mExamQuestionBox.setVisibility(View.GONE);
@@ -139,10 +140,10 @@ public class AnswerQuestionsActivity extends AppCompatActivity implements Feedba
             Timer.reset();
             Alternative selected = (Alternative) findViewById(currentAlternativeId);
             Answer questionAnswer = new Answer(selected.getApiID(), selectedAlternativeLetter, elapsedTime);
-            if (selectedAlternativeLetter.equals(currentQuestion.resposta)) {
-                showFeedback(true, 10);
+            if (selectedAlternativeLetter == currentQuestion.answer) {
+                showFeedback(true, currentQuestion.score);
             } else {
-                showFeedback(false, 20);
+                showFeedback(false, currentQuestion.score);
             }
             answerQuestion(questionAnswer);
             return;
@@ -156,7 +157,7 @@ public class AnswerQuestionsActivity extends AppCompatActivity implements Feedba
                 mFourthAlternative.setSelected(false);
                 mFifthAlternative.setSelected(false);
 
-                selectedAlternativeLetter = "A";
+                selectedAlternativeLetter = 'A';
 
                 break;
             case R.id.secondAlternative:
@@ -166,7 +167,7 @@ public class AnswerQuestionsActivity extends AppCompatActivity implements Feedba
                 mFourthAlternative.setSelected(false);
                 mFifthAlternative.setSelected(false);
 
-                selectedAlternativeLetter = "B";
+                selectedAlternativeLetter = 'B';
 
                 break;
             case R.id.thirdAlternative:
@@ -176,7 +177,7 @@ public class AnswerQuestionsActivity extends AppCompatActivity implements Feedba
                 mFourthAlternative.setSelected(false);
                 mFifthAlternative.setSelected(false);
 
-                selectedAlternativeLetter = "C";
+                selectedAlternativeLetter = 'C';
 
                 break;
             case R.id.fourthAlternative:
@@ -186,7 +187,7 @@ public class AnswerQuestionsActivity extends AppCompatActivity implements Feedba
                 mFourthAlternative.setSelected(true);
                 mFifthAlternative.setSelected(false);
 
-                selectedAlternativeLetter = "D";
+                selectedAlternativeLetter = 'D';
 
                 break;
             case R.id.fifthAlternative:
@@ -196,7 +197,7 @@ public class AnswerQuestionsActivity extends AppCompatActivity implements Feedba
                 mFourthAlternative.setSelected(false);
                 mFifthAlternative.setSelected(true);
 
-                selectedAlternativeLetter = "E";
+                selectedAlternativeLetter = 'E';
 
                 break;
 
@@ -212,44 +213,34 @@ public class AnswerQuestionsActivity extends AppCompatActivity implements Feedba
      */
     public void loadQuestion() {
         showQuestion(false);
-
-        /**
-         * Reseta alternativa selecionadas
-         */
-        currentAlternativeId = -1;
-        selectedAlternativeLetter = "X";
-        mFirstAlternative.setSelected(false);
-        mSecondAlternative.setSelected(false);
-        mThirdAlternative.setSelected(false);
-        mFourthAlternative.setSelected(false);
-        mFifthAlternative.setSelected(false);
+        resetOptions();
 
         /**
          * Busca a nova questão na API.
          */
-        mQuestionService.getRandomQuestion(new APICallback() {
+        mQuestionService.getRandomQuestion(new Callback() {
             @Override
             public void onSuccess(Object response) {
                 Timer.start();
 
                 currentQuestion = (Question) response;
 
-                mQuestionText.setText(Html.fromHtml(currentQuestion.enunciado));
+                mQuestionText.setText(Html.fromHtml(currentQuestion.statement));
 
-                mFirstAlternative.setText(Html.fromHtml(currentQuestion.alternativa.get(0).texto).toString());
-                mFirstAlternative.setApiID(currentQuestion.alternativa.get(0).id);
+                mFirstAlternative.setText(Html.fromHtml(currentQuestion.alternatives.get(0).text).toString());
+                mFirstAlternative.setApiID(currentQuestion.alternatives.get(0).id);
 
-                mSecondAlternative.setText(Html.fromHtml(currentQuestion.alternativa.get(1).texto).toString());
-                mSecondAlternative.setApiID(currentQuestion.alternativa.get(1).id);
+                mSecondAlternative.setText(Html.fromHtml(currentQuestion.alternatives.get(1).text).toString());
+                mSecondAlternative.setApiID(currentQuestion.alternatives.get(1).id);
 
-                mThirdAlternative.setText(Html.fromHtml(currentQuestion.alternativa.get(2).texto).toString());
-                mThirdAlternative.setApiID(currentQuestion.alternativa.get(2).id);
+                mThirdAlternative.setText(Html.fromHtml(currentQuestion.alternatives.get(2).text).toString());
+                mThirdAlternative.setApiID(currentQuestion.alternatives.get(2).id);
 
-                mFourthAlternative.setText(Html.fromHtml(currentQuestion.alternativa.get(3).texto).toString());
-                mFourthAlternative.setApiID(currentQuestion.alternativa.get(3).id);
+                mFourthAlternative.setText(Html.fromHtml(currentQuestion.alternatives.get(3).text).toString());
+                mFourthAlternative.setApiID(currentQuestion.alternatives.get(3).id);
 
-                mFifthAlternative.setText(Html.fromHtml(currentQuestion.alternativa.get(4).texto).toString());
-                mFifthAlternative.setApiID(currentQuestion.alternativa.get(4).id);
+                mFifthAlternative.setText(Html.fromHtml(currentQuestion.alternatives.get(4).text).toString());
+                mFifthAlternative.setApiID(currentQuestion.alternatives.get(4).id);
 
                 showQuestion(true);
             }
@@ -299,7 +290,7 @@ public class AnswerQuestionsActivity extends AppCompatActivity implements Feedba
      * @param answer
      */
     public void answerQuestion(Answer answer) {
-        mAnswerService.registerAnswer(answer, new APICallback() {
+        mAnswerService.registerAnswer(answer, new Callback() {
             @Override
             public void onSuccess(Object response) {
                 GenericResponse resp = (GenericResponse) response;
@@ -327,5 +318,18 @@ public class AnswerQuestionsActivity extends AppCompatActivity implements Feedba
     @Override
     public void onBackPressed() {
         super.onBackPressed();
+    }
+
+    /**
+     * Reseta alternativa selecionada
+     */
+    public void resetOptions() {
+        currentAlternativeId = -1;
+        selectedAlternativeLetter = 'X';
+        mFirstAlternative.setSelected(false);
+        mSecondAlternative.setSelected(false);
+        mThirdAlternative.setSelected(false);
+        mFourthAlternative.setSelected(false);
+        mFifthAlternative.setSelected(false);
     }
 }

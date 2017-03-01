@@ -93,7 +93,6 @@ public class RankingAdapter extends BaseAdapter {
 
         Glide.with(mContext)
                 .load(rankingItem.picture_url)
-                .diskCacheStrategy(DiskCacheStrategy.ALL)
                 .placeholder(R.drawable.ic_student)
                 .error(R.drawable.ic_student)
                 .override(30, 30)

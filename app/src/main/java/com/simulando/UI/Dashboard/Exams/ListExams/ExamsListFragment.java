@@ -1,25 +1,21 @@
-package com.simulando.UI.Dashboard.Exams;
+package com.simulando.UI.Dashboard.Exams.ListExams;
 
 
-import android.graphics.Color;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import com.google.gson.Gson;
 import com.simulando.API.Exam.ExamService;
 import com.simulando.Adapters.ExamsListAdapter;
-import com.simulando.Interfaces.APICallback;
+import com.simulando.Interfaces.Callback;
 import com.simulando.Models.Exam;
 import com.simulando.R;
 
-import java.lang.reflect.Array;
 import java.util.ArrayList;
 
 
@@ -75,7 +71,7 @@ public class ExamsListFragment extends Fragment {
     }
 
     public void getExams() {
-        mExamService.getExams(new APICallback() {
+        mExamService.getExams(new Callback() {
             @Override
             public void onSuccess(Object response) {
                 mExamsList = (ArrayList<Exam>) response;

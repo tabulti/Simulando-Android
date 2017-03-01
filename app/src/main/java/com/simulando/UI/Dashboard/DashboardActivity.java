@@ -18,12 +18,12 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
-import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.simulando.Adapters.ProfileTabAdapter;
 import com.simulando.Manager.SessionManager;
 import com.simulando.Models.User;
 import com.simulando.R;
-import com.simulando.UI.Dashboard.AnswerQuestions.AnswerQuestionsActivity;
+import com.simulando.UI.Dashboard.Exams.ExamResult.ExamResultActivity;
+import com.simulando.UI.Dashboard.Questions.AnswerQuestions.AnswerQuestionsActivity;
 import com.simulando.UI.Intro.IntroActivity;
 
 import de.hdodenhof.circleimageview.CircleImageView;
@@ -86,15 +86,12 @@ public class DashboardActivity extends AppCompatActivity
         mTvSideMenuNome = (TextView) mHeaderView.findViewById(R.id.sideMenuNome);
         mTvSideMenuEmail = (TextView) mHeaderView.findViewById(R.id.sideMenuEmail);
 
-        mTvSideMenuNome.setText(user.nome);
+        mTvSideMenuNome.setText(user.name);
         mTvSideMenuEmail.setText(user.email);
 
         Glide.with(this)
-                .load(user.photo)
-                .diskCacheStrategy(DiskCacheStrategy.ALL)
-                .placeholder(R.drawable.ic_student)
+                .load(user.profilePicture)
                 .error(R.drawable.ic_student)
-                .override(220, 220)
                 .centerCrop()
                 .dontAnimate()
                 .into(mIvSideMenuFoto);
@@ -141,12 +138,10 @@ public class DashboardActivity extends AppCompatActivity
         String progress = getResources().getString(R.string.xp) + " " + current + "/" + max;
         mTvXp.setText(progress);
 
-        mTvUserName.setText(user.nome);
+        mTvUserName.setText(user.name);
         Glide.with(this)
-                .load(user.photo)
-                .placeholder(R.drawable.ic_student)
+                .load(user.profilePicture)
                 .error(R.drawable.ic_student)
-                .override(350, 350)
                 .dontAnimate()
                 .centerCrop()
                 .into(mIvProfilePicture);
@@ -182,7 +177,7 @@ public class DashboardActivity extends AppCompatActivity
         int id = item.getItemId();
 
         if (id == R.id.menu_question) {
-            Intent answerQuestions = new Intent(this, AnswerQuestionsActivity.class);
+            Intent answerQuestions = new Intent(this, ExamResultActivity.class);
             startActivity(answerQuestions);
         } else if (id == R.id.menu_performance) {
 

@@ -1,28 +1,33 @@
-package com.simulando.UI.Dashboard.Exams;
+package com.simulando.UI.Dashboard.Exams.AnswerExam;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.text.Html;
-import android.util.Log;
 import android.view.View;
 import android.widget.ProgressBar;
 import android.widget.RelativeLayout;
 import android.widget.ScrollView;
 import android.widget.TextView;
 
-import com.google.gson.Gson;
 import com.simulando.API.Exam.ExamService;
 import com.simulando.Components.Alternative;
-import com.simulando.Interfaces.APICallback;
+import com.simulando.Interfaces.Callback;
 import com.simulando.Models.Answer;
 import com.simulando.Models.Exam;
+import com.simulando.Models.ExamAnswer;
 import com.simulando.Models.Question;
 import com.simulando.R;
+import com.simulando.UI.Dashboard.Exams.ExamResult.ExamResultActivity;
+import com.simulando.Utils.AppUtils;
+import com.simulando.Utils.CommonUtils;
 import com.simulando.Utils.Timer;
 
 import java.util.ArrayList;
+
+import static android.view.View.GONE;
 
 /**
  * Created by Luciano José on 16/02/2017.
@@ -37,12 +42,13 @@ public class AnswerExamActivity extends AppCompatActivity {
     /**
      * Variaveis para controle do exame.
      */
-    private ArrayList<Answer> mExamAnswers;
+    private ExamAnswer mExamAnswer;
+    private ArrayList<Answer> mAnswers;
     private Exam mExam;
     private String questionNumber;
-    private int questionIndex = 0;
+    private int questionIndex = 1;
     private int currentAlternativeId = -1;
-    private String selectedAlternativeLetter = "X";
+    private char selectedAlternativeLetter = 'X';
 
     /**
      * Elementos da Questão
@@ -71,9 +77,11 @@ public class AnswerExamActivity extends AppCompatActivity {
         setContentView(R.layout.questions_layout);
 
         mExamService = ExamService.getInstance(this);
+        mExamAnswer = new ExamAnswer();
 
         String examId = getIntent().getStringExtra("examId");
-        mExamAnswers = new ArrayList<>();
+        mExamAnswer.id = examId;
+        mAnswers = new ArrayList<>();
 
         mToolbar = getSupportActionBar();
         mPbLoadingQuestion = (ProgressBar) findViewById(R.id.loadingQuestion);
@@ -87,6 +95,8 @@ public class AnswerExamActivity extends AppCompatActivity {
 
         mQuestionPanel = (ScrollView) findViewById(R.id.questionPanel);
         mQuestionText = (TextView) findViewById(R.id.examQuestionText);
+        TextView txt = (TextView) findViewById(R.id.questionText);
+        txt.setVisibility(View.GONE);
         mQuestionNumber = (TextView) findViewById(R.id.examQuestionNumber);
 
         mFirstAlternative = (Alternative) findViewById(R.id.firstAlternative);
@@ -111,11 +121,13 @@ public class AnswerExamActivity extends AppCompatActivity {
      * @param examId
      */
     public void getExamInfo(String examId) {
-        mExamService.getExam(examId, new APICallback() {
+        showQuestion(false);
+        mExamService.getExam(examId, new Callback() {
             @Override
             public void onSuccess(Object response) {
                 mExam = (Exam) response;
                 updateQuestionInfo(mExam.questions.get(questionIndex));
+                showQuestion(true);
             }
 
             @Override
@@ -133,11 +145,11 @@ public class AnswerExamActivity extends AppCompatActivity {
      */
     public void showQuestion(boolean showQuestion) {
         if (showQuestion) {
-            mPbLoadingQuestion.setVisibility(View.GONE);
+            mPbLoadingQuestion.setVisibility(GONE);
             mQuestionPanel.setVisibility(View.VISIBLE);
         } else {
             mPbLoadingQuestion.setVisibility(View.VISIBLE);
-            mQuestionPanel.setVisibility(View.GONE);
+            mQuestionPanel.setVisibility(GONE);
         }
     }
 
@@ -145,30 +157,27 @@ public class AnswerExamActivity extends AppCompatActivity {
      * Atualiza as informações da Questão
      */
     public void updateQuestionInfo(Question currentQuestion) {
-        showQuestion(false);
 
         questionNumber = getResources().getString(R.string.question_number, questionIndex, mExam.questions.size());
 
         mQuestionNumber.setText(questionNumber);
 
-        mQuestionText.setText(Html.fromHtml(currentQuestion.enunciado));
+        mQuestionText.setText(Html.fromHtml(currentQuestion.statement));
 
-        mFirstAlternative.setText(Html.fromHtml(currentQuestion.alternativa.get(0).texto).toString());
-        mFirstAlternative.setApiID(currentQuestion.alternativa.get(0).id);
+        mFirstAlternative.setText(Html.fromHtml(currentQuestion.alternatives.get(0).text).toString());
+        mFirstAlternative.setApiID(currentQuestion.alternatives.get(0).id);
 
-        mSecondAlternative.setText(Html.fromHtml(currentQuestion.alternativa.get(1).texto).toString());
-        mSecondAlternative.setApiID(currentQuestion.alternativa.get(1).id);
+        mSecondAlternative.setText(Html.fromHtml(currentQuestion.alternatives.get(1).text).toString());
+        mSecondAlternative.setApiID(currentQuestion.alternatives.get(1).id);
 
-        mThirdAlternative.setText(Html.fromHtml(currentQuestion.alternativa.get(2).texto).toString());
-        mThirdAlternative.setApiID(currentQuestion.alternativa.get(2).id);
+        mThirdAlternative.setText(Html.fromHtml(currentQuestion.alternatives.get(2).text).toString());
+        mThirdAlternative.setApiID(currentQuestion.alternatives.get(2).id);
 
-        mFourthAlternative.setText(Html.fromHtml(currentQuestion.alternativa.get(3).texto).toString());
-        mFourthAlternative.setApiID(currentQuestion.alternativa.get(3).id);
+        mFourthAlternative.setText(Html.fromHtml(currentQuestion.alternatives.get(3).text).toString());
+        mFourthAlternative.setApiID(currentQuestion.alternatives.get(3).id);
 
-        mFifthAlternative.setText(Html.fromHtml(currentQuestion.alternativa.get(4).texto).toString());
-        mFifthAlternative.setApiID(currentQuestion.alternativa.get(4).id);
-
-        showQuestion(true);
+        mFifthAlternative.setText(Html.fromHtml(currentQuestion.alternatives.get(4).text).toString());
+        mFifthAlternative.setApiID(currentQuestion.alternatives.get(4).id);
     }
 
     /**
@@ -178,11 +187,13 @@ public class AnswerExamActivity extends AppCompatActivity {
      */
     public void addAnswer(Answer answer) {
         if (questionIndex == mExam.questions.size()) {
-            Log.d("TERMINOU", new Gson().toJson(mExamAnswers));
+            mExamAnswer.answers.addAll(mAnswers);
+            registerAnswers();
         } else {
             questionIndex++;
-            mExamAnswers.add(answer);
-            updateQuestionInfo(mExam.questions.get(questionIndex));
+            mAnswers.add(answer);
+            resetOptions();
+            updateQuestionInfo(mExam.questions.get(questionIndex - 1));
         }
     }
 
@@ -212,7 +223,7 @@ public class AnswerExamActivity extends AppCompatActivity {
                 mFourthAlternative.setSelected(false);
                 mFifthAlternative.setSelected(false);
 
-                selectedAlternativeLetter = "A";
+                selectedAlternativeLetter = 'A';
 
                 break;
             case R.id.secondAlternative:
@@ -222,7 +233,7 @@ public class AnswerExamActivity extends AppCompatActivity {
                 mFourthAlternative.setSelected(false);
                 mFifthAlternative.setSelected(false);
 
-                selectedAlternativeLetter = "B";
+                selectedAlternativeLetter = 'B';
 
                 break;
             case R.id.thirdAlternative:
@@ -232,7 +243,7 @@ public class AnswerExamActivity extends AppCompatActivity {
                 mFourthAlternative.setSelected(false);
                 mFifthAlternative.setSelected(false);
 
-                selectedAlternativeLetter = "C";
+                selectedAlternativeLetter = 'C';
 
                 break;
             case R.id.fourthAlternative:
@@ -242,7 +253,7 @@ public class AnswerExamActivity extends AppCompatActivity {
                 mFourthAlternative.setSelected(true);
                 mFifthAlternative.setSelected(false);
 
-                selectedAlternativeLetter = "D";
+                selectedAlternativeLetter = 'D';
 
                 break;
             case R.id.fifthAlternative:
@@ -252,13 +263,49 @@ public class AnswerExamActivity extends AppCompatActivity {
                 mFourthAlternative.setSelected(false);
                 mFifthAlternative.setSelected(true);
 
-                selectedAlternativeLetter = "E";
+                selectedAlternativeLetter = 'E';
 
                 break;
 
         }
 
         currentAlternativeId = alternativeId;
+    }
 
+    /**
+     * Reseta alternativa selecionada
+     */
+    public void resetOptions() {
+        currentAlternativeId = -1;
+        selectedAlternativeLetter = 'X';
+        mFirstAlternative.setSelected(false);
+        mSecondAlternative.setSelected(false);
+        mThirdAlternative.setSelected(false);
+        mFourthAlternative.setSelected(false);
+        mFifthAlternative.setSelected(false);
+    }
+
+    /**
+     * Cadastra as respostas do simulado.
+     */
+    public void registerAnswers() {
+        CommonUtils.showLoadingDialog(this);
+        mExamService.registerAnswer(mExamAnswer, new Callback() {
+            @Override
+            public void onSuccess(Object response) {
+                showResult();
+                CommonUtils.hideDialog();
+            }
+
+            @Override
+            public void onError(String message) {
+
+            }
+        });
+    }
+
+    public void showResult(){
+        Intent resultIntent = new Intent(AnswerExamActivity.this, ExamResultActivity.class);
+        startActivity(resultIntent);
     }
 }

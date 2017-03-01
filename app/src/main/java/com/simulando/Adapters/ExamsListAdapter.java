@@ -3,9 +3,7 @@ package com.simulando.Adapters;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
-import android.os.Parcelable;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -15,11 +13,8 @@ import android.widget.TextView;
 
 import com.simulando.Models.Exam;
 import com.simulando.R;
-import com.simulando.UI.Dashboard.Exams.AnswerExamActivity;
-import com.simulando.Utils.AppUtils;
-
-import org.parceler.Parcels;
-import org.w3c.dom.Text;
+import com.simulando.UI.Dashboard.Exams.AnswerExam.AnswerExamActivity;
+import com.simulando.Utils.DateUtils;
 
 import java.util.ArrayList;
 
@@ -57,16 +52,23 @@ public class ExamsListAdapter extends RecyclerView.Adapter<ExamsListAdapter.Exam
     public void onBindViewHolder(ExamsViewHolder holder, int position) {
 
         final Exam exam = mExamsList.get(position);
-        String exam_date = mContext.getResources().getString(R.string.available_date) + " " +
-                AppUtils.getExamDate(exam.exam_start_date, exam.exam_end_date);
-        boolean isAvailable = AppUtils.isExamAvailable(exam.exam_start_date, exam.exam_end_date);
+        String examDate = mContext.getResources().getString(R.string.available_date,
+                DateUtils.getExamDate(exam.startDate, exam.endDate));
 
-        if (!isAvailable) {
+        boolean isAvailable = DateUtils.isExamAvailable(exam.startDate, exam.endDate);
+
+        if (!isAvailable || exam.done) {
             holder.mExamCard.setBackgroundColor(Color.GRAY);
             holder.mBtnStartExam.setVisibility(View.GONE);
-        }else{
+        } else {
             holder.mExamCard.setBackgroundColor(mContext.getResources().getColor(R.color.colorAccent));
             holder.mBtnStartExam.setVisibility(View.VISIBLE);
+        }
+
+        if (exam.done) {
+            holder.mTvInfo.setText(R.string.exam_done);
+        } else {
+            holder.mTvInfo.setText(examDate);
         }
 
         holder.mBtnStartExam.setOnClickListener(new View.OnClickListener() {
@@ -79,7 +81,7 @@ public class ExamsListAdapter extends RecyclerView.Adapter<ExamsListAdapter.Exam
         });
         holder.mTvTitle.setText(exam.title);
         holder.mTvExamQuestions.setText(exam.getQuestionsNumber());
-        holder.mTvDate.setText(exam_date);
+
     }
 
     @Override
@@ -91,7 +93,7 @@ public class ExamsListAdapter extends RecyclerView.Adapter<ExamsListAdapter.Exam
 
         LinearLayout mExamCard;
         TextView mTvTitle;
-        TextView mTvDate;
+        TextView mTvInfo;
         TextView mTvExamQuestions;
         Button mBtnStartExam;
 
@@ -100,10 +102,9 @@ public class ExamsListAdapter extends RecyclerView.Adapter<ExamsListAdapter.Exam
 
             mExamCard = (LinearLayout) view.findViewById(R.id.examCard);
             mTvTitle = (TextView) view.findViewById(R.id.examTitle);
-            mTvDate = (TextView) view.findViewById(R.id.examDate);
+            mTvInfo = (TextView) view.findViewById(R.id.examInfo);
             mTvExamQuestions = (TextView) view.findViewById(R.id.examQuestions);
             mBtnStartExam = (Button) view.findViewById(R.id.startButton);
-
         }
     }
 

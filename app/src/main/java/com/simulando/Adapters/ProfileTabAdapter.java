@@ -5,7 +5,7 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentStatePagerAdapter;
 
-import com.simulando.UI.Dashboard.Exams.ExamsListFragment;
+import com.simulando.UI.Dashboard.Exams.ListExams.ExamsListFragment;
 import com.simulando.UI.Dashboard.Ranking.RankingFragment;
 
 /**

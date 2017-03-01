@@ -12,7 +12,7 @@ import android.widget.Toast;
 import com.google.gson.Gson;
 import com.simulando.API.User.UserService;
 import com.simulando.Consts.LoginConsts;
-import com.simulando.Interfaces.APICallback;
+import com.simulando.Interfaces.Callback;
 import com.simulando.Interfaces.RequestCallback;
 import com.simulando.Manager.FacebookAuthManager;
 import com.simulando.Manager.SessionManager;
@@ -40,9 +40,8 @@ public class LoginActivity extends AppCompatActivity {
         @Override
         public void onLoginSuccess(User user) {
             CommonUtils.showLoadingDialog(LoginActivity.this);
-            UserAuthInfo userInfo = new UserAuthInfo(true, user.nome, "", user.email, user.id, user.photo);
-            Log.d("user", new Gson().toJson(user));
-            mUserService.authUser(userInfo, new APICallback() {
+            UserAuthInfo userInfo = new UserAuthInfo(true, user.name, "", user.email, user.id, user.profilePicture, "");
+            mUserService.authUser(userInfo, new Callback() {
                 @Override
                 public void onSuccess(Object response) {
                     Session session = (Session) response;
@@ -115,9 +114,9 @@ public class LoginActivity extends AppCompatActivity {
         String email = mEdtEmail.getText().toString();
         String password = mEdtPassword.getText().toString();
 
-        UserAuthInfo authInfo = new UserAuthInfo(false, "", "", email, password, "");
+        UserAuthInfo authInfo = new UserAuthInfo(false, "", "", email, password, "", "");
 
-        mUserService.authUser(authInfo, new APICallback() {
+        mUserService.authUser(authInfo, new Callback() {
             @Override
             public void onSuccess(Object response) {
                 Session session = (Session) response;
@@ -128,8 +127,6 @@ public class LoginActivity extends AppCompatActivity {
             @Override
             public void onError(String message) {
                 CommonUtils.hideDialog();
-
-
             }
         });
     }
