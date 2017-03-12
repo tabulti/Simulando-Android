@@ -12,8 +12,14 @@ public class APIConsts {
      * HEADERS
      */
     public static final String HEADER_AUTHORIZATION = "Authorization";
-    public static String HEADER_CONTENT_TYPE = "Content-Type";
-    public static String HEADER_CONTENT_TYPE_VALUE = "application/json";
-    public static String HEADER_ACCEPT = "Content-Type";
-    public static String HEADER_ACCEPT_VALUE = "application/json";
+    public static final String HEADER_CONTENT_TYPE = "Content-Type";
+    public static final String HEADER_CONTENT_TYPE_VALUE = "application/json";
+    public static final String HEADER_ACCEPT = "Content-Type";
+    public static final String HEADER_ACCEPT_VALUE = "application/json";
+
+    /**
+     * CONFIG
+     */
+
+    public static final String PATH_PARAM = "/{ ID_PARAM }";
 }

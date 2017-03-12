@@ -1,24 +1,13 @@
 package com.simulando.API.User;
 
 import android.content.Context;
-import android.util.Log;
 
-import com.android.volley.Request;
-import com.android.volley.Response;
-import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonObjectRequest;
-import com.google.gson.Gson;
-import com.simulando.Interfaces.APICallback;
+import com.simulando.API.Rest;
+import com.simulando.Interfaces.Callback;
 import com.simulando.Manager.ApiManager;
 import com.simulando.Models.Session;
-import com.simulando.Models.User;
 import com.simulando.Models.UserAuthInfo;
-import com.simulando.Utils.APIUtils;
-
-import org.json.JSONException;
-import org.json.JSONObject;
-
-import java.util.Map;
 
 /**
  * Created by Luciano José on 10/01/2017.
@@ -27,7 +16,7 @@ import java.util.Map;
 public class UserService {
 
     private static UserService mInstance;
-    private Gson mResponseManager;
+    private Context mContext;
     private ApiManager mApiManager;
 
     public static UserService getInstance(Context context) {
@@ -38,75 +27,28 @@ public class UserService {
     }
 
     public UserService(Context context) {
+        this.mContext = context;
         mApiManager = ApiManager.getInstance(context);
-        mResponseManager = new Gson();
     }
 
+    public void registerUser(final UserAuthInfo userAuthInfo, final Callback callback) {
+        JsonObjectRequest mRequest = new Rest(mContext, Session.class)
+                .post(UserAPIConsts.ENDPOINT_USER, userAuthInfo)
+                .setCallback(callback)
+                .build();
 
-    public void registerUser(final UserAuthInfo userAuthInfo, final APICallback callback) {
-
-        Map<String, String> params;
-        params = APIUtils.getParams(userAuthInfo);
-
-        Log.d("PA", params.toString());
-        Log.d("US", userAuthInfo.toString());
-
-        JsonObjectRequest registerRequest = new JsonObjectRequest(Request.Method.POST,
-                UserAPIConsts.ENDPOINT_USER,
-                new JSONObject(params),
-                new Response.Listener<JSONObject>() {
-                    @Override
-                    public void onResponse(JSONObject response) {
-                        callback.onSuccess("");
-
-                    }
-                },
-                new Response.ErrorListener() {
-                    @Override
-                    public void onErrorResponse(VolleyError error) {
-                        callback.onError("ERROR");
-                    }
-                });
-
-        mApiManager.addToRequestQueue(registerRequest);
+        mApiManager.addToRequestQueue(mRequest);
 
     }
 
-    public void authUser(UserAuthInfo info, final APICallback callback) {
-        Map<String, String> params = APIUtils.getParams(info);
-        JsonObjectRequest authRequest = new JsonObjectRequest(Request.Method.POST,
-                UserAPIConsts.ENDPOINT_AUTH_USER,
-                new JSONObject(params),
-                new Response.Listener<JSONObject>() {
-                    @Override
-                    public void onResponse(JSONObject response) {
-                        JSONObject content = null;
-                        try {
-                            content = response.getJSONObject("data");
-                        } catch (JSONException e) {
-                            e.printStackTrace();
-                        }
+    public void authUser(UserAuthInfo info, final Callback callback) {
+        JsonObjectRequest mRequest = new Rest(mContext, Session.class)
+                .post(UserAPIConsts.ENDPOINT_AUTH_USER, info)
+                .setCallback(callback)
+                .build();
 
-                        Session session = new Session();
-                        try {
-                            session.user = mResponseManager.fromJson(content.toString(), User.class);
-                            session.token = response.getString("token");
-                        } catch (JSONException e) {
-                            e.printStackTrace();
-                        }
+        mApiManager.addToRequestQueue(mRequest);
 
-                        callback.onSuccess(session);
-                    }
-                },
-                new Response.ErrorListener() {
-                    @Override
-                    public void onErrorResponse(VolleyError error) {
-                        callback.onError("ERROR");
-                    }
-                });
-
-
-        mApiManager.addToRequestQueue(authRequest);
     }
 
 }

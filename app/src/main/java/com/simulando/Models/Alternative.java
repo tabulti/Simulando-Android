@@ -7,13 +7,7 @@ package com.simulando.Models;
 public class Alternative {
 
     public String id;
-    public String texto;
+    public String text;
+    public char letter;
 
-    @Override
-    public String toString() {
-        return "Alternative{" +
-                "id='" + id + '\'' +
-                ", texto='" + texto + '\'' +
-                '}';
-    }
 }

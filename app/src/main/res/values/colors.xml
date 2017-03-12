@@ -15,4 +15,10 @@
     <color name="gray">#E0E0E0</color>
     <color name="red">#EF473A</color>
 
+    <!-- Chart Colors -->
+    <color name="bondi_blue">#0091B8</color>
+    <color name="cornflower_blue">#5E85ED</color>
+    <color name="shamrock">#4EDBA3</color>
+    <color name="sea_buck">#FBA32D</color>
+    <color name="crusta">#FD7635</color>
 </resources>

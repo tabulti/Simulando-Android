@@ -1,5 +1,7 @@
 package com.simulando.Models;
 
+import com.google.gson.annotations.SerializedName;
+
 import java.util.ArrayList;
 import java.util.Date;
 
@@ -12,15 +14,21 @@ public class Exam {
     public String id;
     public String title;
     public String description;
-    public String time;
-    public int limit;
-    public Date exam_start_date;
-    public Date exam_end_date;
+    public boolean done;
+    public boolean cancelled;
+    @SerializedName("estimated_time")
+    public int estimatedTime;
+    @SerializedName("questions_number")
+    public int questionsNumber;
+    @SerializedName("exam_start_date")
+    public Date startDate;
+    @SerializedName("exam_end_date")
+    public Date endDate;
     public ArrayList<Question> questions;
 
 
     public String getQuestionsNumber() {
-        return this.limit + " Questões";
+        return this.questionsNumber + " Questões";
     }
 
 }

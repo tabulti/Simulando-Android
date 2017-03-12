@@ -1,5 +1,7 @@
 package com.simulando.Models;
 
+import com.google.gson.annotations.SerializedName;
+
 import java.util.List;
 
 /**
@@ -9,11 +11,15 @@ import java.util.List;
 public class Question {
 
     public String id;
-    public String enunciado;
-    public String resposta;
-    public String ano;
-    public String numeroQuestao;
-    public String status;
-    public List<Alternative> alternativa;
+    public String statement;
+    public char answer;
+    public String year;
+    @SerializedName("question_number")
+    public String questionNumber;
+    @SerializedName("score_value")
+    public int score;
+    @SerializedName("alternative")
+    public List<Alternative> alternatives;
+    public Subject subject;
 
 }

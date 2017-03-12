@@ -1,5 +1,7 @@
 package com.simulando.Models;
 
+import com.google.gson.annotations.SerializedName;
+
 /**
  * Created by Luciano José on 22/01/2017.
  */
@@ -7,13 +9,7 @@ package com.simulando.Models;
 public class Session {
 
     public String token;
+    @SerializedName("data")
     public User user;
 
-    @Override
-    public String toString() {
-        return "Session{" +
-                "token='" + token + '\'' +
-                ", user=" + user +
-                '}';
-    }
 }

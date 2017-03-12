@@ -54,7 +54,7 @@ public class RankingAdapter extends BaseAdapter {
         ViewHolder holder;
         RankItem rankingItem = (RankItem) getItem(position);
 
-        if( convertView == null) {
+        if (convertView == null) {
             view = LayoutInflater.from(mContext).inflate(R.layout.ranking_item_layout, parent, false);
             holder = new ViewHolder(view);
             view.setTag(holder);
@@ -63,15 +63,28 @@ public class RankingAdapter extends BaseAdapter {
             holder = (ViewHolder) view.getTag();
         }
 
-        if(position % 2 == 0){
+        if (position % 2 == 0) {
             view.setBackgroundColor(Color.WHITE);
-        }else{
+        } else {
             view.setBackgroundColor(mContext.getResources().getColor(R.color.light_gray));
         }
 
-        if(rankingItem.getPosition() <= 3){
+        if (rankingItem.getPosition() <= 3) {
             holder.mTvPosition.setTypeface(null, Typeface.BOLD);
+            holder.mTvScore.setTypeface(null, Typeface.BOLD);
+            holder.mTvProfileName.setTypeface(null, Typeface.BOLD);
+
             holder.mTvPosition.setTextSize(16);
+            holder.mTvScore.setTextSize(16);
+            holder.mTvProfileName.setTextSize(16);
+        } else {
+            holder.mTvPosition.setTypeface(null, Typeface.NORMAL);
+            holder.mTvScore.setTypeface(null, Typeface.NORMAL);
+            holder.mTvProfileName.setTypeface(null, Typeface.NORMAL);
+
+            holder.mTvPosition.setTextSize(14);
+            holder.mTvScore.setTextSize(14);
+            holder.mTvProfileName.setTextSize(14);
         }
 
         holder.mTvPosition.setText(rankingItem.position + "º");
@@ -80,7 +93,6 @@ public class RankingAdapter extends BaseAdapter {
 
         Glide.with(mContext)
                 .load(rankingItem.picture_url)
-                .diskCacheStrategy(DiskCacheStrategy.ALL)
                 .placeholder(R.drawable.ic_student)
                 .error(R.drawable.ic_student)
                 .override(30, 30)

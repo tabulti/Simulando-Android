@@ -1,13 +1,20 @@
-package com.simulando.UI.Dashboard.AnswerQuestions;
+package com.simulando.UI.Dashboard.Questions.AnswerQuestions;
 
 import android.content.pm.ActivityInfo;
+import android.graphics.Color;
 import android.os.Bundle;
+import android.os.SystemClock;
 import android.support.v4.app.DialogFragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.text.Html;
+import android.text.SpannableString;
+import android.text.style.ForegroundColorSpan;
+import android.text.style.RelativeSizeSpan;
+import android.util.Log;
 import android.view.View;
+import android.widget.Chronometer;
 import android.widget.ProgressBar;
 import android.widget.RelativeLayout;
 import android.widget.ScrollView;
@@ -17,12 +24,14 @@ import com.simulando.API.Answer.AnswerService;
 import com.simulando.API.Questions.QuestionsService;
 import com.simulando.Components.Alternative;
 import com.simulando.Consts.AppConsts;
-import com.simulando.Interfaces.APICallback;
+import com.simulando.Interfaces.Callback;
 import com.simulando.Models.Answer;
 import com.simulando.Models.GenericResponse;
 import com.simulando.Models.Question;
 import com.simulando.R;
-import com.simulando.Utils.Timer;
+import com.simulando.UI.Dashboard.Questions.QuestionFeedback.FeedbackDialogFragment;
+
+import java.util.Date;
 
 public class AnswerQuestionsActivity extends AppCompatActivity implements FeedbackDialogFragment.FinishDialogListener {
 
@@ -36,9 +45,10 @@ public class AnswerQuestionsActivity extends AppCompatActivity implements Feedba
     /**
      * Variaveis para controle da resposta.
      */
+    private Chronometer mChronometer;
     private Question currentQuestion;
     private int currentAlternativeId = -1;
-    private String selectedAlternativeLetter = "X";
+    private char selectedAlternativeLetter = 'X';
 
     /**
      * ELementos do Dialog
@@ -71,9 +81,17 @@ public class AnswerQuestionsActivity extends AppCompatActivity implements Feedba
         public void onClick(View v) {
             int alternativeId = v.getId();
             selectAlternative(alternativeId);
-
         }
     };
+
+    Chronometer.OnChronometerTickListener chronometerTickListener = new Chronometer.OnChronometerTickListener() {
+        @Override
+        public void onChronometerTick(Chronometer chronometer) {
+            String title = getResources().getString(R.string.enem_label) + " " + currentQuestion.year;
+            updateTitleInfo(title, currentQuestion.subject.name);
+        }
+    };
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -97,8 +115,11 @@ public class AnswerQuestionsActivity extends AppCompatActivity implements Feedba
 
         /**
          * Elementos de apresentação da questão,
-         * enunciado e alternativas.
+         * enunciado e alternativess.
          */
+        mChronometer = (Chronometer) findViewById(R.id.chronometer);
+        mChronometer.setOnChronometerTickListener(chronometerTickListener);
+
         mExamQuestionBox = (RelativeLayout) findViewById(R.id.examQuestionBox);
         mExamQuestionBox.setVisibility(View.GONE);
 
@@ -134,15 +155,14 @@ public class AnswerQuestionsActivity extends AppCompatActivity implements Feedba
     public void selectAlternative(int alternativeId) {
 
         if (currentAlternativeId == alternativeId) {
-            Timer.stop();
-            long elapsedTime = Timer.getElapsedTime();
-            Timer.reset();
+            stopChronometer();
+            long elapsedTime = getElapsedTime();
             Alternative selected = (Alternative) findViewById(currentAlternativeId);
-            Answer questionAnswer = new Answer(selected.getApiID(), selectedAlternativeLetter, elapsedTime);
-            if (selectedAlternativeLetter.equals(currentQuestion.resposta)) {
-                showFeedback(true, 10);
+            Answer questionAnswer = new Answer(selected.getApiID(), selectedAlternativeLetter, elapsedTime, new Date());
+            if (selectedAlternativeLetter == currentQuestion.answer) {
+                showFeedback(true, currentQuestion.score);
             } else {
-                showFeedback(false, 20);
+                showFeedback(false, currentQuestion.score);
             }
             answerQuestion(questionAnswer);
             return;
@@ -156,7 +176,7 @@ public class AnswerQuestionsActivity extends AppCompatActivity implements Feedba
                 mFourthAlternative.setSelected(false);
                 mFifthAlternative.setSelected(false);
 
-                selectedAlternativeLetter = "A";
+                selectedAlternativeLetter = 'A';
 
                 break;
             case R.id.secondAlternative:
@@ -166,7 +186,7 @@ public class AnswerQuestionsActivity extends AppCompatActivity implements Feedba
                 mFourthAlternative.setSelected(false);
                 mFifthAlternative.setSelected(false);
 
-                selectedAlternativeLetter = "B";
+                selectedAlternativeLetter = 'B';
 
                 break;
             case R.id.thirdAlternative:
@@ -176,7 +196,7 @@ public class AnswerQuestionsActivity extends AppCompatActivity implements Feedba
                 mFourthAlternative.setSelected(false);
                 mFifthAlternative.setSelected(false);
 
-                selectedAlternativeLetter = "C";
+                selectedAlternativeLetter = 'C';
 
                 break;
             case R.id.fourthAlternative:
@@ -186,7 +206,7 @@ public class AnswerQuestionsActivity extends AppCompatActivity implements Feedba
                 mFourthAlternative.setSelected(true);
                 mFifthAlternative.setSelected(false);
 
-                selectedAlternativeLetter = "D";
+                selectedAlternativeLetter = 'D';
 
                 break;
             case R.id.fifthAlternative:
@@ -196,7 +216,7 @@ public class AnswerQuestionsActivity extends AppCompatActivity implements Feedba
                 mFourthAlternative.setSelected(false);
                 mFifthAlternative.setSelected(true);
 
-                selectedAlternativeLetter = "E";
+                selectedAlternativeLetter = 'E';
 
                 break;
 
@@ -208,50 +228,20 @@ public class AnswerQuestionsActivity extends AppCompatActivity implements Feedba
 
     /**
      * Apresenta uma nova questão
-     * trazida da API.
+     * trazida do BD.
      */
     public void loadQuestion() {
         showQuestion(false);
+        resetOptions();
 
         /**
-         * Reseta alternativa selecionadas
+         * Busca a nova questão no BD.
          */
-        currentAlternativeId = -1;
-        selectedAlternativeLetter = "X";
-        mFirstAlternative.setSelected(false);
-        mSecondAlternative.setSelected(false);
-        mThirdAlternative.setSelected(false);
-        mFourthAlternative.setSelected(false);
-        mFifthAlternative.setSelected(false);
-
-        /**
-         * Busca a nova questão na API.
-         */
-        mQuestionService.getRandomQuestion(new APICallback() {
+        mQuestionService.getRandomQuestion(new Callback() {
             @Override
             public void onSuccess(Object response) {
-                Timer.start();
-
                 currentQuestion = (Question) response;
-
-                mQuestionText.setText(Html.fromHtml(currentQuestion.enunciado));
-
-                mFirstAlternative.setText(Html.fromHtml(currentQuestion.alternativa.get(0).texto).toString());
-                mFirstAlternative.setApiID(currentQuestion.alternativa.get(0).id);
-
-                mSecondAlternative.setText(Html.fromHtml(currentQuestion.alternativa.get(1).texto).toString());
-                mSecondAlternative.setApiID(currentQuestion.alternativa.get(1).id);
-
-                mThirdAlternative.setText(Html.fromHtml(currentQuestion.alternativa.get(2).texto).toString());
-                mThirdAlternative.setApiID(currentQuestion.alternativa.get(2).id);
-
-                mFourthAlternative.setText(Html.fromHtml(currentQuestion.alternativa.get(3).texto).toString());
-                mFourthAlternative.setApiID(currentQuestion.alternativa.get(3).id);
-
-                mFifthAlternative.setText(Html.fromHtml(currentQuestion.alternativa.get(4).texto).toString());
-                mFifthAlternative.setApiID(currentQuestion.alternativa.get(4).id);
-
-                showQuestion(true);
+                updateQuestionInfo();
             }
 
             @Override
@@ -259,6 +249,34 @@ public class AnswerQuestionsActivity extends AppCompatActivity implements Feedba
                 showQuestion(false);
             }
         });
+    }
+
+    /**
+     * Atualiza as informações
+     * da questão
+     */
+    public void updateQuestionInfo() {
+        String title = getResources().getString(R.string.enem_label) + " " + currentQuestion.year;
+        mQuestionText.setText(Html.fromHtml(currentQuestion.statement));
+
+        mFirstAlternative.setText(Html.fromHtml(currentQuestion.alternatives.get(0).text).toString());
+        mFirstAlternative.setApiID(currentQuestion.alternatives.get(0).id);
+
+        mSecondAlternative.setText(Html.fromHtml(currentQuestion.alternatives.get(1).text).toString());
+        mSecondAlternative.setApiID(currentQuestion.alternatives.get(1).id);
+
+        mThirdAlternative.setText(Html.fromHtml(currentQuestion.alternatives.get(2).text).toString());
+        mThirdAlternative.setApiID(currentQuestion.alternatives.get(2).id);
+
+        mFourthAlternative.setText(Html.fromHtml(currentQuestion.alternatives.get(3).text).toString());
+        mFourthAlternative.setApiID(currentQuestion.alternatives.get(3).id);
+
+        mFifthAlternative.setText(Html.fromHtml(currentQuestion.alternatives.get(4).text).toString());
+        mFifthAlternative.setApiID(currentQuestion.alternatives.get(4).id);
+
+        updateTitleInfo(title, currentQuestion.subject.name);
+        showQuestion(true);
+        startChronometer();
     }
 
     /**
@@ -271,7 +289,6 @@ public class AnswerQuestionsActivity extends AppCompatActivity implements Feedba
         if (showQuestion) {
             mPbLoadingQuestion.setVisibility(View.GONE);
             mQuestionPanel.setVisibility(View.VISIBLE);
-
         } else {
             mPbLoadingQuestion.setVisibility(View.VISIBLE);
             mQuestionPanel.setVisibility(View.GONE);
@@ -299,7 +316,7 @@ public class AnswerQuestionsActivity extends AppCompatActivity implements Feedba
      * @param answer
      */
     public void answerQuestion(Answer answer) {
-        mAnswerService.registerAnswer(answer, new APICallback() {
+        mAnswerService.registerAnswer(answer, new Callback() {
             @Override
             public void onSuccess(Object response) {
                 GenericResponse resp = (GenericResponse) response;
@@ -328,4 +345,62 @@ public class AnswerQuestionsActivity extends AppCompatActivity implements Feedba
     public void onBackPressed() {
         super.onBackPressed();
     }
+
+    /**
+     * Reseta alternativa selecionada
+     */
+    public void resetOptions() {
+        currentAlternativeId = -1;
+        selectedAlternativeLetter = 'X';
+        mFirstAlternative.setSelected(false);
+        mSecondAlternative.setSelected(false);
+        mThirdAlternative.setSelected(false);
+        mFourthAlternative.setSelected(false);
+        mFifthAlternative.setSelected(false);
+    }
+
+
+    /**
+     * Atualiza o titulo
+     * e subtitulo do actionbar
+     */
+    public void updateTitleInfo(String title, String subtitle) {
+        title += " ( " + mChronometer.getText().toString() + " )";
+        SpannableString spTitle = new SpannableString(title);
+        SpannableString spSubtitle = new SpannableString(subtitle);
+
+        spTitle.setSpan(new RelativeSizeSpan(0.9f), 0, title.length(), 0);
+        spSubtitle.setSpan(new ForegroundColorSpan(Color.WHITE), 0, subtitle.length(), 0);
+        spSubtitle.setSpan(new RelativeSizeSpan(0.9f), 0, subtitle.length(), 0);
+
+        mToolbar.setTitle(spTitle);
+        mToolbar.setSubtitle(spSubtitle);
+    }
+
+    /**
+     * Iniciar o contador de tempo
+     * para cada questão.
+     */
+    public void startChronometer() {
+        mChronometer.setBase(SystemClock.elapsedRealtime());
+        mChronometer.start();
+    }
+
+    /**
+     * Pausa o contador de tempo
+     * da questão.
+     */
+    public void stopChronometer() {
+        mChronometer.stop();
+    }
+
+    /**
+     * Verifica o tempo gasto
+     * para responder a questão atual
+     */
+    public long getElapsedTime() {
+        long elapsedTime = (SystemClock.elapsedRealtime() - mChronometer.getBase());
+        return elapsedTime;
+    }
+
 }

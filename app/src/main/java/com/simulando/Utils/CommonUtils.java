@@ -1,18 +1,11 @@
 package com.simulando.Utils;
 
 import android.content.Context;
-import android.content.DialogInterface;
-import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
-import android.net.ConnectivityManager;
-import android.net.NetworkInfo;
 import android.support.v7.app.AlertDialog;
-import android.view.View;
 
 import com.simulando.R;
-import com.simulando.UI.Dashboard.DashboardActivity;
-import com.simulando.UI.Intro.IntroActivity;
 
 /**
  * Created by Luciano José on 10/01/2017.

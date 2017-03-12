@@ -8,7 +8,7 @@ import com.simulando.API.APIConsts;
 
 public class QuestionsAPIConsts {
 
-    public static final String QUESTIONS_PATH = "perguntas";
+    public static final String QUESTIONS_PATH = "questions";
     public static final String QUERY_RANDOM = "random=1";
     public static final String QUERY_AREA = "area=%s";
     public static final String QUERY_SUBJECT = "materia=%s";

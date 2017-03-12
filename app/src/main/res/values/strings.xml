@@ -5,13 +5,17 @@
     <string name="home_label" translatable="false">Home</string>
     <string name="login_label">Login</string>
     <string name="register_label">Cadastre-se</string>
+    <string name="enem_label">ENEM</string>
 
     <!-- Alerts String -->
     <string name="no_connection">Verifique sua conexão e tente novamente.</string>
+    <string name="no_connection_message">Verifique sua conexão para continuar navegando.</string>
     <string name="invalid_email">Email inválido.</string>
     <string name="invalid_password">Senha inválida.</string>
     <string name="wrong_login_info">Usuário ou senha inválida.</string>
     <string name="dialog_positive_button">Ok</string>
+    <string name="try_again">Tente Novamente</string>
+    <string name="different_passwords">As senhas não coincidem.</string>
 
     <!-- Test Strings -->
     <string name="small_lorem">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Accusantium animi autem error excepturi minima modi necessitatibus odio tempore tenetur voluptate.
@@ -27,11 +31,12 @@
     <!-- App Metadata -->
     <string name="facebook_app_id">1799017433691061</string>
 
-    <!-- Inputs Hint -->
-    <string name="hint_name">Nome</string>
-    <string name="hint_email">Email</string>
-    <string name="hint_password">Senha</string>
-    <string name="hint_repeat_password">Repita a senha</string>
+    <!-- Inputs Label -->
+    <string name="label_name">Nome</string>
+    <string name="label_email">Email</string>
+    <string name="label_password">Senha</string>
+    <string name="label_repeat_password">Repita a senha</string>
+    <string name="label_language">Língua Estrangeira</string>
 
     <!-- Intro -->
     <string name="login_intro">Logar</string>
@@ -45,6 +50,8 @@
 
     <!-- Register -->
     <string name="register_button">Cadastrar</string>
+    <string name="english">Inglês</string>
+    <string name="spanish">Espanhol</string>
 
     <!-- Dashboard Activity -->
     <string name="navigation_drawer_open">Open navigation drawer</string>
@@ -59,25 +66,39 @@
     <!-- Profile -->
     <string name="xp" translatable="false">XP:</string>
     <string name="start_exam_button">Iniciar Simulado</string>
+    <string name="exam_result_button">Ver Desempenho</string>
     <string name="ranking_position">Rank</string>
     <string name="ranking_profile_name">Aluno</string>
     <string name="ranking_score">Pontos</string>
 
     <!-- Exams String -->
-    <string name="available_date">Disponível das</string>
+    <string name="available_date">Disponível das %1$s</string>
+    <string name="exam_done">Você já realizou este simulado.</string>
+    <string name="exam_cancelled">Você cancelou este simulado.</string>
     <string name="letter_a">A</string>
     <string name="letter_b">B</string>
     <string name="letter_c">C</string>
     <string name="letter_d">D</string>
     <string name="letter_e">E</string>
+    <string name="question_number">Questão %1$d/%2$d</string>
+
+    <string name="cancel_dialog_title">Deseja Sair?</string>
+    <string name="cancel_dialog_text">Se sair agora seu simulado será salvo como cancelado e não poderá ser feito novamente.</string>
+    <string name="cancel_dialog_continue">Continuar</string>
+    <string name="cancel_dialog_cancel">Sair</string>
+
+    <!-- Questions -->
     <string name="next_question_button">Próxima Questão</string>
     <string name="feedback_text_correct">Você acertou, continue assim!</string>
     <string name="feedback_text_incorrect">Não desista, você consegue.</string>
     <string name="earned_points">Você ganhou +%1$d</string>
     <string name="lost_points">Você perdeu -%1$d</string>
 
-    <!-- TODO: Remove or change this placeholder text -->
-    <string name="hello_blank_fragment">Hello blank fragment</string>
-
+    <!-- Results String -->
+    <string name="result">Resultado</string>
+    <string name="total_questions">Número de Questões: %1$d</string>
+    <string name="total_correct_questions">Total de Acertos: %1$d</string>
+    <string name="total_wrong_questions">Total de Erros: %1$d</string>
+    <string name="average_grade">Média Geral: %1$.2f</string>
 
 </resources>

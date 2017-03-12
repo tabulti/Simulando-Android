@@ -5,7 +5,13 @@
     android:layout_height="match_parent"
     android:background="@color/light_gray"
     android:orientation="vertical"
-    tools:context="com.simulando.UI.Dashboard.AnswerQuestions.AnswerQuestionsActivity">
+    tools:context="com.simulando.UI.Dashboard.Questions.AnswerQuestions.AnswerQuestionsActivity">
+
+    <Chronometer
+        android:id="@+id/chronometer"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:visibility="gone"/>
 
     <ProgressBar
         android:id="@+id/loadingQuestion"
@@ -49,7 +55,6 @@
                         android:id="@+id/examQuestionText"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_centerInParent="true"
                         android:paddingBottom="@dimen/spacing_tiny"
                         android:paddingLeft="@dimen/spacing_tiny"
                         android:paddingRight="@dimen/spacing_tiny"

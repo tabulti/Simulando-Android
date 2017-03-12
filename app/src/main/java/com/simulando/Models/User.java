@@ -1,5 +1,7 @@
 package com.simulando.Models;
 
+import com.google.gson.annotations.SerializedName;
+
 /**
  * Created by Luciano José on 18/12/2016.
  */
@@ -7,21 +9,12 @@ package com.simulando.Models;
 public class User {
 
     public String id;
-    public String nome;
+    public String name;
     public String email;
     public String cpf;
-    public String aluno_id;
-    public String photo;
+    @SerializedName("student_id")
+    public String studentId;
+    @SerializedName("profile_picture")
+    public String profilePicture;
 
-    @Override
-    public String toString() {
-        return "User{" +
-                "id='" + id + '\'' +
-                ", nome='" + nome + '\'' +
-                ", email='" + email + '\'' +
-                ", cpf='" + cpf + '\'' +
-                ", aluno_id='" + aluno_id + '\'' +
-                ", photo='" + photo + '\'' +
-                '}';
-    }
 }

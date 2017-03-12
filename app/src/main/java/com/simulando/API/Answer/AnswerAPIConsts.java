@@ -8,7 +8,7 @@ import com.simulando.API.APIConsts;
 
 public class AnswerAPIConsts {
 
-    public static final String ANSWER_PATH = "respostas";
+    public static final String ANSWER_PATH = "answers";
 
     public static final String ANSWER_ENDPOINT = APIConsts.BASE_URL + ANSWER_PATH;
 }

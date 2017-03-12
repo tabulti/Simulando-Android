@@ -1,28 +1,29 @@
 package com.simulando.Models;
 
+import com.google.gson.annotations.SerializedName;
+
+import java.util.Date;
+
 /**
  * Created by Luciano José on 10/01/2017.
  */
 
 public class Answer {
 
-    public String alternativa_id;
-    public String resposta;
-    public long tempoGasto;
+    @SerializedName("alternative_id")
+    public String alternativeId;
+    @SerializedName("elapsed_time")
+    public long elapsedTime;
+    public char answer;
+    @SerializedName("answer_date")
+    public Date answerDate;
 
-    public Answer(String alternativa_id, String resposta, long tempoGasto) {
-        this.alternativa_id = alternativa_id;
-        this.resposta = resposta;
-        this.tempoGasto = tempoGasto;
+    public Answer(String alternativeId, char answer, long elapsedTime, Date answerDate) {
+        this.alternativeId = alternativeId;
+        this.answer = answer;
+        this.elapsedTime = elapsedTime;
+        this.answerDate = answerDate;
     }
 
-    @Override
-    public String toString() {
-        return "Answer{" +
-                "alternativaId='" + alternativa_id + '\'' +
-                ", resposta='" + resposta + '\'' +
-                ", tempoGasto=" + tempoGasto +
-                '}';
-    }
 }
 

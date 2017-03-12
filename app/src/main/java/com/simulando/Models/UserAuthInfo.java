@@ -1,5 +1,7 @@
 package com.simulando.Models;
 
+import com.google.gson.annotations.SerializedName;
+
 /**
  * Created by Luciano José on 10/01/2017.
  */
@@ -7,30 +9,22 @@ package com.simulando.Models;
 public class UserAuthInfo {
 
     public final boolean social;
-    public final String nome;
+    public final String name;
     public final String cpf;
     public final String email;
-    public final String senha;
-    public final String photo;
+    public final String password;
+    @SerializedName("profile_picture")
+    public final String profilePicture;
+    public final String language;
 
-    public UserAuthInfo(boolean social, String nome, String cpf, String email, String senha, String photo) {
+    public UserAuthInfo(boolean social, String name, String cpf, String email, String password, String profilePicture, String language) {
         this.social = social;
-        this.nome = nome;
+        this.name = name;
         this.cpf = cpf;
         this.email = email;
-        this.senha = senha;
-        this.photo = photo;
+        this.password = password;
+        this.profilePicture = profilePicture;
+        this.language = language;
     }
 
-    @Override
-    public String toString() {
-        return "UserAuthInfo{" +
-                "social=" + social +
-                ", nome='" + nome + '\'' +
-                ", cpf='" + cpf + '\'' +
-                ", email='" + email + '\'' +
-                ", senha='" + senha + '\'' +
-                ", photo='" + photo + '\'' +
-                '}';
-    }
 }
