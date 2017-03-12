@@ -64,5 +64,12 @@ public class DateUtils {
         return String.valueOf(number);
     }
 
+    public static String formatMinSec(long milliseconds) {
+        String minutes = String.format("%02d", milliseconds / 60000);
+        int seconds = (int) ((milliseconds % 60000) / 1000);
+        String strSec = String.format("%02d", seconds);
+        return minutes + ":" + strSec;
+    }
+
 
 }

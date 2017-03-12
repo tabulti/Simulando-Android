@@ -20,5 +20,6 @@ public class Question {
     public int score;
     @SerializedName("alternative")
     public List<Alternative> alternatives;
+    public Subject subject;
 
 }

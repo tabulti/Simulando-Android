@@ -15,8 +15,9 @@ public class Exam {
     public String title;
     public String description;
     public boolean done;
+    public boolean cancelled;
     @SerializedName("estimated_time")
-    public String estimatedTime;
+    public int estimatedTime;
     @SerializedName("questions_number")
     public int questionsNumber;
     @SerializedName("exam_start_date")

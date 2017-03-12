@@ -45,6 +45,14 @@
                 android:value="com.simulando.UI.Dashboard.DashboardActivity" />
         </activity>
         <activity
+            android:name=".UI.Dashboard.Exams.ExamResult.ExamResultActivity"
+            android:configChanges="orientation|screenSize"
+            android:parentActivityName=".UI.Dashboard.DashboardActivity">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="com.simulando.UI.Dashboard.DashboardActivity" />
+        </activity>
+        <activity
             android:name=".UI.Intro.IntroActivity"
             android:theme="@style/AppTheme.NoTitle" />
         <activity
@@ -80,7 +88,7 @@
             android:name="com.facebook.sdk.ApplicationId"
             android:value="@string/facebook_app_id" />
 
-        <activity android:name=".UI.Dashboard.Exams.ExamResult.ExamResultActivity"></activity>
+
     </application>
 
 </manifest>

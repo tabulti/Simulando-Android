@@ -2,6 +2,7 @@ package com.simulando.UI.Dashboard;
 
 import android.app.FragmentManager;
 import android.content.Intent;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.support.design.widget.NavigationView;
 import android.support.design.widget.TabLayout;
@@ -177,10 +178,11 @@ public class DashboardActivity extends AppCompatActivity
         int id = item.getItemId();
 
         if (id == R.id.menu_question) {
-            Intent answerQuestions = new Intent(this, ExamResultActivity.class);
+            Intent answerQuestions = new Intent(this, AnswerQuestionsActivity.class);
             startActivity(answerQuestions);
         } else if (id == R.id.menu_performance) {
-
+            Intent perfomance = new Intent(this, ExamResultActivity.class);
+            startActivity(perfomance);
         } else if (id == R.id.menu_ranking) {
 
         } else if (id == R.id.menu_logout) {

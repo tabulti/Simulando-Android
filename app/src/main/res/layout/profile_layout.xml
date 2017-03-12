@@ -12,80 +12,107 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="@color/colorPrimary"
+        android:orientation="vertical"
         android:padding="@dimen/spacing_xtiny">
 
         <de.hdodenhof.circleimageview.CircleImageView xmlns:app="http://schemas.android.com/apk/res-auto"
             android:id="@+id/profilePicture"
             android:layout_width="85dp"
             android:layout_height="85dp"
-            android:layout_marginBottom="@dimen/spacing_tiny"
+            android:layout_gravity="center"
+            android:layout_marginBottom="@dimen/spacing_xmicro"
             android:layout_marginTop="@dimen/spacing_micro"
             app:civ_border_color="@color/light_gray"
             app:civ_border_width="1dp" />
 
-        <LinearLayout
-            android:layout_width="fill_parent"
+
+        <TextView
+            android:id="@+id/userName"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="@dimen/spacing_xtiny"
-            android:orientation="vertical">
+            android:layout_marginBottom="@dimen/spacing_xmicro"
+            android:textAlignment="center"
+            android:textColor="@color/white"
+            android:textSize="20sp"
+            android:textStyle="bold" />
+
+        <ProgressBar
+            android:id="@+id/xpBar"
+            style="?android:attr/progressBarStyleHorizontal"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:max="100"
+            android:progress="50"
+            android:progressTint="@color/red"
+            android:visibility="gone" />
+
+
+        <TextView
+            android:id="@+id/xp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="@dimen/spacing_xmicro"
+            android:layout_marginRight="@dimen/spacing_micro"
+            android:text="XP: 40/100"
+            android:textAlignment="center"
+            android:textColor="@color/white"
+            android:textSize="10sp"
+            android:textStyle="bold"
+            android:visibility="gone" />
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:layout_marginBottom="@dimen/spacing_xmicro"
+            android:background="@color/light_gray" />
+
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:orientation="horizontal">
 
             <TextView
-                android:id="@+id/userName"
-                android:layout_width="match_parent"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginBottom="@dimen/spacing_micro"
-                android:textColor="@color/white"
-                android:textSize="20sp"
-                android:textStyle="bold" />
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal">
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginRight="@dimen/spacing_xtiny"
-                    android:drawableLeft="@drawable/ic_ranking"
-                    android:drawablePadding="@dimen/spacing_tiny"
-                    android:gravity="center"
-                    android:text="1º"
-                    android:textColor="@color/white"
-                    android:textSize="16sp"
-                    android:textStyle="bold" />
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:drawableLeft="@drawable/ic_points"
-                    android:drawablePadding="@dimen/spacing_tiny"
-                    android:gravity="center"
-                    android:text="180 Pontos"
-                    android:textColor="@color/white"
-                    android:textSize="14sp"
-                    android:textStyle="bold" />
-            </LinearLayout>
-
-            <ProgressBar
-                android:id="@+id/xpBar"
-                style="?android:attr/progressBarStyleHorizontal"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:max="100"
-                android:progress="50"
-                android:progressTint="@color/red" />
-
-            <TextView
-                android:id="@+id/xp"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginRight="@dimen/spacing_micro"
-                android:text="XP: 40/100"
+                android:layout_weight="1"
+                android:text="Nvl. 21"
                 android:textAlignment="center"
                 android:textColor="@color/white"
-                android:textSize="10sp"
+                android:textSize="16sp"
                 android:textStyle="bold" />
+
+            <View
+                android:layout_width="1dp"
+                android:layout_height="match_parent"
+                android:background="@color/light_gray" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="180 Pontos"
+                android:textAlignment="center"
+                android:textColor="@color/white"
+                android:textSize="16sp"
+                android:textStyle="bold" />
+
+            <View
+                android:layout_width="1dp"
+                android:layout_height="match_parent"
+                android:background="@color/light_gray" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="180 Pontos"
+                android:textAlignment="center"
+                android:textColor="@color/white"
+                android:textSize="16sp"
+                android:textStyle="bold" />
+
 
         </LinearLayout>
     </LinearLayout>

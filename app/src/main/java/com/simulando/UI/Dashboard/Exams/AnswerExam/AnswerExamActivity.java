@@ -1,12 +1,22 @@
 package com.simulando.UI.Dashboard.Exams.AnswerExam;
 
+import android.content.DialogInterface;
 import android.content.Intent;
+import android.graphics.Color;
 import android.os.Bundle;
+import android.os.CountDownTimer;
+import android.os.SystemClock;
 import android.support.annotation.Nullable;
 import android.support.v7.app.ActionBar;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.text.Html;
+import android.text.SpannableString;
+import android.text.style.ForegroundColorSpan;
+import android.text.style.RelativeSizeSpan;
+import android.util.Log;
 import android.view.View;
+import android.widget.Chronometer;
 import android.widget.ProgressBar;
 import android.widget.RelativeLayout;
 import android.widget.ScrollView;
@@ -21,11 +31,11 @@ import com.simulando.Models.ExamAnswer;
 import com.simulando.Models.Question;
 import com.simulando.R;
 import com.simulando.UI.Dashboard.Exams.ExamResult.ExamResultActivity;
-import com.simulando.Utils.AppUtils;
 import com.simulando.Utils.CommonUtils;
-import com.simulando.Utils.Timer;
+import com.simulando.Utils.DateUtils;
 
 import java.util.ArrayList;
+import java.util.Date;
 
 import static android.view.View.GONE;
 
@@ -37,11 +47,18 @@ public class AnswerExamActivity extends AppCompatActivity {
 
     ExamService mExamService;
     ProgressBar mPbLoadingQuestion;
+    AlertDialog mCancelDialog;
+    AlertDialog.Builder mBuilder;
     ActionBar mToolbar;
+
 
     /**
      * Variaveis para controle do exame.
      */
+    private Chronometer mChronometer;
+    private CountDownTimer mCounter;
+    private long examElapsedTime;
+    private boolean isCounterRunning;
     private ExamAnswer mExamAnswer;
     private ArrayList<Answer> mAnswers;
     private Exam mExam;
@@ -71,6 +88,19 @@ public class AnswerExamActivity extends AppCompatActivity {
         }
     };
 
+    DialogInterface.OnClickListener mCancelListener = new DialogInterface.OnClickListener() {
+        public void onClick(DialogInterface dialog, int id) {
+            Log.d("CANCELAR", mExam.id);
+        }
+    };
+
+
+    DialogInterface.OnClickListener mContinueListener = new DialogInterface.OnClickListener() {
+        public void onClick(DialogInterface dialog, int id) {
+            dialog.dismiss();
+        }
+    };
+
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -79,8 +109,18 @@ public class AnswerExamActivity extends AppCompatActivity {
         mExamService = ExamService.getInstance(this);
         mExamAnswer = new ExamAnswer();
 
+        mBuilder = new AlertDialog.Builder(this);
+        mBuilder.setTitle(R.string.cancel_dialog_title)
+                .setMessage(R.string.cancel_dialog_text);
+        mBuilder.setPositiveButton(R.string.cancel_dialog_continue, mContinueListener);
+        mBuilder.setNegativeButton(R.string.cancel_dialog_cancel, mCancelListener);
+        mCancelDialog = mBuilder.create();
+
+
         String examId = getIntent().getStringExtra("examId");
         mExamAnswer.id = examId;
+        examElapsedTime = 0;
+        mChronometer = (Chronometer) findViewById(R.id.chronometer);
         mAnswers = new ArrayList<>();
 
         mToolbar = getSupportActionBar();
@@ -126,8 +166,8 @@ public class AnswerExamActivity extends AppCompatActivity {
             @Override
             public void onSuccess(Object response) {
                 mExam = (Exam) response;
+                startCounter(mExam.estimatedTime * 60000);
                 updateQuestionInfo(mExam.questions.get(questionIndex));
-                showQuestion(true);
             }
 
             @Override
@@ -157,6 +197,7 @@ public class AnswerExamActivity extends AppCompatActivity {
      * Atualiza as informações da Questão
      */
     public void updateQuestionInfo(Question currentQuestion) {
+        showQuestion(false);
 
         questionNumber = getResources().getString(R.string.question_number, questionIndex, mExam.questions.size());
 
@@ -178,6 +219,9 @@ public class AnswerExamActivity extends AppCompatActivity {
 
         mFifthAlternative.setText(Html.fromHtml(currentQuestion.alternatives.get(4).text).toString());
         mFifthAlternative.setApiID(currentQuestion.alternatives.get(4).id);
+
+        showQuestion(true);
+        startChronometer();
     }
 
     /**
@@ -186,12 +230,17 @@ public class AnswerExamActivity extends AppCompatActivity {
      * ao final do simulado.
      */
     public void addAnswer(Answer answer) {
+
+        mAnswers.add(answer);
+
         if (questionIndex == mExam.questions.size()) {
+            stopCounter();
+            mExamAnswer.answerDate = new Date();
+            mExamAnswer.elapsedTime = examElapsedTime;
             mExamAnswer.answers.addAll(mAnswers);
             registerAnswers();
         } else {
             questionIndex++;
-            mAnswers.add(answer);
             resetOptions();
             updateQuestionInfo(mExam.questions.get(questionIndex - 1));
         }
@@ -206,11 +255,10 @@ public class AnswerExamActivity extends AppCompatActivity {
      */
     public void selectAlternative(int alternativeId) {
         if (currentAlternativeId == alternativeId) {
-            Timer.stop();
-            long elapsedTime = Timer.getElapsedTime();
-            Timer.reset();
+            stopChronometer();
+            long elapsedTime = getElapsedTime();
             Alternative selected = (Alternative) findViewById(currentAlternativeId);
-            Answer questionAnswer = new Answer(selected.getApiID(), selectedAlternativeLetter, elapsedTime);
+            Answer questionAnswer = new Answer(selected.getApiID(), selectedAlternativeLetter, elapsedTime, new Date());
             addAnswer(questionAnswer);
             return;
         }
@@ -304,8 +352,90 @@ public class AnswerExamActivity extends AppCompatActivity {
         });
     }
 
-    public void showResult(){
-        Intent resultIntent = new Intent(AnswerExamActivity.this, ExamResultActivity.class);
-        startActivity(resultIntent);
+    /**
+     * Apresenta o resultado após
+     * finalizar o simulado
+     */
+    public void showResult() {
+        Intent examResult = new Intent(this, ExamResultActivity.class);
+        examResult.putExtra("examId", mExam.id);
+        startActivity(examResult);
     }
+
+    /**
+     * Iniciar o contador de
+     * tempo do simulado
+     *
+     * @param time
+     */
+    public void startCounter(long time) {
+        isCounterRunning = true;
+
+        if (!isCounterRunning) {
+            mCounter.cancel();
+        }
+
+        mCounter = new CountDownTimer(time, 1000) {
+            @Override
+            public void onTick(long millisUntilFinished) {
+                if (!isCounterRunning) {
+                    mCounter.cancel();
+                    examElapsedTime = ((mExam.estimatedTime * 60000) - millisUntilFinished);
+                    return;
+                }
+
+                updateTitleInfo(mExam.title, DateUtils.formatMinSec(millisUntilFinished));
+            }
+
+            @Override
+            public void onFinish() {
+            }
+        };
+        mCounter.start();
+    }
+
+    /**
+     * Para o contador de tempo
+     * do simulado.
+     */
+    public void stopCounter() {
+        isCounterRunning = false;
+    }
+
+    /**
+     * Atualiza o titulo
+     * e subtitulo do actionbar
+     */
+    public void updateTitleInfo(String title, String time) {
+        String subtitle = "Tempo restante: ( " + time + " )";
+        SpannableString spTitle = new SpannableString(title);
+        SpannableString spSubtitle = new SpannableString(subtitle);
+
+        spTitle.setSpan(new RelativeSizeSpan(0.9f), 0, title.length(), 0);
+        spSubtitle.setSpan(new RelativeSizeSpan(0.9f), 0, subtitle.length(), 0);
+        spSubtitle.setSpan(new ForegroundColorSpan(Color.WHITE), 0, subtitle.length(), 0);
+
+        mToolbar.setTitle(spTitle);
+        mToolbar.setSubtitle(spSubtitle);
+    }
+
+    public void startChronometer() {
+        mChronometer.setBase(SystemClock.elapsedRealtime());
+        mChronometer.start();
+    }
+
+    public void stopChronometer() {
+        mChronometer.stop();
+    }
+
+    public long getElapsedTime() {
+        long elapsedTime = (SystemClock.elapsedRealtime() - mChronometer.getBase());
+        return elapsedTime;
+    }
+
+    @Override
+    public void onBackPressed() {
+        mCancelDialog.show();
+    }
+
 }

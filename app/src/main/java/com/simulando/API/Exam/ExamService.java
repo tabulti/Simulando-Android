@@ -8,6 +8,7 @@ import com.simulando.Interfaces.Callback;
 import com.simulando.Manager.ApiManager;
 import com.simulando.Models.Exam;
 import com.simulando.Models.ExamAnswer;
+import com.simulando.Models.ExamStatistic;
 import com.simulando.Models.GenericResponse;
 
 /**
@@ -50,6 +51,15 @@ public class ExamService {
         mApiManager.addToRequestQueue(mRequest);
     }
 
+    public void getExamResult(String examId, final Callback callback) {
+        JsonObjectRequest mRequest = new Rest(mContext, ExamStatistic.class)
+                .one(ExamAPIConsts.ENDPOINT_EXAM_RESULT, examId)
+                .setCallback(callback)
+                .build();
+
+        mApiManager.addToRequestQueue(mRequest);
+    }
+
     public void registerAnswer(ExamAnswer examAnswer, final Callback callback) {
         JsonObjectRequest mRequest = new Rest(mContext, GenericResponse.class)
                 .post(ExamAPIConsts.ENDPOINT_ANSWER_EXAM, examAnswer)
@@ -58,5 +68,4 @@ public class ExamService {
 
         mApiManager.addToRequestQueue(mRequest);
     }
-
 }

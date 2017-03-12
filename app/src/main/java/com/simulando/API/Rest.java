@@ -1,6 +1,7 @@
 package com.simulando.API;
 
 import android.content.Context;
+import android.util.Log;
 
 import com.android.volley.AuthFailureError;
 import com.android.volley.Response;
@@ -77,6 +78,13 @@ public class Rest {
         return this;
     }
 
+    public Rest put(String url, Object body) {
+        this.method = com.android.volley.Request.Method.PUT;
+        this.url = url;
+        this.body = APIUtils.getBody(body);
+        return this;
+    }
+
     public Rest setCallback(Callback callback) {
         this.callback = callback;
         return this;
@@ -89,6 +97,7 @@ public class Rest {
                 new Response.Listener<JSONObject>() {
                     @Override
                     public void onResponse(JSONObject response) {
+                        Log.d("RESP", new Gson().toJson(response));
                         String status = null;
                         Object object = null;
 
