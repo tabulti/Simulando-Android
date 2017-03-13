@@ -63,7 +63,7 @@ public class ExamGradeAdapter extends RecyclerView.Adapter<ExamGradeAdapter.Exam
         holder.mTvAreaGrade.setTextColor(color);
 
         holder.mTvAreaName.setText(area.name);
-        holder.mTvAreaGrade.setText(String.valueOf(area.grade));
+        holder.mTvAreaGrade.setText(String.format("%.2f", area.grade));
         holder.mTvCorrectAnswers.setText(mContext.getResources().getString(R.string.total_correct_questions, area.correctAnswers));
         holder.mTvWrongAnswers.setText(mContext.getResources().getString(R.string.total_wrong_questions, area.wrongAnswers));
 

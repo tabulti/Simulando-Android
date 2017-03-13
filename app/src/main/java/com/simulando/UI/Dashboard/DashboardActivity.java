@@ -12,6 +12,7 @@ import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -19,8 +20,12 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
+import com.google.gson.Gson;
+import com.simulando.API.User.StudentService;
 import com.simulando.Adapters.ProfileTabAdapter;
+import com.simulando.Interfaces.Callback;
 import com.simulando.Manager.SessionManager;
+import com.simulando.Models.Profile;
 import com.simulando.Models.User;
 import com.simulando.R;
 import com.simulando.UI.Dashboard.Exams.ExamResult.ExamResultActivity;
@@ -33,6 +38,7 @@ public class DashboardActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
 
     SessionManager mSessionManager;
+    StudentService mStudentService;
     NavigationView mNavView;
     View mHeaderView;
     DrawerLayout mDrawerLayout;
@@ -42,11 +48,15 @@ public class DashboardActivity extends AppCompatActivity
     /**
      * Profile Info
      */
-
+    User mUser;
+    Profile mProfile;
     CircleImageView mIvProfilePicture;
     ProgressBar mPbXp;
     TextView mTvXp;
     TextView mTvUserName;
+    TextView mTvLevel;
+    TextView mTvRank;
+    TextView mTvPoints;
 
     TabLayout mTabLayout;
     ViewPager mViewPager;
@@ -67,8 +77,10 @@ public class DashboardActivity extends AppCompatActivity
 
         mFragmentManager = getFragmentManager();
         mSessionManager = SessionManager.getInstance(this);
+        mStudentService = StudentService.getInstance(this);
 
-        User user = mSessionManager.getCurrentUser();
+        mUser = mSessionManager.getCurrentUser();
+        getProfile(mUser.studentId);
 
         mToolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(mToolbar);
@@ -87,11 +99,11 @@ public class DashboardActivity extends AppCompatActivity
         mTvSideMenuNome = (TextView) mHeaderView.findViewById(R.id.sideMenuNome);
         mTvSideMenuEmail = (TextView) mHeaderView.findViewById(R.id.sideMenuEmail);
 
-        mTvSideMenuNome.setText(user.name);
-        mTvSideMenuEmail.setText(user.email);
+        mTvSideMenuNome.setText(mUser.name);
+        mTvSideMenuEmail.setText(mUser.email);
 
         Glide.with(this)
-                .load(user.profilePicture)
+                .load(mUser.profilePicture)
                 .error(R.drawable.ic_student)
                 .centerCrop()
                 .dontAnimate()
@@ -133,15 +145,19 @@ public class DashboardActivity extends AppCompatActivity
         mTvXp = (TextView) findViewById(R.id.xp);
         mTvUserName = (TextView) findViewById(R.id.userName);
 
+        mTvLevel = (TextView) findViewById(R.id.userLevel);
+        mTvRank = (TextView) findViewById(R.id.userRank);
+        mTvPoints = (TextView) findViewById(R.id.userPoints);
+
         mPbXp.setMax(max);
         mPbXp.setProgress(current);
 
         String progress = getResources().getString(R.string.xp) + " " + current + "/" + max;
         mTvXp.setText(progress);
 
-        mTvUserName.setText(user.name);
+        mTvUserName.setText(mUser.name);
         Glide.with(this)
-                .load(user.profilePicture)
+                .load(mUser.profilePicture)
                 .error(R.drawable.ic_student)
                 .dontAnimate()
                 .centerCrop()
@@ -205,6 +221,35 @@ public class DashboardActivity extends AppCompatActivity
     public void goToIntro() {
         Intent loginIntent = new Intent(this, IntroActivity.class);
         startActivity(loginIntent);
+    }
+
+    /**
+     * Busca as informações
+     * de gamificação do usuário.
+     */
+    public void getProfile(String studentId) {
+        mStudentService.getProfile(studentId, new Callback() {
+            @Override
+            public void onSuccess(Object response) {
+                mProfile = (Profile) response;
+                updateProfileInfo();
+            }
+
+            @Override
+            public void onError(String message) {
+
+            }
+        });
+    }
+
+    /**
+     * Atualiza as info de rank,
+     * pontos e level.
+     */
+    public void updateProfileInfo() {
+        mTvLevel.setText(getResources().getString(R.string.profile_level, mProfile.level));
+        mTvPoints.setText(String.valueOf(mProfile.points));
+        mTvRank.setText(mProfile.rank + "º");
     }
 
 }

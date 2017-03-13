@@ -68,4 +68,13 @@ public class ExamService {
 
         mApiManager.addToRequestQueue(mRequest);
     }
+
+    public void cancelExam(String examId, final Callback callback) {
+        JsonObjectRequest mRequest = new Rest(mContext, GenericResponse.class)
+                .put(ExamAPIConsts.ENDPOINT_CANCEL_EXAM, examId)
+                .setCallback(callback)
+                .build();
+
+        mApiManager.addToRequestQueue(mRequest);
+    }
 }

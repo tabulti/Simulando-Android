@@ -52,7 +52,10 @@
             android:minHeight="48dp"
             android:textAlignment="center"
             android:textAllCaps="false"
-            android:theme="@style/AppTheme.PrimaryButton" />
+            android:textColor="#89000000"
+            android:textStyle="bold"
+            android:background="@drawable/question_text_box"
+            android:theme="@style/AppTheme.TransparentButton" />
 
     </LinearLayout>
 </android.support.v7.widget.CardView>

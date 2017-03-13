@@ -3,13 +3,18 @@ package com.simulando.UI.Dashboard.Ranking;
 
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ListView;
 
+import com.google.gson.Gson;
+import com.simulando.API.User.StudentService;
 import com.simulando.Adapters.RankingAdapter;
-import com.simulando.Models.RankItem;
+import com.simulando.Interfaces.Callback;
+import com.simulando.Models.Ranking;
+import com.simulando.Models.RankingRow;
 import com.simulando.R;
 
 import java.util.ArrayList;
@@ -17,10 +22,11 @@ import java.util.ArrayList;
 
 public class RankingFragment extends Fragment {
 
+    StudentService mStudentService;
 
     ListView mRankingList;
     RankingAdapter mRankingAdapter;
-    ArrayList<RankItem> mRankItems;
+    Ranking mRanking;
 
 
     public RankingFragment() {
@@ -31,9 +37,12 @@ public class RankingFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_ranking, container, false);
-        init();
 
-        mRankingAdapter = new RankingAdapter(getContext(), mRankItems);
+        mStudentService = StudentService.getInstance(getContext());
+        mRanking = new Ranking();
+        getRanking();
+
+        mRankingAdapter = new RankingAdapter(getContext(), mRanking.rows);
         mRankingList = (ListView) view.findViewById(R.id.ranking);
 
         mRankingList.setAdapter(mRankingAdapter);
@@ -41,12 +50,23 @@ public class RankingFragment extends Fragment {
         return view;
     }
 
+    /**
+     * Busca o ranking de alunos
+     */
+    public void getRanking() {
+        mStudentService.getRank(new Callback() {
+            @Override
+            public void onSuccess(Object response) {
+                mRanking.rows = (ArrayList<RankingRow>) response;
+                mRankingAdapter.updateList(mRanking.rows);
+                mRankingAdapter.notifyDataSetChanged();
+            }
 
-    public void init() {
-        mRankItems = new ArrayList<>();
-        for (int i = 0; i < 10; i++) {
-            mRankItems.add(new RankItem(i + 1, "", "Luciano", "780"));
-        }
+            @Override
+            public void onError(String message) {
+
+            }
+        });
     }
 
 }
