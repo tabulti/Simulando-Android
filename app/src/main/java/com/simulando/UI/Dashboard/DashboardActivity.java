@@ -2,7 +2,6 @@ package com.simulando.UI.Dashboard;
 
 import android.app.FragmentManager;
 import android.content.Intent;
-import android.graphics.Color;
 import android.os.Bundle;
 import android.support.design.widget.NavigationView;
 import android.support.design.widget.TabLayout;
@@ -12,7 +11,6 @@ import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -20,7 +18,6 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
-import com.google.gson.Gson;
 import com.simulando.API.User.StudentService;
 import com.simulando.Adapters.ProfileTabAdapter;
 import com.simulando.Interfaces.Callback;
@@ -248,8 +245,8 @@ public class DashboardActivity extends AppCompatActivity
      */
     public void updateProfileInfo() {
         mTvLevel.setText(getResources().getString(R.string.profile_level, mProfile.level));
-        mTvPoints.setText(String.valueOf(mProfile.points));
-        mTvRank.setText(mProfile.rank + "º");
+        mTvPoints.setText(getResources().getString(R.string.profile_points, mProfile.points));
+        mTvRank.setText(getResources().getString(R.string.profile_rank, mProfile.rank));
     }
 
 }

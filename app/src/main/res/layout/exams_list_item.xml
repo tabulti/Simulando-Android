@@ -13,7 +13,7 @@
         android:id="@+id/examCard"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginLeft="@dimen/spacing_micro"
+        android:layout_marginLeft="@dimen/spacing_xmicro"
         android:layout_marginRight="@dimen/spacing_micro"
         android:orientation="vertical"
         android:padding="@dimen/spacing_xmicro">
@@ -49,12 +49,12 @@
             android:id="@+id/startButton"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:background="@drawable/question_text_box"
             android:minHeight="48dp"
             android:textAlignment="center"
             android:textAllCaps="false"
             android:textColor="#89000000"
             android:textStyle="bold"
-            android:background="@drawable/question_text_box"
             android:theme="@style/AppTheme.TransparentButton" />
 
     </LinearLayout>

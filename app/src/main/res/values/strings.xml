@@ -70,6 +70,8 @@
     <string name="ranking_position">Rank</string>
     <string name="ranking_profile_name">Aluno</string>
     <string name="ranking_score">Pontos</string>
+    <string name="profile_points">%1$d Pontos</string>
+    <string name="profile_rank">Rank: %1$dº</string>
     <string name="profile_level">Nvl. %1$d</string>
 
     <!-- Exams String -->
