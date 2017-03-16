@@ -10,8 +10,7 @@ import android.widget.BaseAdapter;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
-import com.bumptech.glide.load.engine.DiskCacheStrategy;
-import com.simulando.Models.RankItem;
+import com.simulando.Models.RankingRow;
 import com.simulando.R;
 
 import java.util.ArrayList;
@@ -25,13 +24,16 @@ import de.hdodenhof.circleimageview.CircleImageView;
 public class RankingAdapter extends BaseAdapter {
 
     private Context mContext;
-    private ArrayList<RankItem> mRanking;
+    private ArrayList<RankingRow> mRanking;
 
-    public RankingAdapter(Context context, ArrayList<RankItem> ranking) {
+    public RankingAdapter(Context context, ArrayList<RankingRow> ranking) {
         this.mContext = context;
         this.mRanking = ranking;
     }
 
+    public void updateList(ArrayList<RankingRow> ranking){
+        this.mRanking = ranking;
+    };
     @Override
     public int getCount() {
         return mRanking.size();
@@ -52,7 +54,7 @@ public class RankingAdapter extends BaseAdapter {
 
         View view;
         ViewHolder holder;
-        RankItem rankingItem = (RankItem) getItem(position);
+        RankingRow rankingRow = (RankingRow) getItem(position);
 
         if (convertView == null) {
             view = LayoutInflater.from(mContext).inflate(R.layout.ranking_item_layout, parent, false);
@@ -69,34 +71,34 @@ public class RankingAdapter extends BaseAdapter {
             view.setBackgroundColor(mContext.getResources().getColor(R.color.light_gray));
         }
 
-        if (rankingItem.getPosition() <= 3) {
+        if (rankingRow.getPosition() <= 3) {
             holder.mTvPosition.setTypeface(null, Typeface.BOLD);
-            holder.mTvScore.setTypeface(null, Typeface.BOLD);
+            holder.mTvPoints.setTypeface(null, Typeface.BOLD);
             holder.mTvProfileName.setTypeface(null, Typeface.BOLD);
 
             holder.mTvPosition.setTextSize(16);
-            holder.mTvScore.setTextSize(16);
+            holder.mTvPoints.setTextSize(16);
             holder.mTvProfileName.setTextSize(16);
         } else {
             holder.mTvPosition.setTypeface(null, Typeface.NORMAL);
-            holder.mTvScore.setTypeface(null, Typeface.NORMAL);
+            holder.mTvPoints.setTypeface(null, Typeface.NORMAL);
             holder.mTvProfileName.setTypeface(null, Typeface.NORMAL);
 
             holder.mTvPosition.setTextSize(14);
-            holder.mTvScore.setTextSize(14);
+            holder.mTvPoints.setTextSize(14);
             holder.mTvProfileName.setTextSize(14);
         }
 
-        holder.mTvPosition.setText(rankingItem.position + "º");
-        holder.mTvProfileName.setText(rankingItem.profile_name);
-        holder.mTvScore.setText(rankingItem.score);
+        holder.mTvPosition.setText(rankingRow.position + "º");
+        holder.mTvProfileName.setText(rankingRow.name);
+        holder.mTvPoints.setText(String.valueOf(rankingRow.points));
 
         Glide.with(mContext)
-                .load(rankingItem.picture_url)
+                .load(rankingRow.profilePicture)
                 .placeholder(R.drawable.ic_student)
                 .error(R.drawable.ic_student)
                 .override(30, 30)
-                .centerCrop()
+                .fitCenter()
                 .dontAnimate()
                 .into(holder.mIvProfilePicture);
         return view;
@@ -107,7 +109,7 @@ public class RankingAdapter extends BaseAdapter {
         final TextView mTvPosition;
         final CircleImageView mIvProfilePicture;
         final TextView mTvProfileName;
-        final TextView mTvScore;
+        final TextView mTvPoints;
 
 
         public ViewHolder(View view) {
@@ -115,7 +117,7 @@ public class RankingAdapter extends BaseAdapter {
             mTvPosition = (TextView) view.findViewById(R.id.position);
             mIvProfilePicture = (CircleImageView) view.findViewById(R.id.profilePicture);
             mTvProfileName = (TextView) view.findViewById(R.id.profileName);
-            mTvScore = (TextView) view.findViewById(R.id.score);
+            mTvPoints = (TextView) view.findViewById(R.id.points);
         }
     }
 

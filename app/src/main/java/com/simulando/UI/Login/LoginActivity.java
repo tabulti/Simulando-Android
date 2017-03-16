@@ -3,14 +3,12 @@ package com.simulando.UI.Login;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
-import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
-import com.google.gson.Gson;
-import com.simulando.API.User.UserService;
+import com.simulando.API.User.StudentService;
 import com.simulando.Consts.LoginConsts;
 import com.simulando.Interfaces.Callback;
 import com.simulando.Interfaces.RequestCallback;
@@ -28,7 +26,7 @@ public class LoginActivity extends AppCompatActivity {
 
     FacebookAuthManager mFacebookAuthManager;
     SessionManager mSessionManager;
-    UserService mUserService;
+    StudentService mStudentService;
 
     EditText mEdtEmail;
     EditText mEdtPassword;
@@ -41,7 +39,7 @@ public class LoginActivity extends AppCompatActivity {
         public void onLoginSuccess(User user) {
             CommonUtils.showLoadingDialog(LoginActivity.this);
             UserAuthInfo userInfo = new UserAuthInfo(true, user.name, "", user.email, user.id, user.profilePicture, "");
-            mUserService.authUser(userInfo, new Callback() {
+            mStudentService.authUser(userInfo, new Callback() {
                 @Override
                 public void onSuccess(Object response) {
                     Session session = (Session) response;
@@ -88,7 +86,7 @@ public class LoginActivity extends AppCompatActivity {
         mSessionManager = SessionManager.getInstance(this);
 
         mFacebookAuthManager = new FacebookAuthManager();
-        mUserService = UserService.getInstance(this);
+        mStudentService = StudentService.getInstance(this);
 
         mEdtEmail = (EditText) findViewById(R.id.email);
         mEdtPassword = (EditText) findViewById(R.id.password);
@@ -116,7 +114,7 @@ public class LoginActivity extends AppCompatActivity {
 
         UserAuthInfo authInfo = new UserAuthInfo(false, "", "", email, password, "", "");
 
-        mUserService.authUser(authInfo, new Callback() {
+        mStudentService.authUser(authInfo, new Callback() {
             @Override
             public void onSuccess(Object response) {
                 Session session = (Session) response;

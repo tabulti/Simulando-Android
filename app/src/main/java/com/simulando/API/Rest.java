@@ -78,9 +78,16 @@ public class Rest {
         return this;
     }
 
-    public Rest put(String url, Object body) {
+    public Rest put(String url, String id) {
         this.method = com.android.volley.Request.Method.PUT;
-        this.url = url;
+        this.url = url.replace(APIConsts.PATH_PARAM, id);
+        this.body = null;
+        return this;
+    }
+
+    public Rest put(String url, String id, Object body) {
+        this.method = com.android.volley.Request.Method.PUT;
+        this.url = url.replace(APIConsts.PATH_PARAM, id);
         this.body = APIUtils.getBody(body);
         return this;
     }
@@ -97,7 +104,8 @@ public class Rest {
                 new Response.Listener<JSONObject>() {
                     @Override
                     public void onResponse(JSONObject response) {
-                        Log.d("RESP", new Gson().toJson(response));
+                        Log.d("body", new Gson().toJson(body));
+                        Log.d("RESP", url + "," + new Gson().toJson(response));
                         String status = null;
                         Object object = null;
 
@@ -123,6 +131,7 @@ public class Rest {
             @Override
             public Map<String, String> getHeaders() throws AuthFailureError {
                 token = mSessionManager.getToken();
+                Log.d("TOKEN", token);
                 headers = APIUtils.getHeaders(token);
                 return headers;
             }

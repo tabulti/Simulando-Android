@@ -10,12 +10,14 @@
         <item
             android:id="@+id/menu_performance"
             android:icon="@drawable/ic_menu_performance"
-            android:title="@string/menu_performance" />
+            android:title="@string/menu_performance"
+            android:visible="false"/>
 
         <item
             android:id="@+id/menu_ranking"
             android:icon="@drawable/ic_ranking"
-            android:title="@string/menu_ranking" />
+            android:title="@string/menu_ranking"
+            android:visible="false"/>
 
 
         <item

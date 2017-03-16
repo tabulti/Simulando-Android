@@ -74,10 +74,10 @@
             android:orientation="horizontal">
 
             <TextView
+                android:id="@+id/userLevel"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:text="Nvl. 21"
                 android:textAlignment="center"
                 android:textColor="@color/white"
                 android:textSize="16sp"
@@ -89,10 +89,10 @@
                 android:background="@color/light_gray" />
 
             <TextView
+                android:id="@+id/userRank"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:text="180 Pontos"
                 android:textAlignment="center"
                 android:textColor="@color/white"
                 android:textSize="16sp"
@@ -104,10 +104,10 @@
                 android:background="@color/light_gray" />
 
             <TextView
+                android:id="@+id/userPoints"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:text="180 Pontos"
                 android:textAlignment="center"
                 android:textColor="@color/white"
                 android:textSize="16sp"

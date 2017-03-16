@@ -2,12 +2,10 @@ package com.simulando.UI.Register;
 
 import android.content.Intent;
 import android.graphics.Bitmap;
-import android.graphics.Color;
 import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
 import android.support.design.widget.CoordinatorLayout;
-import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.Button;
@@ -15,7 +13,7 @@ import android.widget.CompoundButton;
 import android.widget.Switch;
 import android.widget.TextView;
 
-import com.simulando.API.User.UserService;
+import com.simulando.API.User.StudentService;
 import com.simulando.Consts.AppConsts;
 import com.simulando.Consts.LoginConsts;
 import com.simulando.Interfaces.Callback;
@@ -23,7 +21,6 @@ import com.simulando.Manager.SessionManager;
 import com.simulando.Models.Session;
 import com.simulando.Models.UserAuthInfo;
 import com.simulando.R;
-import com.simulando.UI.Login.LoginActivity;
 import com.simulando.Utils.AppUtils;
 import com.simulando.Utils.CommonUtils;
 
@@ -33,7 +30,7 @@ import de.hdodenhof.circleimageview.CircleImageView;
 
 public class RegisterActivity extends AppCompatActivity {
 
-    UserService mUserService;
+    StudentService mStudentService;
     SessionManager mSessionManager;
     String language;
 
@@ -95,7 +92,7 @@ public class RegisterActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_register);
 
-        mUserService = UserService.getInstance(this);
+        mStudentService = StudentService.getInstance(this);
         mSessionManager = SessionManager.getInstance(this);
         mCoordinatorLayout = (CoordinatorLayout) findViewById(R.id.coordinatorLayout);
 
@@ -140,7 +137,7 @@ public class RegisterActivity extends AppCompatActivity {
             CommonUtils.showLoadingDialog(this);
             UserAuthInfo userAuthInfo = new UserAuthInfo(false, name, "", email, password,
                     "", language);
-            mUserService.registerUser(userAuthInfo, new Callback() {
+            mStudentService.registerUser(userAuthInfo, new Callback() {
                 @Override
                 public void onSuccess(Object response) {
                     Session session = (Session) response;

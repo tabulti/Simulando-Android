@@ -5,6 +5,9 @@ import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
+import android.view.View;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import com.simulando.API.Exam.ExamService;
@@ -17,6 +20,7 @@ import com.simulando.Utils.AppUtils;
 public class ExamResultActivity extends AppCompatActivity {
 
     ActionBar mToolbar;
+    ProgressBar mPbLoadingResult;
 
     ExamService mExamService;
     ExamStatistic examStatistic;
@@ -36,11 +40,13 @@ public class ExamResultActivity extends AppCompatActivity {
 
         mExamService = ExamService.getInstance(this);
 
+        mToolbar = getSupportActionBar();
+        mPbLoadingResult = (ProgressBar) findViewById(R.id.loadingResult);
+        mPbLoadingResult.setVisibility(View.VISIBLE);
+
         examStatistic = new ExamStatistic();
         String examId = getIntent().getStringExtra("examId");
         getResult(examId);
-
-        mToolbar = getSupportActionBar();
 
         mTvQuestionsNumber = (TextView) findViewById(R.id.questionsNumber);
         mTvCorrectAnswers = (TextView) findViewById(R.id.correctAnswers);
@@ -96,6 +102,8 @@ public class ExamResultActivity extends AppCompatActivity {
         mTvCorrectAnswers.setText(getResources().getString(R.string.total_correct_questions, examStatistic.totalCorrectAnswers));
         mTvWrongAnswers.setText(getResources().getString(R.string.total_wrong_questions, examStatistic.totalWrongAnswers));
         mTvAverage.setText(getResources().getString(R.string.average_grade, examStatistic.average));
+
+       mPbLoadingResult.setVisibility(View.GONE);
     }
 
     @Override

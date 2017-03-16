@@ -20,6 +20,7 @@ import android.widget.RelativeLayout;
 import android.widget.ScrollView;
 import android.widget.TextView;
 
+import com.google.gson.Gson;
 import com.simulando.API.Answer.AnswerService;
 import com.simulando.API.Questions.QuestionsService;
 import com.simulando.Components.Alternative;
