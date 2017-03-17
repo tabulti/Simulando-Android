@@ -11,6 +11,7 @@ import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -18,10 +19,15 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
+import com.google.gson.Gson;
+import com.simulando.API.Answer.AnswerService;
 import com.simulando.API.User.StudentService;
 import com.simulando.Adapters.ProfileTabAdapter;
+import com.simulando.Database.AnswerRepository;
 import com.simulando.Interfaces.Callback;
 import com.simulando.Manager.SessionManager;
+import com.simulando.Models.Answer;
+import com.simulando.Models.BulkAnswers;
 import com.simulando.Models.Profile;
 import com.simulando.Models.User;
 import com.simulando.R;
@@ -29,7 +35,11 @@ import com.simulando.UI.Dashboard.Exams.ExamResult.ExamResultActivity;
 import com.simulando.UI.Dashboard.Questions.AnswerQuestions.AnswerQuestionsActivity;
 import com.simulando.UI.Intro.IntroActivity;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import de.hdodenhof.circleimageview.CircleImageView;
+import io.realm.RealmResults;
 
 public class DashboardActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
@@ -48,8 +58,6 @@ public class DashboardActivity extends AppCompatActivity
     User mUser;
     Profile mProfile;
     CircleImageView mIvProfilePicture;
-    ProgressBar mPbXp;
-    TextView mTvXp;
     TextView mTvUserName;
     TextView mTvLevel;
     TextView mTvRank;
@@ -109,11 +117,6 @@ public class DashboardActivity extends AppCompatActivity
         /**
          * Profile Info
          */
-
-        int max = 100;
-        int current = 30;
-
-
         mTabAdapter = new ProfileTabAdapter(getSupportFragmentManager(), this);
 
         mViewPager = (ViewPager) findViewById(R.id.viewPager);
@@ -138,19 +141,11 @@ public class DashboardActivity extends AppCompatActivity
          * usuário no painel
          */
         mIvProfilePicture = (CircleImageView) findViewById(R.id.profilePicture);
-        mPbXp = (ProgressBar) findViewById(R.id.xpBar);
-        mTvXp = (TextView) findViewById(R.id.xp);
         mTvUserName = (TextView) findViewById(R.id.userName);
 
         mTvLevel = (TextView) findViewById(R.id.userLevel);
         mTvRank = (TextView) findViewById(R.id.userRank);
         mTvPoints = (TextView) findViewById(R.id.userPoints);
-
-        mPbXp.setMax(max);
-        mPbXp.setProgress(current);
-
-        String progress = getResources().getString(R.string.xp) + " " + current + "/" + max;
-        mTvXp.setText(progress);
 
         mTvUserName.setText(mUser.name);
         Glide.with(this)
@@ -246,7 +241,7 @@ public class DashboardActivity extends AppCompatActivity
     public void updateProfileInfo() {
         mTvLevel.setText(getResources().getString(R.string.profile_level, mProfile.level));
         mTvPoints.setText(getResources().getString(R.string.profile_points, mProfile.points));
-        mTvRank.setText(getResources().getString(R.string.profile_rank, mProfile.rank));
+        mTvRank.setText(getResources().getString(R.string.profile_rank, mProfile.position));
     }
 
 }

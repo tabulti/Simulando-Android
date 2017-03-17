@@ -12,7 +12,6 @@ import android.text.Html;
 import android.text.SpannableString;
 import android.text.style.ForegroundColorSpan;
 import android.text.style.RelativeSizeSpan;
-import android.util.Log;
 import android.view.View;
 import android.widget.Chronometer;
 import android.widget.ProgressBar;
@@ -20,23 +19,27 @@ import android.widget.RelativeLayout;
 import android.widget.ScrollView;
 import android.widget.TextView;
 
-import com.google.gson.Gson;
 import com.simulando.API.Answer.AnswerService;
 import com.simulando.API.Questions.QuestionsService;
 import com.simulando.Components.Alternative;
 import com.simulando.Consts.AppConsts;
+import com.simulando.Database.AnswerRepository;
+import com.simulando.Database.QuestionRepository;
 import com.simulando.Interfaces.Callback;
 import com.simulando.Models.Answer;
 import com.simulando.Models.GenericResponse;
 import com.simulando.Models.Question;
 import com.simulando.R;
 import com.simulando.UI.Dashboard.Questions.QuestionFeedback.FeedbackDialogFragment;
+import com.simulando.Utils.NetworkUtils;
 
 import java.util.Date;
 
 public class AnswerQuestionsActivity extends AppCompatActivity implements FeedbackDialogFragment.FinishDialogListener {
 
 
+    QuestionRepository mQuestionRepository;
+    AnswerRepository mAnswerRepository;
     ProgressBar mPbLoadingQuestion;
     ActionBar mToolbar;
     QuestionsService mQuestionService;
@@ -49,7 +52,7 @@ public class AnswerQuestionsActivity extends AppCompatActivity implements Feedba
     private Chronometer mChronometer;
     private Question currentQuestion;
     private int currentAlternativeId = -1;
-    private char selectedAlternativeLetter = 'X';
+    private String selectedAlternativeLetter = "X";
 
     /**
      * ELementos do Dialog
@@ -99,6 +102,9 @@ public class AnswerQuestionsActivity extends AppCompatActivity implements Feedba
         super.onCreate(savedInstanceState);
         setContentView(R.layout.questions_layout);
 
+        mAnswerRepository = AnswerRepository.getInstance();
+        mQuestionRepository = QuestionRepository.getInstance();
+
         mQuestionService = QuestionsService.getInstance(this);
         mAnswerService = AnswerService.getInstance(this);
 
@@ -107,7 +113,7 @@ public class AnswerQuestionsActivity extends AppCompatActivity implements Feedba
 
         /**
          * Elementos para criação do
-         * 'dialog' de feedback da questão.
+         * "dialog" de feedback da questão.
          */
         mFragmentManager = getSupportFragmentManager();
         mFeedbackDialogFragment = FeedbackDialogFragment.newInstance();
@@ -160,12 +166,12 @@ public class AnswerQuestionsActivity extends AppCompatActivity implements Feedba
             long elapsedTime = getElapsedTime();
             Alternative selected = (Alternative) findViewById(currentAlternativeId);
             Answer questionAnswer = new Answer(selected.getApiID(), selectedAlternativeLetter, elapsedTime, new Date());
-            if (selectedAlternativeLetter == currentQuestion.answer) {
+            if (selectedAlternativeLetter.equals(currentQuestion.answer)) {
                 showFeedback(true, currentQuestion.score);
             } else {
                 showFeedback(false, currentQuestion.score);
             }
-            answerQuestion(questionAnswer);
+            registerAnswer(questionAnswer);
             return;
         }
 
@@ -177,7 +183,7 @@ public class AnswerQuestionsActivity extends AppCompatActivity implements Feedba
                 mFourthAlternative.setSelected(false);
                 mFifthAlternative.setSelected(false);
 
-                selectedAlternativeLetter = 'A';
+                selectedAlternativeLetter = "A";
 
                 break;
             case R.id.secondAlternative:
@@ -187,7 +193,7 @@ public class AnswerQuestionsActivity extends AppCompatActivity implements Feedba
                 mFourthAlternative.setSelected(false);
                 mFifthAlternative.setSelected(false);
 
-                selectedAlternativeLetter = 'B';
+                selectedAlternativeLetter = "B";
 
                 break;
             case R.id.thirdAlternative:
@@ -197,7 +203,7 @@ public class AnswerQuestionsActivity extends AppCompatActivity implements Feedba
                 mFourthAlternative.setSelected(false);
                 mFifthAlternative.setSelected(false);
 
-                selectedAlternativeLetter = 'C';
+                selectedAlternativeLetter = "C";
 
                 break;
             case R.id.fourthAlternative:
@@ -207,7 +213,7 @@ public class AnswerQuestionsActivity extends AppCompatActivity implements Feedba
                 mFourthAlternative.setSelected(true);
                 mFifthAlternative.setSelected(false);
 
-                selectedAlternativeLetter = 'D';
+                selectedAlternativeLetter = "D";
 
                 break;
             case R.id.fifthAlternative:
@@ -217,7 +223,7 @@ public class AnswerQuestionsActivity extends AppCompatActivity implements Feedba
                 mFourthAlternative.setSelected(false);
                 mFifthAlternative.setSelected(true);
 
-                selectedAlternativeLetter = 'E';
+                selectedAlternativeLetter = "E";
 
                 break;
 
@@ -232,8 +238,15 @@ public class AnswerQuestionsActivity extends AppCompatActivity implements Feedba
      * trazida do BD.
      */
     public void loadQuestion() {
+        boolean hasConnection = NetworkUtils.isNetworkAvailable(this);
         showQuestion(false);
         resetOptions();
+
+        if (!hasConnection) {
+            currentQuestion = mQuestionRepository.findRandomQuestion();
+            updateQuestionInfo();
+            return;
+        }
 
         /**
          * Busca a nova questão no BD.
@@ -282,7 +295,7 @@ public class AnswerQuestionsActivity extends AppCompatActivity implements Feedba
 
     /**
      * Define qual elemento estará visivel,
-     * o 'loading' ou a questão.
+     * o "loading" ou a questão.
      *
      * @param showQuestion
      */
@@ -316,7 +329,14 @@ public class AnswerQuestionsActivity extends AppCompatActivity implements Feedba
      *
      * @param answer
      */
-    public void answerQuestion(Answer answer) {
+    public void registerAnswer(Answer answer) {
+        boolean hasConnection = NetworkUtils.isNetworkAvailable(this);
+
+        if (!hasConnection) {
+            mAnswerRepository.addAnswer(answer);
+            return;
+        }
+
         mAnswerService.registerAnswer(answer, new Callback() {
             @Override
             public void onSuccess(Object response) {
@@ -352,7 +372,7 @@ public class AnswerQuestionsActivity extends AppCompatActivity implements Feedba
      */
     public void resetOptions() {
         currentAlternativeId = -1;
-        selectedAlternativeLetter = 'X';
+        selectedAlternativeLetter = "X";
         mFirstAlternative.setSelected(false);
         mSecondAlternative.setSelected(false);
         mThirdAlternative.setSelected(false);
