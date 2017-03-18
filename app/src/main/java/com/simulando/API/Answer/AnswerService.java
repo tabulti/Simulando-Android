@@ -7,7 +7,10 @@ import com.simulando.API.Rest;
 import com.simulando.Interfaces.Callback;
 import com.simulando.Manager.ApiManager;
 import com.simulando.Models.Answer;
+import com.simulando.Models.BulkAnswers;
 import com.simulando.Models.GenericResponse;
+
+import java.util.List;
 
 /**
  * Created by Luciano José on 08/01/2017.
@@ -39,8 +42,16 @@ public class AnswerService {
 
 
         mApiManager.addToRequestQueue(mRequest);
-
     }
 
+    public void registerBulkAnswers(BulkAnswers bulkAnswers, final Callback callback) {
+        JsonObjectRequest mRequest = new Rest(mContext, GenericResponse.class)
+                .post(AnswerAPIConsts.ANSWER_ENDPOINT, bulkAnswers)
+                .setCallback(callback)
+                .build();
+
+
+        mApiManager.addToRequestQueue(mRequest);
+    }
 
 }
