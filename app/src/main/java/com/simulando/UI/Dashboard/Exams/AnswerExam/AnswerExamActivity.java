@@ -68,7 +68,7 @@ public class AnswerExamActivity extends AppCompatActivity {
     private String questionNumber;
     private int questionIndex = 1;
     private int currentAlternativeId = -1;
-    private char selectedAlternativeLetter = 'X';
+    private String selectedAlternativeLetter = "X";
 
     /**
      * Elementos da Questão
@@ -182,7 +182,7 @@ public class AnswerExamActivity extends AppCompatActivity {
 
     /**
      * Define qual elemento estará visivel,
-     * o 'loading' ou a questão.
+     * o "loading" ou a questão.
      *
      * @param showQuestion
      */
@@ -277,7 +277,7 @@ public class AnswerExamActivity extends AppCompatActivity {
                 mFourthAlternative.setSelected(false);
                 mFifthAlternative.setSelected(false);
 
-                selectedAlternativeLetter = 'A';
+                selectedAlternativeLetter = "A";
 
                 break;
             case R.id.secondAlternative:
@@ -287,7 +287,7 @@ public class AnswerExamActivity extends AppCompatActivity {
                 mFourthAlternative.setSelected(false);
                 mFifthAlternative.setSelected(false);
 
-                selectedAlternativeLetter = 'B';
+                selectedAlternativeLetter = "B";
 
                 break;
             case R.id.thirdAlternative:
@@ -297,7 +297,7 @@ public class AnswerExamActivity extends AppCompatActivity {
                 mFourthAlternative.setSelected(false);
                 mFifthAlternative.setSelected(false);
 
-                selectedAlternativeLetter = 'C';
+                selectedAlternativeLetter = "C";
 
                 break;
             case R.id.fourthAlternative:
@@ -307,7 +307,7 @@ public class AnswerExamActivity extends AppCompatActivity {
                 mFourthAlternative.setSelected(true);
                 mFifthAlternative.setSelected(false);
 
-                selectedAlternativeLetter = 'D';
+                selectedAlternativeLetter = "D";
 
                 break;
             case R.id.fifthAlternative:
@@ -317,7 +317,7 @@ public class AnswerExamActivity extends AppCompatActivity {
                 mFourthAlternative.setSelected(false);
                 mFifthAlternative.setSelected(true);
 
-                selectedAlternativeLetter = 'E';
+                selectedAlternativeLetter = "E";
 
                 break;
 
@@ -331,7 +331,7 @@ public class AnswerExamActivity extends AppCompatActivity {
      */
     public void resetOptions() {
         currentAlternativeId = -1;
-        selectedAlternativeLetter = 'X';
+        selectedAlternativeLetter = "X";
         mFirstAlternative.setSelected(false);
         mSecondAlternative.setSelected(false);
         mThirdAlternative.setSelected(false);

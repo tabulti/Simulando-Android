@@ -15,6 +15,6 @@ public class Profile {
     public int level;
     @SerializedName("current_xp")
     public int currentXp;
-    public int rank;
+    public int position;
     public int points;
 }

@@ -21,7 +21,6 @@ public class SplashActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        FacebookSdk.sdkInitialize(getApplicationContext());
         mSessionManager = SessionManager.getInstance(this);
 
         if (mSessionManager.isLogged() == true) {

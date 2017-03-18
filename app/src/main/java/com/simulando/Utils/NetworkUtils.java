@@ -16,4 +16,19 @@ public class NetworkUtils {
         return netInfo != null && netInfo.isConnected();
     }
 
+    public static String getConnectionType(Context context) {
+        ConnectivityManager cm = (ConnectivityManager) context.getSystemService(Context.CONNECTIVITY_SERVICE);
+        NetworkInfo netInfo = cm.getActiveNetworkInfo();
+        if (null != netInfo) {
+            if (netInfo.getType() == cm.TYPE_WIFI) {
+                return "WIFI";
+            }
+
+            if (netInfo.getType() == cm.TYPE_MOBILE)
+                return "MOBILE";
+        }
+
+        return "NO_CONNECTION";
+    }
+
 }
