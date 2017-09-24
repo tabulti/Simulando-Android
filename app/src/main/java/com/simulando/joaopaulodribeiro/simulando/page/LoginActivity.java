@@ -94,6 +94,8 @@ public class LoginActivity extends MainActivity implements View.OnClickListener,
                                         alert.show();
                                     }
                                 });
+
+                                goToPage(LoginActivity.this, HomeActivity.class);
                             } else {
                                 //TODO: tratar Códigos de erros do servidor
                             }

@@ -6,7 +6,9 @@
     <color name="transparent">#43818181</color>
     <color name="gray_1">#CACACF</color>
     <color name="gray_2">#EFF1F5</color>
+    <color name="gray_3">#3A394B</color>
     <color name="white">#FFFFFF</color>
+    <color name="gold_1">#F4BB3E</color>
     <color name="success_green">#4BB543</color>
     <color name="success_green_border">#23c739</color>
 </resources>

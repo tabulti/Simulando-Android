@@ -13,8 +13,9 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
         <activity android:name=".MainActivity" />
-        <activity android:name=".page.SignOnActivity"
-            android:label="Cadastre-se"/>
+        <activity
+            android:name=".page.SignOnActivity"
+            android:label="Cadastre-se" />
         <activity
             android:name=".page.SplashActivity"
             android:theme="@style/Theme.AppCompat.Light.NoActionBar">
@@ -27,8 +28,12 @@
         <activity
             android:name=".page.WelcomeActivity"
             android:theme="@style/Theme.AppCompat.Light.NoActionBar" />
-        <activity android:name=".page.LoginActivity"
-            android:label="Fazer Login"/>
+        <activity
+            android:name=".page.LoginActivity"
+            android:label="Fazer Login" />
+        <activity
+            android:name=".page.HomeActivity"
+            android:theme="@style/AppTheme.NoActionBar"></activity>
     </application>
 
 </manifest>
