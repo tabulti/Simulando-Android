@@ -33,7 +33,7 @@
             android:label="Fazer Login" />
         <activity
             android:name=".page.HomeActivity"
-            android:theme="@style/AppTheme.NoActionBar"></activity>
+            android:theme="@style/AppTheme.NoActionBar"/>
     </application>
 
 </manifest>
