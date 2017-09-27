@@ -1,64 +1,64 @@
 package com.simulando.joaopaulodribeiro.simulando.page;
 
+import android.content.DialogInterface;
+import android.databinding.DataBindingUtil;
 import android.net.Uri;
 import android.os.Bundle;
-import android.support.design.widget.FloatingActionButton;
-import android.support.design.widget.Snackbar;
+import android.support.annotation.NonNull;
 import android.support.design.widget.TabLayout;
-import android.support.v4.view.PagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.support.v4.widget.NestedScrollView;
-import android.support.v7.app.AppCompatActivity;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.view.View;
 import android.widget.Toast;
 
 import com.simulando.joaopaulodribeiro.simulando.MainActivity;
 import com.simulando.joaopaulodribeiro.simulando.R;
+import com.simulando.joaopaulodribeiro.simulando.databinding.ActivityHomeBinding;
 import com.simulando.joaopaulodribeiro.simulando.page.adapters.HomePagerAdapter;
+import com.simulando.joaopaulodribeiro.simulando.page.fragments.Home2Fragment;
 import com.simulando.joaopaulodribeiro.simulando.page.fragments.SimulatesHomeFragment;
 
-public class HomeActivity extends MainActivity implements SimulatesHomeFragment.OnFragmentInteractionListener {
+public class HomeActivity extends MainActivity implements SimulatesHomeFragment.OnFragmentInteractionListener,
+        Home2Fragment.OnFragmentInteractionListener{
+
+    private Toolbar mToolbar;
+    private TabLayout mBottommTabHomeLayout;
+    private ViewPager mViewPager;
+    private ActivityHomeBinding mBinding;
+
+
+
+    private void bindViews() {
+        mBinding = DataBindingUtil.setContentView(this, R.layout.activity_home);
+
+        mToolbar = mBinding.toolbarMain;
+        mBottommTabHomeLayout = mBinding.bottomToolbar;
+        mViewPager = mBinding.newHomeViewPager;
+
+        setSupportActionBar(mToolbar);
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_home);
-        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar_main);
-        setSupportActionBar(toolbar);
 
-        TabLayout tabHomeLayout = (TabLayout) findViewById(R.id.tab_home);
-        tabHomeLayout.addTab(tabHomeLayout.newTab().setText(R.string.tab_1_name));
-        tabHomeLayout.addTab(tabHomeLayout.newTab().setText(R.string.tab_2_name));
-        tabHomeLayout.setTabGravity(TabLayout.GRAVITY_FILL);
+        bindViews();
 
-        NestedScrollView scrollView = (NestedScrollView) findViewById(R.id.home_scroll_view);
-        scrollView.setFillViewport(true);
+        mBottommTabHomeLayout.addTab(mBottommTabHomeLayout.newTab().setIcon(R.drawable.home_student));
+        mBottommTabHomeLayout.addTab(mBottommTabHomeLayout.newTab().setIcon(R.drawable.trending_up_disable));
+        mBottommTabHomeLayout.addTab(mBottommTabHomeLayout.newTab().setIcon(R.drawable.school_disable));
+        mBottommTabHomeLayout.addTab(mBottommTabHomeLayout.newTab().setIcon(R.drawable.certificate_disable));
 
-        final ViewPager viewPager = (ViewPager) findViewById(R.id.home_view_pager);
-        HomePagerAdapter adapter = new HomePagerAdapter(getSupportFragmentManager(), tabHomeLayout.getTabCount());
+        HomePagerAdapter adapter = new HomePagerAdapter(getSupportFragmentManager(), mBottommTabHomeLayout.getTabCount());
 
-        viewPager.setAdapter(adapter);
-        viewPager.addOnPageChangeListener(new TabLayout.TabLayoutOnPageChangeListener(tabHomeLayout));
-        tabHomeLayout.setOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
-            @Override
-            public void onTabSelected(TabLayout.Tab tab) {
-                viewPager.setCurrentItem(tab.getPosition());
-            }
-
-            @Override
-            public void onTabUnselected(TabLayout.Tab tab) {
-
-            }
-
-            @Override
-            public void onTabReselected(TabLayout.Tab tab) {
-
-            }
-        });
+        mViewPager.setAdapter(adapter);
+        mViewPager.addOnPageChangeListener(new TabLayout.TabLayoutOnPageChangeListener(mBottommTabHomeLayout));
+        mBottommTabHomeLayout.addOnTabSelectedListener(getTabSelectedListener(mViewPager));
     }
+
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -77,7 +77,86 @@ public class HomeActivity extends MainActivity implements SimulatesHomeFragment.
             case R.id.action_settings:
                 return true;
         }
+
         return super.onOptionsItemSelected(item);
+    }
+
+    @Override
+    public void onFragmentInteraction(String action) {
+
+        Toast.makeText(this, action.toString(), Toast.LENGTH_LONG).show();
+
+    }
+
+    @Override
+    public void onBackPressed() {
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder.setTitle("Atenção");
+        builder.setMessage("Deseja sair do app?");
+        builder.setPositiveButton("Sim", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                finishApp(HomeActivity.this);
+            }
+        });
+        builder.setNegativeButton("Não", null);
+
+        AlertDialog alertDialog = builder.create();
+        alertDialog.show();
+    }
+
+    @NonNull
+    private TabLayout.OnTabSelectedListener getTabSelectedListener(final ViewPager viewPager) {
+        return new TabLayout.OnTabSelectedListener() {
+            @Override
+            public void onTabSelected(TabLayout.Tab tab) {
+                setBottomTabIcon(tab, true);
+                viewPager.setCurrentItem(tab.getPosition());
+            }
+
+            @Override
+            public void onTabUnselected(TabLayout.Tab tab) {
+                setBottomTabIcon(tab, false);
+            }
+
+            @Override
+            public void onTabReselected(TabLayout.Tab tab) {
+
+            }
+        };
+    }
+
+    public void setBottomTabIcon(TabLayout.Tab tab, boolean enable) {
+        switch (tab.getPosition()) {
+            case 0:
+                if (enable) {
+                    tab.setIcon(R.drawable.home_student);
+                } else {
+                    tab.setIcon(R.drawable.home_student_disable);
+                }
+                break;
+            case 1:
+                if (enable) {
+                    tab.setIcon(R.drawable.trending_up);
+                } else {
+                    tab.setIcon(R.drawable.trending_up_disable);
+                }
+                break;
+            case 2:
+                if (enable) {
+                    tab.setIcon(R.drawable.school);
+                } else {
+                    tab.setIcon(R.drawable.school_disable);
+                }
+                break;
+            case 3:
+                if (enable) {
+                    tab.setIcon(R.drawable.certificate);
+                } else {
+                    tab.setIcon(R.drawable.certificate_disable);
+                }
+                 break;
+        }
     }
 
     @Override

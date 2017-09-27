@@ -1,192 +1,187 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/sign_on_view"
-    android:layout_width="match_parent"
-    android:background="@color/gray_2"
-    android:layout_height="match_parent"
-    tools:context="com.simulando.joaopaulodribeiro.simulando.MainActivity">
-
-    <include layout="@layout/loading_view"
-        android:visibility="gone" />
+<layout xmlns:android="http://schemas.android.com/apk/res/android">
 
     <RelativeLayout
-        android:id="@+id/enter_email"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        xmlns:tools="http://schemas.android.com/tools"
+        android:id="@+id/sign_on_view"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="52dp"
-        android:layout_marginLeft="32dp"
-        android:layout_marginRight="32dp">
+        android:background="@color/gray_2"
+        android:layout_height="match_parent"
+        tools:context="com.simulando.joaopaulodribeiro.simulando.MainActivity">
 
-        <EditText
-            android:id="@+id/enter_email_edt"
+        <include layout="@layout/loading_view"
+            android:visibility="gone" />
+
+        <RelativeLayout
+            android:id="@+id/enter_email"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:background="@drawable/edit_text_shape"
-            android:elevation="1dp"
-            android:hint="Email"
-            android:inputType="textEmailAddress"
-            android:paddingBottom="10dp"
-            android:paddingLeft="30dp"
-            android:paddingTop="10dp" />
+            android:layout_marginTop="52dp"
+            android:layout_marginLeft="32dp"
+            android:layout_marginRight="32dp">
 
-        <ImageView
-            android:id="@+id/enter_email_failure_ic"
-            android:layout_width="20dp"
-            android:layout_height="20dp"
-            android:layout_marginTop="10dp"
-            android:layout_marginRight="20dp"
-            android:layout_alignParentRight="true"
-            android:elevation="2dp"
-            app:srcCompat="@drawable/invalid_ic"
-            android:visibility="gone"/>
+            <EditText
+                android:id="@+id/enter_email_edt"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@drawable/edit_text_shape"
+                android:elevation="1dp"
+                android:hint="Email"
+                android:inputType="textEmailAddress"
+                android:paddingBottom="10dp"
+                android:paddingLeft="30dp"
+                android:paddingTop="10dp" />
 
-        <ImageView
-            android:id="@+id/enter_email_success_ic"
-            android:layout_width="24dp"
-            android:layout_height="24dp"
-            android:layout_marginTop="10dp"
-            android:layout_marginRight="20dp"
-            android:layout_alignParentRight="true"
-            android:elevation="2dp"
-            android:visibility="gone"
-            app:srcCompat="@drawable/valid_ic" />
-    </RelativeLayout>
+            <ImageView
+                android:id="@+id/enter_email_failure_ic"
+                android:layout_width="20dp"
+                android:layout_height="20dp"
+                android:layout_marginTop="10dp"
+                android:layout_marginRight="20dp"
+                android:layout_alignParentRight="true"
+                android:elevation="2dp"
+                app:srcCompat="@drawable/invalid_ic"
+                android:visibility="gone"/>
 
-    <RelativeLayout
-        android:id="@+id/enter_password"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_below="@id/enter_email"
-        android:layout_marginTop="24dp"
-        android:layout_marginLeft="32dp"
-        android:layout_marginRight="32dp">
+            <ImageView
+                android:id="@+id/enter_email_success_ic"
+                android:layout_width="24dp"
+                android:layout_height="24dp"
+                android:layout_marginTop="10dp"
+                android:layout_marginRight="20dp"
+                android:layout_alignParentRight="true"
+                android:elevation="2dp"
+                android:visibility="gone"
+                app:srcCompat="@drawable/valid_ic" />
+        </RelativeLayout>
 
-        <EditText
-            android:id="@+id/enter_password_edt"
+        <RelativeLayout
+            android:id="@+id/enter_password"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:background="@drawable/edit_text_shape"
-            android:elevation="1dp"
-            android:hint="Senha"
-            android:inputType="numberPassword"
-            android:paddingBottom="10dp"
-            android:paddingLeft="30dp"
-            android:paddingTop="10dp"/>
+            android:layout_below="@id/enter_email"
+            android:layout_marginTop="24dp"
+            android:layout_marginLeft="32dp"
+            android:layout_marginRight="32dp">
 
-        <ImageView
-            android:id="@+id/enter_password_success_ic"
-            android:layout_width="24dp"
-            android:layout_height="24dp"
-            android:layout_marginTop="10dp"
-            android:layout_marginRight="20dp"
-            android:layout_alignParentRight="true"
-            android:elevation="2dp"
-            app:srcCompat="@drawable/valid_ic"
-            android:visibility="gone"/>
+            <EditText
+                android:id="@+id/enter_password_edt"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@drawable/edit_text_shape"
+                android:elevation="1dp"
+                android:hint="Senha"
+                android:inputType="numberPassword"
+                android:paddingBottom="10dp"
+                android:paddingLeft="30dp"
+                android:paddingTop="10dp"/>
 
-        <ImageView
-            android:id="@+id/enter_password_failure_ic"
-            android:layout_width="20dp"
-            android:layout_height="20dp"
-            android:layout_marginTop="10dp"
-            android:layout_marginRight="20dp"
-            android:layout_alignParentRight="true"
-            android:elevation="2dp"
-            app:srcCompat="@drawable/invalid_ic"
-            android:visibility="gone"/>
+            <ImageView
+                android:id="@+id/enter_password_success_ic"
+                android:layout_width="24dp"
+                android:layout_height="24dp"
+                android:layout_marginTop="10dp"
+                android:layout_marginRight="20dp"
+                android:layout_alignParentRight="true"
+                android:elevation="2dp"
+                app:srcCompat="@drawable/valid_ic"
+                android:visibility="gone"/>
 
-    </RelativeLayout>
+            <ImageView
+                android:id="@+id/enter_password_failure_ic"
+                android:layout_width="20dp"
+                android:layout_height="20dp"
+                android:layout_marginTop="10dp"
+                android:layout_marginRight="20dp"
+                android:layout_alignParentRight="true"
+                android:elevation="2dp"
+                app:srcCompat="@drawable/invalid_ic"
+                android:visibility="gone"/>
 
-    <RelativeLayout
-        android:id="@+id/confirm_password"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_below="@id/enter_password"
-        android:layout_marginTop="24dp"
-        android:layout_marginLeft="32dp"
-        android:layout_marginRight="32dp">
+        </RelativeLayout>
 
-        <EditText
-            android:id="@+id/confirm_password_edt"
+        <RelativeLayout
+            android:id="@+id/confirm_password"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:background="@drawable/edit_text_shape"
-            android:elevation="1dp"
-            android:ems="10"
-            android:hint="Confirmar senha"
-            android:inputType="numberPassword"
-            android:paddingBottom="10dp"
+            android:layout_below="@id/enter_password"
+            android:layout_marginTop="24dp"
+            android:layout_marginLeft="32dp"
+            android:layout_marginRight="32dp">
+
+            <EditText
+                android:id="@+id/confirm_password_edt"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@drawable/edit_text_shape"
+                android:elevation="1dp"
+                android:ems="10"
+                android:hint="Confirmar senha"
+                android:inputType="numberPassword"
+                android:paddingBottom="10dp"
+                android:paddingLeft="30dp"
+                android:paddingTop="10dp"
+                android:layout_alignParentTop="true"
+                android:layout_alignParentLeft="true"
+                android:layout_alignParentStart="true" />
+
+            <ImageView
+                android:id="@+id/confirm_password_success_ic"
+                android:layout_width="24dp"
+                android:layout_height="24dp"
+                android:layout_marginTop="10dp"
+                android:layout_marginRight="20dp"
+                android:layout_alignParentRight="true"
+                android:elevation="2dp"
+                app:srcCompat="@drawable/valid_ic"
+                android:visibility="gone"/>
+
+            <ImageView
+                android:id="@+id/confirm_password_failure_ic"
+                android:layout_width="20dp"
+                android:layout_height="20dp"
+                android:layout_marginTop="10dp"
+                android:layout_marginRight="20dp"
+                android:layout_alignParentRight="true"
+                android:elevation="2dp"
+                app:srcCompat="@drawable/invalid_ic"
+                android:visibility="gone"/>
+        </RelativeLayout>
+
+        <Button
+            android:id="@+id/register_button"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:layout_below="@id/confirm_password"
+            android:layout_marginTop="24dp"
+            android:text="Registrar"
+            android:textColor="@color/white"
+            android:textAllCaps="false"
             android:paddingLeft="30dp"
-            android:paddingTop="10dp"
-            android:layout_alignParentTop="true"
-            android:layout_alignParentLeft="true"
-            android:layout_alignParentStart="true" />
+            android:paddingRight="30dp"
+            android:background="@drawable/welcome_btn_shape_sign_in"/>
 
-        <ImageView
-            android:id="@+id/confirm_password_success_ic"
-            android:layout_width="24dp"
-            android:layout_height="24dp"
-            android:layout_marginTop="10dp"
-            android:layout_marginRight="20dp"
-            android:layout_alignParentRight="true"
-            android:elevation="2dp"
-            app:srcCompat="@drawable/valid_ic"
-            android:visibility="gone"/>
+        <TextView
+            android:id="@+id/sign_on_text_1"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            android:gravity="center"
+            android:layout_below="@id/register_button"
+            android:alpha="0.5"
+            android:text="Ao registrar-se você concorda com os"/>
 
-        <ImageView
-            android:id="@+id/confirm_password_failure_ic"
-            android:layout_width="20dp"
-            android:layout_height="20dp"
-            android:layout_marginTop="10dp"
-            android:layout_marginRight="20dp"
-            android:layout_alignParentRight="true"
-            android:elevation="2dp"
-            app:srcCompat="@drawable/invalid_ic"
-            android:visibility="gone"/>
+        <TextView
+            android:id="@+id/terms_and_conditions_text"
+            android:gravity="center"
+            android:layout_marginTop="8dp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/sign_on_text_1"
+            android:text="termos e condições de uso." />
     </RelativeLayout>
+</layout>
 
-    <Button
-        android:id="@+id/register_button"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_centerInParent="true"
-        android:layout_below="@id/confirm_password"
-        android:layout_marginTop="24dp"
-        android:text="Registrar"
-        android:textColor="@color/white"
-        android:textAllCaps="false"
-        android:paddingLeft="30dp"
-        android:paddingRight="30dp"
-        android:background="@drawable/welcome_btn_shape_sign_in"/>
-
-    <TextView
-        android:id="@+id/sign_on_text_1"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="16dp"
-        android:gravity="center"
-        android:layout_below="@id/register_button"
-        android:alpha="0.5"
-        android:text="Ao registrar-se você concorda com os"/>
-
-    <TextView
-        android:id="@+id/terms_and_conditions_text"
-        android:gravity="center"
-        android:layout_marginTop="8dp"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_below="@id/sign_on_text_1"
-        android:text="termos e condições de uso." />
-
-
-
-
-
-
-
-
-
-</RelativeLayout>
 

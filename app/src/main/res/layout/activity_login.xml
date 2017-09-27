@@ -1,125 +1,125 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-
-    android:background="@color/gray_2"
-    tools:context="com.simulando.joaopaulodribeiro.simulando.page.LoginActivity">
-
-    <include layout="@layout/loading_view"
-        android:visibility="gone" />
+<layout xmlns:android="http://schemas.android.com/apk/res/android">
 
     <RelativeLayout
-        android:id="@+id/login_enter_email"
+        xmlns:tools="http://schemas.android.com/tools"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="52dp"
-        android:layout_marginLeft="32dp"
-        android:layout_marginRight="32dp">
+        android:layout_height="match_parent"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        android:background="@color/gray_2"
+        tools:context="com.simulando.joaopaulodribeiro.simulando.page.LoginActivity">
 
-        <EditText
-            android:id="@+id/login_enter_email_edt"
+        <RelativeLayout
+            android:id="@+id/login_enter_email"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:background="@drawable/edit_text_shape"
-            android:elevation="1dp"
-            android:hint="Email"
-            android:inputType="textEmailAddress"
-            android:paddingBottom="10dp"
-            android:paddingLeft="30dp"
-            android:paddingTop="10dp" />
+            android:layout_marginTop="52dp"
+            android:layout_marginLeft="32dp"
+            android:layout_marginRight="32dp">
 
-        <ImageView
-            android:id="@+id/login_enter_email_failure_ic"
-            android:layout_width="20dp"
-            android:layout_height="20dp"
-            android:layout_marginTop="10dp"
-            android:layout_marginRight="20dp"
-            android:layout_alignParentRight="true"
-            android:elevation="2dp"
-            app:srcCompat="@drawable/invalid_ic"
-            android:visibility="gone"/>
+            <EditText
+                android:id="@+id/login_enter_email_edt"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@drawable/edit_text_shape"
+                android:elevation="1dp"
+                android:hint="Email"
+                android:inputType="textEmailAddress"
+                android:paddingBottom="10dp"
+                android:paddingLeft="30dp"
+                android:paddingTop="10dp" />
 
-        <ImageView
-            android:id="@+id/login_enter_email_success_ic"
-            android:layout_width="24dp"
-            android:layout_height="24dp"
-            android:layout_marginTop="10dp"
-            android:layout_marginRight="20dp"
-            android:layout_alignParentRight="true"
-            android:elevation="2dp"
-            android:visibility="gone"
-            app:srcCompat="@drawable/valid_ic" />
-    </RelativeLayout>
+            <ImageView
+                android:id="@+id/login_enter_email_failure_ic"
+                android:layout_width="20dp"
+                android:layout_height="20dp"
+                android:layout_marginTop="10dp"
+                android:layout_marginRight="20dp"
+                android:layout_alignParentRight="true"
+                android:elevation="2dp"
+                app:srcCompat="@drawable/invalid_ic"
+                android:visibility="gone"/>
 
-    <RelativeLayout
-        android:id="@+id/login_enter_password"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_below="@id/login_enter_email"
-        android:layout_marginTop="24dp"
-        android:layout_marginLeft="32dp"
-        android:layout_marginRight="32dp">
+            <ImageView
+                android:id="@+id/login_enter_email_success_ic"
+                android:layout_width="24dp"
+                android:layout_height="24dp"
+                android:layout_marginTop="10dp"
+                android:layout_marginRight="20dp"
+                android:layout_alignParentRight="true"
+                android:elevation="2dp"
+                android:visibility="gone"
+                app:srcCompat="@drawable/valid_ic" />
+        </RelativeLayout>
 
-        <EditText
-            android:id="@+id/login_enter_password_edt"
+        <RelativeLayout
+            android:id="@+id/login_enter_password"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:background="@drawable/edit_text_shape"
-            android:elevation="1dp"
-            android:hint="Senha"
-            android:inputType="numberPassword"
-            android:paddingBottom="10dp"
+            android:layout_below="@id/login_enter_email"
+            android:layout_marginTop="24dp"
+            android:layout_marginLeft="32dp"
+            android:layout_marginRight="32dp">
+
+            <EditText
+                android:id="@+id/login_enter_password_edt"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@drawable/edit_text_shape"
+                android:elevation="1dp"
+                android:hint="Senha"
+                android:inputType="numberPassword"
+                android:paddingBottom="10dp"
+                android:paddingLeft="30dp"
+                android:paddingTop="10dp"/>
+
+            <ImageView
+                android:id="@+id/login_enter_password_success_ic"
+                android:layout_width="24dp"
+                android:layout_height="24dp"
+                android:layout_marginTop="10dp"
+                android:layout_marginRight="20dp"
+                android:layout_alignParentRight="true"
+                android:elevation="2dp"
+                app:srcCompat="@drawable/valid_ic"
+                android:visibility="gone"/>
+
+            <ImageView
+                android:id="@+id/login_enter_password_failure_ic"
+                android:layout_width="20dp"
+                android:layout_height="20dp"
+                android:layout_marginTop="10dp"
+                android:layout_marginRight="20dp"
+                android:layout_alignParentRight="true"
+                android:elevation="2dp"
+                app:srcCompat="@drawable/invalid_ic"
+                android:visibility="gone"/>
+
+        </RelativeLayout>
+
+        <TextView
+            android:layout_below="@id/login_enter_password"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            android:layout_centerInParent="true"
+            android:alpha="0.7"
+            android:text="Esqueceu sua senha?"/>
+
+        <Button
+            android:id="@+id/login_button"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:layout_alignParentBottom="true"
+            android:layout_marginBottom="42dp"
+            android:layout_marginTop="24dp"
+            android:text="Entrar"
+            android:textColor="@color/white"
+            android:textAllCaps="false"
             android:paddingLeft="30dp"
-            android:paddingTop="10dp"/>
-
-        <ImageView
-            android:id="@+id/login_enter_password_success_ic"
-            android:layout_width="24dp"
-            android:layout_height="24dp"
-            android:layout_marginTop="10dp"
-            android:layout_marginRight="20dp"
-            android:layout_alignParentRight="true"
-            android:elevation="2dp"
-            app:srcCompat="@drawable/valid_ic"
-            android:visibility="gone"/>
-
-        <ImageView
-            android:id="@+id/login_enter_password_failure_ic"
-            android:layout_width="20dp"
-            android:layout_height="20dp"
-            android:layout_marginTop="10dp"
-            android:layout_marginRight="20dp"
-            android:layout_alignParentRight="true"
-            android:elevation="2dp"
-            app:srcCompat="@drawable/invalid_ic"
-            android:visibility="gone"/>
-
+            android:paddingRight="30dp"
+            android:background="@drawable/welcome_btn_shape_sign_in"/>
     </RelativeLayout>
+</layout>
 
-    <TextView
-        android:layout_below="@id/login_enter_password"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="16dp"
-        android:layout_centerInParent="true"
-        android:alpha="0.7"
-        android:text="Esqueceu sua senha?"/>
-
-    <Button
-        android:id="@+id/login_button"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_centerInParent="true"
-        android:layout_alignParentBottom="true"
-        android:layout_marginBottom="42dp"
-        android:layout_marginTop="24dp"
-        android:text="Entrar"
-        android:textColor="@color/white"
-        android:textAllCaps="false"
-        android:paddingLeft="30dp"
-        android:paddingRight="30dp"
-        android:background="@drawable/welcome_btn_shape_sign_in"/>
-</RelativeLayout>

@@ -1,6 +1,7 @@
 package com.simulando.joaopaulodribeiro.simulando.page;
 
 import android.content.Context;
+import android.databinding.DataBindingUtil;
 import android.support.v7.app.AlertDialog;
 import android.os.Bundle;
 import android.text.TextUtils;
@@ -9,11 +10,11 @@ import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
-import android.widget.RelativeLayout;
 import android.widget.Toast;
 
 import com.simulando.joaopaulodribeiro.simulando.MainActivity;
 import com.simulando.joaopaulodribeiro.simulando.R;
+import com.simulando.joaopaulodribeiro.simulando.databinding.ActivitySignOnBinding;
 import com.simulando.joaopaulodribeiro.simulando.model.student.RegisterStudentBody;
 import com.simulando.joaopaulodribeiro.simulando.model.student.RegisterStudentResponse;
 import com.simulando.joaopaulodribeiro.simulando.retrofit.RetrofitImplementation;
@@ -21,12 +22,12 @@ import com.simulando.joaopaulodribeiro.simulando.retrofit.SimulandoService;
 import com.simulando.joaopaulodribeiro.simulando.utils.Utils;
 
 public class SignOnActivity extends MainActivity implements View.OnClickListener, View.OnFocusChangeListener{
+    private ActivitySignOnBinding mBinding;
 
     private Button mRegisterBtn;
     private EditText mEmailEdt;
     private EditText mPasswordEdt;
     private EditText mConfirmPasswordEdt;
-    private RelativeLayout loading;
     private ImageView enterEmailSuccessIc;
     private ImageView enterEmailFailedIc;
     private ImageView enterPasswordSuccessIc;
@@ -35,40 +36,37 @@ public class SignOnActivity extends MainActivity implements View.OnClickListener
     private ImageView confirmPasswordFailedIc;
 
     private void bindViews() {
-        loading = (RelativeLayout) findViewById(R.id.loading_view);
+        mBinding = DataBindingUtil.setContentView(this, R.layout.activity_sign_on);
 
-        mRegisterBtn = (Button) findViewById(R.id.register_button);
+        mRegisterBtn = mBinding.registerButton;
         mRegisterBtn.setOnClickListener(this);
         mRegisterBtn.setOnFocusChangeListener(this);
-        /***********************************************************/
 
-        mEmailEdt = (EditText) findViewById(R.id.enter_email_edt);
+        mEmailEdt = mBinding.enterEmailEdt;
         mEmailEdt.setOnClickListener(this);
         mEmailEdt.setOnFocusChangeListener(this);
 
-        mPasswordEdt = (EditText) findViewById(R.id.enter_password_edt);
+        mPasswordEdt = mBinding.enterPasswordEdt;
         mPasswordEdt.setOnClickListener(this);
         mPasswordEdt.setOnFocusChangeListener(this);
 
-        mConfirmPasswordEdt = (EditText) findViewById(R.id.confirm_password_edt);
+        mConfirmPasswordEdt = mBinding.confirmPasswordEdt;
         mConfirmPasswordEdt.setOnClickListener(this);
         mConfirmPasswordEdt.setOnFocusChangeListener(this);
-        /**********************************************************/
 
-        enterEmailSuccessIc = (ImageView) findViewById(R.id.enter_email_success_ic);
-        enterEmailFailedIc = (ImageView) findViewById(R.id.enter_email_failure_ic);
+        enterEmailSuccessIc = mBinding.enterEmailSuccessIc;
+        enterEmailFailedIc = mBinding.enterEmailFailureIc;
 
-        enterPasswordSuccessIc = (ImageView) findViewById(R.id.enter_password_success_ic);
-        enterPasswordFailedIc = (ImageView) findViewById(R.id.enter_password_failure_ic);
+        enterPasswordSuccessIc = mBinding.enterPasswordSuccessIc;
+        enterPasswordFailedIc = mBinding.enterPasswordFailureIc;
 
-        confirmPasswordSuccessIc = (ImageView) findViewById(R.id.confirm_password_success_ic);
-        confirmPasswordFailedIc = (ImageView) findViewById(R.id.confirm_password_failure_ic);
+        confirmPasswordSuccessIc = mBinding.confirmPasswordSuccessIc;
+        confirmPasswordFailedIc = mBinding.confirmPasswordFailureIc;
     }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_sign_on);
 
         bindViews();
     }
@@ -78,7 +76,7 @@ public class SignOnActivity extends MainActivity implements View.OnClickListener
 
         switch (v.getId()){
             case R.id.register_button:
-                loading.setVisibility(View.VISIBLE);
+                showLoading(SignOnActivity.this, true);
 
                 InputMethodManager imm = (InputMethodManager)getSystemService(Context.INPUT_METHOD_SERVICE);
                 imm.hideSoftInputFromWindow(mConfirmPasswordEdt.getWindowToken(), 0);
@@ -99,8 +97,7 @@ public class SignOnActivity extends MainActivity implements View.OnClickListener
                                 runOnUiThread(new Runnable() {
                                     @Override
                                     public void run() {
-                                        loading.setVisibility(View.GONE);
-                                        showProgressBar(false);
+                                        showLoading(SignOnActivity.this, false);
                                         AlertDialog alert = builder.create();
                                         alert.show();
                                     }
@@ -109,7 +106,7 @@ public class SignOnActivity extends MainActivity implements View.OnClickListener
                         }
                     });
                 } else {
-                    Toast.makeText(this, "Parece que algum dos campos contém erros", Toast.LENGTH_LONG).show();
+                    Toast.makeText(this, R.string.fields_erros_msg, Toast.LENGTH_LONG).show();
                 }
                 break;
         }

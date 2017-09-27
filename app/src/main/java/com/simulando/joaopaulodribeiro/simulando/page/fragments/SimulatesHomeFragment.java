@@ -7,6 +7,7 @@ import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 
 import com.simulando.joaopaulodribeiro.simulando.R;
 
@@ -17,10 +18,11 @@ public class SimulatesHomeFragment extends Fragment {
     private String mParam1;
     private String mParam2;
 
+    private Button btn;
+
     private OnFragmentInteractionListener mListener;
 
     public SimulatesHomeFragment() {
-        // Required empty public constructor
     }
 
     public static SimulatesHomeFragment newInstance(String param1, String param2) {
@@ -38,17 +40,27 @@ public class SimulatesHomeFragment extends Fragment {
         if (getArguments() != null) {
             mParam1 = getArguments().getString(ARG_PARAM1);
             mParam2 = getArguments().getString(ARG_PARAM2);
+
         }
     }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_simulates_home, container, false);
+        View view = inflater.inflate(R.layout.fragment_simulates_home, container, false);
+
+        btn = (Button) view.findViewById(R.id.btn_test);
+
+        btn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                onButtonPressed("CLICK");
+            }
+        });
+        return view;
     }
 
-    public void onButtonPressed(Uri uri) {
+    public void onButtonPressed(String uri) {
         if (mListener != null) {
             mListener.onFragmentInteraction(uri);
         }
@@ -82,7 +94,6 @@ public class SimulatesHomeFragment extends Fragment {
      * >Communicating with Other Fragments</a> for more information.
      */
     public interface OnFragmentInteractionListener {
-        // TODO: Update argument type and name
-        void onFragmentInteraction(Uri uri);
+        void onFragmentInteraction(String action);
     }
 }

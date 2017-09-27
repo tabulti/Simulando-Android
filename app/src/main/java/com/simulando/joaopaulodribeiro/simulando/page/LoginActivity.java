@@ -1,6 +1,7 @@
 package com.simulando.joaopaulodribeiro.simulando.page;
 
 import android.content.Context;
+import android.databinding.DataBindingUtil;
 import android.support.v7.app.AlertDialog;
 import android.os.Bundle;
 import android.text.TextUtils;
@@ -14,6 +15,7 @@ import android.widget.Toast;
 
 import com.simulando.joaopaulodribeiro.simulando.MainActivity;
 import com.simulando.joaopaulodribeiro.simulando.R;
+import com.simulando.joaopaulodribeiro.simulando.databinding.ActivityLoginBinding;
 import com.simulando.joaopaulodribeiro.simulando.model.student.AuthStudentBody;
 import com.simulando.joaopaulodribeiro.simulando.model.student.AuthStudentResponse;
 import com.simulando.joaopaulodribeiro.simulando.retrofit.RetrofitImplementation;
@@ -22,43 +24,42 @@ import com.simulando.joaopaulodribeiro.simulando.utils.Utils;
 
 public class LoginActivity extends MainActivity implements View.OnClickListener, View.OnFocusChangeListener{
 
+    private ActivityLoginBinding mBinding;
+
     private Button mLoginBtn;
     private EditText mEmailEdt;
     private EditText mPasswordEdt;
-    private RelativeLayout loading;
     private ImageView enterEmailSuccessIc;
     private ImageView enterEmailFailedIc;
     private ImageView enterPasswordSuccessIc;
     private ImageView enterPasswordFailedIc;
 
     private void bindViews() {
-        loading = (RelativeLayout) findViewById(R.id.loading_view);
 
-        mLoginBtn = (Button) findViewById(R.id.login_button);
+        mBinding = DataBindingUtil.setContentView(this, R.layout.activity_login);
+
+        mLoginBtn = mBinding.loginButton;
         mLoginBtn.setOnClickListener(this);
         mLoginBtn.setOnFocusChangeListener(this);
-        /***********************************************************/
 
-        mEmailEdt = (EditText) findViewById(R.id.login_enter_email_edt);
+        mEmailEdt = mBinding.loginEnterEmailEdt;
         mEmailEdt.setOnClickListener(this);
         mEmailEdt.setOnFocusChangeListener(this);
 
-        mPasswordEdt = (EditText) findViewById(R.id.login_enter_password_edt);
+        mPasswordEdt = mBinding.loginEnterPasswordEdt;
         mPasswordEdt.setOnClickListener(this);
         mPasswordEdt.setOnFocusChangeListener(this);
-        /**********************************************************/
 
-        enterEmailSuccessIc = (ImageView) findViewById(R.id.login_enter_email_success_ic);
-        enterEmailFailedIc = (ImageView) findViewById(R.id.login_enter_email_failure_ic);
+        enterEmailSuccessIc = mBinding.loginEnterEmailSuccessIc;
+        enterEmailFailedIc = mBinding.loginEnterEmailFailureIc;
 
-        enterPasswordSuccessIc = (ImageView) findViewById(R.id.login_enter_password_success_ic);
-        enterPasswordFailedIc = (ImageView) findViewById(R.id.login_enter_password_failure_ic);
+        enterPasswordSuccessIc = mBinding.loginEnterPasswordSuccessIc;
+        enterPasswordFailedIc = mBinding.loginEnterPasswordFailureIc;
     }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_login);
         bindViews();
     }
 
@@ -67,7 +68,8 @@ public class LoginActivity extends MainActivity implements View.OnClickListener,
 
         switch (v.getId()){
             case R.id.login_button:
-                loading.setVisibility(View.VISIBLE);
+
+                showLoading(LoginActivity.this, true);
 
                 InputMethodManager imm = (InputMethodManager)getSystemService(Context.INPUT_METHOD_SERVICE);
                 imm.hideSoftInputFromWindow(mPasswordEdt.getWindowToken(), 0);
@@ -88,10 +90,7 @@ public class LoginActivity extends MainActivity implements View.OnClickListener,
                                 runOnUiThread(new Runnable() {
                                     @Override
                                     public void run() {
-                                        loading.setVisibility(View.GONE);
-                                        showProgressBar(false);
-                                        AlertDialog alert = builder.create();
-                                        alert.show();
+                                        showLoading(LoginActivity.this, false);
                                     }
                                 });
 
@@ -102,7 +101,7 @@ public class LoginActivity extends MainActivity implements View.OnClickListener,
                         }
                     });
                 } else {
-                    Toast.makeText(this, "Parece que algum dos campos contém erros", Toast.LENGTH_LONG).show();
+                    Toast.makeText(this, R.string.fields_erros_msg, Toast.LENGTH_LONG).show();
                 }
                 break;
         }

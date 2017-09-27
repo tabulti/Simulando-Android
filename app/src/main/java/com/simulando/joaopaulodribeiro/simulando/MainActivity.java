@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.databinding.DataBindingUtil;
 import android.os.PersistableBundle;
 import android.support.annotation.MainThread;
 import android.support.annotation.Nullable;
@@ -16,7 +17,9 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ProgressBar;
+import android.widget.RelativeLayout;
 
+import com.simulando.joaopaulodribeiro.simulando.databinding.LoadingViewBinding;
 import com.simulando.joaopaulodribeiro.simulando.model.student.RegisterStudentBody;
 import com.simulando.joaopaulodribeiro.simulando.model.student.RegisterStudentResponse;
 import com.simulando.joaopaulodribeiro.simulando.page.SignOnActivity;
@@ -26,14 +29,13 @@ import com.simulando.joaopaulodribeiro.simulando.retrofit.SimulandoService;
 
 public class MainActivity extends AppCompatActivity{
 
-    private ProgressBar loading;
+    private RelativeLayout mLoading;
+    public LoadingViewBinding mLoadingBindingView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-
-        findViewById(R.id.loading_view);
 
     }
 
@@ -46,12 +48,16 @@ public class MainActivity extends AppCompatActivity{
         activity.finishAffinity();
     }
 
-    public void showProgressBar(boolean show) {
-        if (loading != null) {
+    public void showLoading(Activity activity, boolean show) {
+
+        mLoadingBindingView = DataBindingUtil.setContentView(activity, R.layout.loading_view);
+        mLoading = mLoadingBindingView.loadingView;
+
+        if (mLoading != null) {
             if (show) {
-                loading.setVisibility(View.VISIBLE);
+                mLoading.setVisibility(View.VISIBLE);
             } else {
-                loading.setVisibility(View.GONE);
+                mLoading.setVisibility(View.GONE);
             }
         }
     }

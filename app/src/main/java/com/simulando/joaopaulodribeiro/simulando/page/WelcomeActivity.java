@@ -1,5 +1,6 @@
 package com.simulando.joaopaulodribeiro.simulando.page;
 
+import android.databinding.DataBindingUtil;
 import android.provider.Settings;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -8,6 +9,7 @@ import android.widget.Button;
 
 import com.simulando.joaopaulodribeiro.simulando.MainActivity;
 import com.simulando.joaopaulodribeiro.simulando.R;
+import com.simulando.joaopaulodribeiro.simulando.databinding.ActivityWelcomeBinding;
 import com.simulando.joaopaulodribeiro.simulando.retrofit.RetrofitImplementation;
 
 public class WelcomeActivity extends MainActivity implements View.OnClickListener{
@@ -18,10 +20,10 @@ public class WelcomeActivity extends MainActivity implements View.OnClickListene
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_welcome);
+        ActivityWelcomeBinding mBinding = DataBindingUtil.setContentView(this, R.layout.activity_welcome);
 
-        mSignInBtn = (Button) findViewById(R.id.sign_in_btn);
-        mSignOnBtn = (Button) findViewById(R.id.sign_on_btn);
+        mSignInBtn = mBinding.signInBtn;
+        mSignOnBtn = mBinding.signOnBtn;
 
         mSignOnBtn.setOnClickListener(this);
         mSignInBtn.setOnClickListener(this);

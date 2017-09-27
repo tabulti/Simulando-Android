@@ -27,7 +27,7 @@
         </activity>
         <activity
             android:name=".page.WelcomeActivity"
-            android:theme="@style/Theme.AppCompat.Light.NoActionBar" />
+            android:theme="@style/AppTheme.NoActionBar" />
         <activity
             android:name=".page.LoginActivity"
             android:label="Fazer Login" />

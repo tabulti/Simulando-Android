@@ -4,10 +4,12 @@
     <color name="colorPrimaryDark">#000000</color>
     <color name="colorAccent">#FF6B5B</color>
     <color name="transparent">#43818181</color>
+    <color name="transparent_full">#00818181</color>
     <color name="gray_0">#61606f</color>
     <color name="gray_1">#CACACF</color>
     <color name="gray_2">#EFF1F5</color>
     <color name="gray_3">#3A394B</color>
+    <color name="gray_4">#d0d1d3</color>
     <color name="white">#FFFFFF</color>
     <color name="gold_1">#F4BB3E</color>
     <color name="success_green">#4BB543</color>
