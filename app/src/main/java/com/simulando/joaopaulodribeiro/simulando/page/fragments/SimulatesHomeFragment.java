@@ -1,86 +1,85 @@
 package com.simulando.joaopaulodribeiro.simulando.page.fragments;
 
 import android.content.Context;
+import android.databinding.DataBindingUtil;
 import android.net.Uri;
 import android.os.Bundle;
+import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.Toast;
 
 import com.simulando.joaopaulodribeiro.simulando.R;
+import com.simulando.joaopaulodribeiro.simulando.databinding.FragmentSimulatesHomeBinding;
+import com.simulando.joaopaulodribeiro.simulando.model.simulates.ListSimulatesResponse;
+import com.simulando.joaopaulodribeiro.simulando.model.simulates.Test;
+import com.simulando.joaopaulodribeiro.simulando.page.adapters.RecyclerSimulatesAdapter;
+import com.simulando.joaopaulodribeiro.simulando.retrofit.RetrofitImplementation;
+import com.simulando.joaopaulodribeiro.simulando.retrofit.SimulandoService;
+import com.simulando.joaopaulodribeiro.simulando.utils.Utils;
+
+import java.util.List;
 
 public class SimulatesHomeFragment extends Fragment {
-    private static final String ARG_PARAM1 = "param1";
-    private static final String ARG_PARAM2 = "param2";
-
-    private String mParam1;
-    private String mParam2;
-
-    private Button btn;
-
-    private OnFragmentInteractionListener mListener;
-
-    public SimulatesHomeFragment() {
-    }
-
-    public static SimulatesHomeFragment newInstance(String param1, String param2) {
-        SimulatesHomeFragment fragment = new SimulatesHomeFragment();
-        Bundle args = new Bundle();
-        args.putString(ARG_PARAM1, param1);
-        args.putString(ARG_PARAM2, param2);
-        fragment.setArguments(args);
-        return fragment;
-    }
+    private RecyclerView mSimulatesRv;
+    private List<Test> mSimulates;
+    private RecyclerView.LayoutManager mLayoutManager;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        if (getArguments() != null) {
-            mParam1 = getArguments().getString(ARG_PARAM1);
-            mParam2 = getArguments().getString(ARG_PARAM2);
 
-        }
+        mLayoutManager = new LinearLayoutManager(this.getContext());
+    }
+
+    private void getSimulates() {
+        RetrofitImplementation.getInstance().ListTests(Utils.getUserToken(this.getContext()),
+                new SimulandoService.ListTests() {
+            @Override
+            public void onListTests(final ListSimulatesResponse res, Error err) {
+                if (res != null && res.getData() != null && !res.getData().isEmpty()) {
+                    mSimulates = res.getData();
+
+                    final RecyclerSimulatesAdapter adapter = new RecyclerSimulatesAdapter(getContext(), mSimulates);
+
+                    getActivity().runOnUiThread(new Runnable() {
+                        @Override
+                        public void run() {
+                            mSimulatesRv.setAdapter(adapter);
+                            //TODO: HideLoading
+                        }
+                    });
+                }
+            }
+        });
     }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.fragment_simulates_home, container, false);
+        FragmentSimulatesHomeBinding binding = DataBindingUtil.
+                inflate(inflater, R.layout.fragment_simulates_home, container, false);
 
-        btn = (Button) view.findViewById(R.id.btn_test);
+        mSimulatesRv = binding.simulatesRv;
 
-        btn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                onButtonPressed("CLICK");
-            }
-        });
-        return view;
-    }
+        mSimulatesRv.setLayoutManager(mLayoutManager);
 
-    public void onButtonPressed(String uri) {
-        if (mListener != null) {
-            mListener.onFragmentInteraction(uri);
-        }
+        //TODO:showLoading
+
+        return binding.getRoot();
     }
 
     @Override
-    public void onAttach(Context context) {
-        super.onAttach(context);
-        if (context instanceof OnFragmentInteractionListener) {
-            mListener = (OnFragmentInteractionListener) context;
-        } else {
-            throw new RuntimeException(context.toString()
-                    + " must implement OnFragmentInteractionListener");
-        }
-    }
+    public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
 
-    @Override
-    public void onDetach() {
-        super.onDetach();
-        mListener = null;
+        getSimulates();
+
     }
 
     /**

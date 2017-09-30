@@ -1,6 +1,8 @@
 package com.simulando.joaopaulodribeiro.simulando.page;
 
+import android.accounts.AccountManager;
 import android.content.Context;
+import android.content.SharedPreferences;
 import android.databinding.DataBindingUtil;
 import android.support.v7.app.AlertDialog;
 import android.os.Bundle;
@@ -82,10 +84,9 @@ public class LoginActivity extends MainActivity implements View.OnClickListener,
                         public void onAuthStudent(AuthStudentResponse res, Error err) {
                             if (res.getStatus().equals("success")) {
 
-                                final AlertDialog.Builder builder = new AlertDialog.Builder(LoginActivity.this);
-                                builder.setTitle(res.getStatus());
-                                builder.setMessage(res.getData().getStudent().toString());
-                                builder.setPositiveButton("Ok", null);
+                                if (res.getToken() != null && !res.getToken().isEmpty()) {
+                                    Utils.saveUserToken(LoginActivity.this, res.getToken());
+                                }
 
                                 runOnUiThread(new Runnable() {
                                     @Override

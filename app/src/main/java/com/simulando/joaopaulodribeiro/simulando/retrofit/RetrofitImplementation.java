@@ -1,9 +1,14 @@
 package com.simulando.joaopaulodribeiro.simulando.retrofit;
 
+import android.accounts.AccountManager;
+import android.support.annotation.NonNull;
+
+import com.simulando.joaopaulodribeiro.simulando.model.simulates.ListSimulatesResponse;
 import com.simulando.joaopaulodribeiro.simulando.model.student.AuthStudentBody;
 import com.simulando.joaopaulodribeiro.simulando.model.student.AuthStudentResponse;
 import com.simulando.joaopaulodribeiro.simulando.model.student.RegisterStudentBody;
 import com.simulando.joaopaulodribeiro.simulando.model.student.RegisterStudentResponse;
+import com.simulando.joaopaulodribeiro.simulando.utils.Utils;
 
 import java.util.concurrent.Executors;
 
@@ -90,9 +95,7 @@ public class RetrofitImplementation {
 
     public void AuthStudent(AuthStudentBody body, final SimulandoService.AuthStudent handler) {
         if (service != null) {
-
             final Call<AuthStudentResponse> res = service.authStudent(body);
-
             res.enqueue(new Callback<AuthStudentResponse>() {
                 @Override
                 public void onResponse(Call<AuthStudentResponse> call, Response<AuthStudentResponse> response) {
@@ -107,11 +110,39 @@ public class RetrofitImplementation {
                         }
                     }
                 }
-
                 @Override
                 public void onFailure(Call<AuthStudentResponse> call, Throwable t) {
                     if (t != null) {
                         handler.onAuthStudent(null, new Error(t.toString()));
+                    }
+                }
+            });
+        }
+    }
+
+    public void ListTests(@NonNull String userToken, final SimulandoService.ListTests handler) {
+        if (service != null) {
+            final Call<ListSimulatesResponse> res = service.listSimulates(userToken);
+
+            res.enqueue(new Callback<ListSimulatesResponse>() {
+                @Override
+                public void onResponse(Call<ListSimulatesResponse> call, Response<ListSimulatesResponse> response) {
+                    if(res != null) {
+                        if (response.errorBody() == null && response.body() != null){
+                            handler.onListTests(response.body(), null);
+                        } else {
+                            String err = "Code: " + response.raw().code() + "\n" +
+                                    "Message: " + response.raw().message();
+                            handler.onListTests(null, new Error(err));
+
+                        }
+                    }
+                }
+
+                @Override
+                public void onFailure(Call<ListSimulatesResponse> call, Throwable t) {
+                    if (t != null) {
+                        handler.onListTests(null, new Error(t.toString()));
                     }
                 }
             });

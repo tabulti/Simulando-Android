@@ -9,6 +9,7 @@ import com.simulando.joaopaulodribeiro.simulando.page.fragments.Home3Fragment;
 import com.simulando.joaopaulodribeiro.simulando.page.fragments.Home4Fragment;
 import com.simulando.joaopaulodribeiro.simulando.page.fragments.HomeStudentFragment;
 
+
 /**
  * Created by joao.paulo.d.ribeiro on 27/09/2017.
  */

@@ -1,36 +1,19 @@
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    tools:context="com.simulando.joaopaulodribeiro.simulando.page.fragments.SimulatesHomeFragment">
-
-
-    <android.support.v4.widget.NestedScrollView
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools">
+    <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        tools:context="com.simulando.joaopaulodribeiro.simulando.page.fragments.SimulatesHomeFragment">
 
-        <RelativeLayout
+
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/simulates_rv"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_gravity="center"
-            android:gravity="center">
+            android:layout_height="match_parent">
 
-            <TextView
-                android:id="@+id/textView_home"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="SIMULADOS"/>
-
-            <Button
-                android:id="@+id/btn_test"
-                android:layout_below="@id/textView_home"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="click to comunicate with HomeActivity"/>
-        </RelativeLayout>
+        </android.support.v7.widget.RecyclerView>
 
 
-    </android.support.v4.widget.NestedScrollView>
+    </RelativeLayout>
+</layout>
 
-
-</RelativeLayout>

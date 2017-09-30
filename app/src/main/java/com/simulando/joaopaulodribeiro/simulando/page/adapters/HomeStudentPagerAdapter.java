@@ -4,7 +4,7 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentStatePagerAdapter;
 
-import com.simulando.joaopaulodribeiro.simulando.page.fragments.DiciplinesFragment;
+import com.simulando.joaopaulodribeiro.simulando.page.fragments.DisciplinesFragment;
 import com.simulando.joaopaulodribeiro.simulando.page.fragments.SimulatesHomeFragment;
 
 /**
@@ -27,8 +27,8 @@ public class HomeStudentPagerAdapter extends FragmentStatePagerAdapter {
                 SimulatesHomeFragment simulatesHomeFragment = new SimulatesHomeFragment();
                 return simulatesHomeFragment;
             case 1:
-                DiciplinesFragment diciplinesFragment = new DiciplinesFragment();
-                return diciplinesFragment;
+                DisciplinesFragment disciplinesFragment = new DisciplinesFragment();
+                return disciplinesFragment;
             default:
                 return null;
         }

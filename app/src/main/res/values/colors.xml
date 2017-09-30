@@ -11,6 +11,8 @@
     <color name="gray_3">#3A394B</color>
     <color name="gray_4">#d0d1d3</color>
     <color name="white">#FFFFFF</color>
+    <color name="white_transparent">#48ffffff</color>
+    <color name="black">#000000</color>
     <color name="gold_1">#F4BB3E</color>
     <color name="success_green">#4BB543</color>
     <color name="success_green_border">#23c739</color>

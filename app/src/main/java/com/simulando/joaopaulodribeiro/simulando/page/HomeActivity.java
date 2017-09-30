@@ -20,6 +20,7 @@ import com.simulando.joaopaulodribeiro.simulando.databinding.ActivityHomeBinding
 import com.simulando.joaopaulodribeiro.simulando.page.adapters.HomePagerAdapter;
 import com.simulando.joaopaulodribeiro.simulando.page.fragments.Home2Fragment;
 import com.simulando.joaopaulodribeiro.simulando.page.fragments.SimulatesHomeFragment;
+import com.simulando.joaopaulodribeiro.simulando.utils.Utils;
 
 public class HomeActivity extends MainActivity implements SimulatesHomeFragment.OnFragmentInteractionListener,
         Home2Fragment.OnFragmentInteractionListener{
@@ -83,8 +84,7 @@ public class HomeActivity extends MainActivity implements SimulatesHomeFragment.
 
     @Override
     public void onFragmentInteraction(String action) {
-
-        Toast.makeText(this, action.toString(), Toast.LENGTH_LONG).show();
+        Toast.makeText(this, Utils.getUserToken(this), Toast.LENGTH_LONG).show();
 
     }
 
