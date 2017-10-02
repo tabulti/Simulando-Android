@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:background="@color/transparent_full"
+    android:layout_marginTop="?attr/actionBarSize"
+    tools:showIn="@layout/activity_answer_test">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_margin="18dp"
+        android:background="@color/white">
+
+        <RelativeLayout
+            android:id="@+id/simulate_cv_end_date_layout"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="22dp"
+            android:layout_marginLeft="22dp"
+            android:background="@drawable/answer_test_question_number_shape">
+
+            <TextView
+                android:id="@+id/simulate_cv_end_date_tv"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:paddingBottom="6dp"
+                android:paddingTop="6dp"
+                android:paddingRight="12dp"
+                android:paddingLeft="12dp"
+                android:textSize="18dp"
+                android:textColor="@color/white"
+                android:text="1 de 25"/>
+        </RelativeLayout>
+
+
+    </RelativeLayout>
+
+</RelativeLayout>

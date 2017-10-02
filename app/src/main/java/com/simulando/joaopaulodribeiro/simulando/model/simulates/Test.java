@@ -1,10 +1,12 @@
 package com.simulando.joaopaulodribeiro.simulando.model.simulates;
 
+import java.io.Serializable;
+
 /**
  * Created by joao.paulo.d.ribeiro on 30/09/2017.
  */
 
-public class Test {
+public class Test implements Serializable{
     Integer id;
     String title;
     String description;

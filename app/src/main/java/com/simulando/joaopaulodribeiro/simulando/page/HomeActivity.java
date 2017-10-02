@@ -7,7 +7,6 @@ import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.design.widget.TabLayout;
 import android.support.v4.view.ViewPager;
-import android.support.v4.widget.NestedScrollView;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
@@ -17,12 +16,15 @@ import android.widget.Toast;
 import com.simulando.joaopaulodribeiro.simulando.MainActivity;
 import com.simulando.joaopaulodribeiro.simulando.R;
 import com.simulando.joaopaulodribeiro.simulando.databinding.ActivityHomeBinding;
+import com.simulando.joaopaulodribeiro.simulando.Callbacks;
+import com.simulando.joaopaulodribeiro.simulando.model.simulates.Test;
 import com.simulando.joaopaulodribeiro.simulando.page.adapters.HomePagerAdapter;
 import com.simulando.joaopaulodribeiro.simulando.page.fragments.Home2Fragment;
-import com.simulando.joaopaulodribeiro.simulando.page.fragments.SimulatesHomeFragment;
-import com.simulando.joaopaulodribeiro.simulando.utils.Utils;
 
-public class HomeActivity extends MainActivity implements SimulatesHomeFragment.OnFragmentInteractionListener,
+import java.util.HashMap;
+import java.util.Map;
+
+public class HomeActivity extends MainActivity implements
         Home2Fragment.OnFragmentInteractionListener{
 
     private Toolbar mToolbar;
@@ -55,6 +57,15 @@ public class HomeActivity extends MainActivity implements SimulatesHomeFragment.
 
         HomePagerAdapter adapter = new HomePagerAdapter(getSupportFragmentManager(), mBottommTabHomeLayout.getTabCount());
 
+        adapter.setOnNotifyBackToHomeActivityListener(new Callbacks.OnNotifyBackToHomeActivityListener() {
+            @Override
+            public void onNotifyBackToHomeActivity(Test test) {
+                Map<String, Test> map = new HashMap();
+                map.put("Test", test);
+                goToPage(HomeActivity.this, AnswerTestActivity.class, map);
+            }
+        });
+
         mViewPager.setAdapter(adapter);
         mViewPager.addOnPageChangeListener(new TabLayout.TabLayoutOnPageChangeListener(mBottommTabHomeLayout));
         mBottommTabHomeLayout.addOnTabSelectedListener(getTabSelectedListener(mViewPager));
@@ -80,12 +91,6 @@ public class HomeActivity extends MainActivity implements SimulatesHomeFragment.
         }
 
         return super.onOptionsItemSelected(item);
-    }
-
-    @Override
-    public void onFragmentInteraction(String action) {
-        Toast.makeText(this, Utils.getUserToken(this), Toast.LENGTH_LONG).show();
-
     }
 
     @Override

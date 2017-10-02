@@ -1,8 +1,6 @@
 package com.simulando.joaopaulodribeiro.simulando.page.fragments;
 
-import android.content.Context;
 import android.databinding.DataBindingUtil;
-import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
@@ -11,14 +9,13 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
-import android.widget.Toast;
 
 import com.simulando.joaopaulodribeiro.simulando.R;
 import com.simulando.joaopaulodribeiro.simulando.databinding.FragmentSimulatesHomeBinding;
 import com.simulando.joaopaulodribeiro.simulando.model.simulates.ListSimulatesResponse;
 import com.simulando.joaopaulodribeiro.simulando.model.simulates.Test;
 import com.simulando.joaopaulodribeiro.simulando.page.adapters.RecyclerSimulatesAdapter;
+import com.simulando.joaopaulodribeiro.simulando.Callbacks;
 import com.simulando.joaopaulodribeiro.simulando.retrofit.RetrofitImplementation;
 import com.simulando.joaopaulodribeiro.simulando.retrofit.SimulandoService;
 import com.simulando.joaopaulodribeiro.simulando.utils.Utils;
@@ -26,9 +23,12 @@ import com.simulando.joaopaulodribeiro.simulando.utils.Utils;
 import java.util.List;
 
 public class SimulatesHomeFragment extends Fragment {
+
     private RecyclerView mSimulatesRv;
     private List<Test> mSimulates;
     private RecyclerView.LayoutManager mLayoutManager;
+
+    private Callbacks.OnNotifyHomeStudentPageAdapterListener mNotifyHomeStudentPageAdapterListener;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -51,12 +51,23 @@ public class SimulatesHomeFragment extends Fragment {
                         @Override
                         public void run() {
                             mSimulatesRv.setAdapter(adapter);
+
+                            adapter.setOnNotifySimulatesHomeFragment(new Callbacks.OnNotifySimulatesHomeFragmentListener() {
+                                @Override
+                                public void onNotifySimulatesHomeFragment(int position) {
+                                    mNotifyHomeStudentPageAdapterListener.onNotifyHomeStudentPageAdapter(mSimulates.get(position));
+                                }
+                            });
                             //TODO: HideLoading
                         }
                     });
                 }
             }
         });
+    }
+
+    public void setNotifyHomeStudentPageAdapterListener(final Callbacks.OnNotifyHomeStudentPageAdapterListener onNotifyHomeStudentPageAdapterListenerParam) {
+        this.mNotifyHomeStudentPageAdapterListener = onNotifyHomeStudentPageAdapterListenerParam;
     }
 
     @Override
@@ -79,20 +90,6 @@ public class SimulatesHomeFragment extends Fragment {
         super.onViewCreated(view, savedInstanceState);
 
         getSimulates();
-
     }
 
-    /**
-     * This interface must be implemented by activities that contain this
-     * fragment to allow an interaction in this fragment to be communicated
-     * to the activity and potentially other fragments contained in that
-     * activity.
-     * <p>
-     * See the Android Training lesson <a href=
-     * "http://developer.android.com/training/basics/fragments/communicating.html"
-     * >Communicating with Other Fragments</a> for more information.
-     */
-    public interface OnFragmentInteractionListener {
-        void onFragmentInteraction(String action);
-    }
 }

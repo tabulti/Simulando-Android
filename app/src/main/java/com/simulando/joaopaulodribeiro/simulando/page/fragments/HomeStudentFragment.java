@@ -14,6 +14,8 @@ import android.view.ViewGroup;
 
 import com.simulando.joaopaulodribeiro.simulando.R;
 import com.simulando.joaopaulodribeiro.simulando.databinding.FragmentStudentHomeBinding;
+import com.simulando.joaopaulodribeiro.simulando.Callbacks;
+import com.simulando.joaopaulodribeiro.simulando.model.simulates.Test;
 import com.simulando.joaopaulodribeiro.simulando.page.adapters.HomeStudentPagerAdapter;
 
 /**
@@ -27,6 +29,8 @@ public class HomeStudentFragment extends Fragment {
     private TabLayout mTabHomeLayout;
     private NestedScrollView mScrollView;
     private ViewPager mViewPager;
+
+    private Callbacks.OnNotifyBackToHomePageAdapterListener onNotifyBackToHomePageAdapterListener;
 
     private void bindViews() {
         mTabHomeLayout = mBinding.tabHome;
@@ -58,10 +62,22 @@ public class HomeStudentFragment extends Fragment {
         HomeStudentPagerAdapter adapter = new HomeStudentPagerAdapter(getChildFragmentManager(), mTabHomeLayout.getTabCount());
 
         mViewPager.setAdapter(adapter);
+
+        adapter.setmBackToHomeStudentListener(new Callbacks.testeBackToHomeStudentFragmentListener() {
+            @Override
+            public void onBackToHomeStudentFragment(Test test) {
+                onNotifyBackToHomePageAdapterListener.onNotifyBackToHomePageAdapter(test);
+            }
+        });
+
         mViewPager.addOnPageChangeListener(new TabLayout.TabLayoutOnPageChangeListener(mTabHomeLayout));
         mTabHomeLayout.addOnTabSelectedListener(getTabSelectedListener(mViewPager));
 
         return view;
+    }
+
+    public void setBackToHomePageAdapter (Callbacks.OnNotifyBackToHomePageAdapterListener onNotifyBackToHomePageAdapterListener) {
+        this.onNotifyBackToHomePageAdapterListener = onNotifyBackToHomePageAdapterListener;
     }
 
     @NonNull

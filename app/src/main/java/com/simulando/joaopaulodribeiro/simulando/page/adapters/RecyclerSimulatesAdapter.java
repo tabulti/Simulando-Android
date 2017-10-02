@@ -11,6 +11,7 @@ import android.widget.TextView;
 
 import com.simulando.joaopaulodribeiro.simulando.R;
 import com.simulando.joaopaulodribeiro.simulando.model.simulates.Test;
+import com.simulando.joaopaulodribeiro.simulando.Callbacks;
 
 import java.util.List;
 import java.util.Random;
@@ -19,11 +20,14 @@ import java.util.Random;
  * Created by joao.paulo.d.ribeiro on 30/09/2017.
  */
 
-public class RecyclerSimulatesAdapter extends RecyclerView.Adapter<RecyclerSimulatesAdapter.SimulatesViewHolder>{
+public class RecyclerSimulatesAdapter extends RecyclerView.Adapter<RecyclerSimulatesAdapter.SimulatesViewHolder> {
 
     private Context mContext;
     private LayoutInflater mLayoutInflater;
     private List<Test> mSimulates;
+
+    private static Callbacks.OnNotifySimulatesHomeFragmentListener onNotifySimulatesHomeFragmentListener;
+
 
     public RecyclerSimulatesAdapter(Context context, List<Test> simulates) {
         this.mContext = context;
@@ -73,10 +77,13 @@ public class RecyclerSimulatesAdapter extends RecyclerView.Adapter<RecyclerSimul
         return mSimulates.size();
     }
 
+    public void setOnNotifySimulatesHomeFragment(
+            final Callbacks.OnNotifySimulatesHomeFragmentListener onNotifySimulatesHomeFragmentListener) {
+        this.onNotifySimulatesHomeFragmentListener = onNotifySimulatesHomeFragmentListener;
+    }
 
     /**********************************************************************************************/
-    public class SimulatesViewHolder extends RecyclerView.ViewHolder {
-
+    public static class SimulatesViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
         TextView title;
         TextView endDate;
         TextView totalQuestions;
@@ -91,6 +98,13 @@ public class RecyclerSimulatesAdapter extends RecyclerView.Adapter<RecyclerSimul
             totalQuestions = (TextView) itemView.findViewById(R.id.simulate_cv_details);
             endTime = (TextView) itemView.findViewById(R.id.simulate_cv_time);
             background = (ImageView) itemView.findViewById(R.id.disciplines_cv_bg);
+
+            itemView.setOnClickListener(this);
+        }
+
+        @Override
+        public void onClick(View v) {
+            onNotifySimulatesHomeFragmentListener.onNotifySimulatesHomeFragment(getAdapterPosition());
         }
     }
 }
