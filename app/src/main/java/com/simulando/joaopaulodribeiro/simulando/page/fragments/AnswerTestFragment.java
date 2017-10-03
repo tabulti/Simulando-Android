@@ -14,6 +14,8 @@ import com.simulando.joaopaulodribeiro.simulando.R;
  */
 
 public class AnswerTestFragment extends Fragment {
+    private int fragmentPosition;
+
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
@@ -23,4 +25,8 @@ public class AnswerTestFragment extends Fragment {
     }
 
 
+    public Fragment setFragmentPosition(int fragmentPosition) {
+        this.fragmentPosition = fragmentPosition;
+        return this;
+    }
 }

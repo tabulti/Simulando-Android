@@ -1,10 +1,7 @@
 package com.simulando.joaopaulodribeiro.simulando.page;
 
-import android.accounts.AccountManager;
 import android.content.Context;
-import android.content.SharedPreferences;
 import android.databinding.DataBindingUtil;
-import android.support.v7.app.AlertDialog;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.view.View;
@@ -12,7 +9,6 @@ import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
-import android.widget.RelativeLayout;
 import android.widget.Toast;
 
 import com.simulando.joaopaulodribeiro.simulando.MainActivity;
@@ -79,7 +75,7 @@ public class LoginActivity extends MainActivity implements View.OnClickListener,
                 if (isEnterEmailEdtValid() && isPasswordEdtValid()) {
                     final AuthStudentBody body = new AuthStudentBody(mEmailEdt.getText().toString(),
                             mPasswordEdt.getText().toString());
-                    RetrofitImplementation.getInstance().AuthStudent(body, new SimulandoService.AuthStudent() {
+                    RetrofitImplementation.getInstance().authStudent(body, new SimulandoService.AuthStudent() {
                         @Override
                         public void onAuthStudent(AuthStudentResponse res, Error err) {
                             if (res.getStatus().equals("success")) {

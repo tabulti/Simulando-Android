@@ -16,7 +16,6 @@ import com.simulando.joaopaulodribeiro.simulando.page.fragments.SimulatesHomeFra
 public class HomeStudentPagerAdapter extends FragmentStatePagerAdapter {
 
     private int mNumOfTabs;
-    private Callbacks.testeBackToHomeStudentFragmentListener mBackToHomeStudentListener;
 
     public HomeStudentPagerAdapter(FragmentManager fm, int numberOfTabs) {
         super(fm);
@@ -29,13 +28,6 @@ public class HomeStudentPagerAdapter extends FragmentStatePagerAdapter {
             case 0:
                 SimulatesHomeFragment simulatesHomeFragment = new SimulatesHomeFragment();
 
-                simulatesHomeFragment.setNotifyHomeStudentPageAdapterListener(new Callbacks.OnNotifyHomeStudentPageAdapterListener() {
-                    @Override
-                    public void onNotifyHomeStudentPageAdapter(Test test) {
-                        mBackToHomeStudentListener.onBackToHomeStudentFragment(test);
-                    }
-                });
-
                 return simulatesHomeFragment;
             case 1:
                 DisciplinesFragment disciplinesFragment = new DisciplinesFragment();
@@ -43,10 +35,6 @@ public class HomeStudentPagerAdapter extends FragmentStatePagerAdapter {
             default:
                 return null;
         }
-    }
-
-    public void setmBackToHomeStudentListener (final Callbacks.testeBackToHomeStudentFragmentListener backToHomeStudentListener) {
-        this.mBackToHomeStudentListener = backToHomeStudentListener;
     }
 
     @Override

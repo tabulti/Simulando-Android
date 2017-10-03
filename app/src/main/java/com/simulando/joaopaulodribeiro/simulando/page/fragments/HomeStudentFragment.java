@@ -30,8 +30,6 @@ public class HomeStudentFragment extends Fragment {
     private NestedScrollView mScrollView;
     private ViewPager mViewPager;
 
-    private Callbacks.OnNotifyBackToHomePageAdapterListener onNotifyBackToHomePageAdapterListener;
-
     private void bindViews() {
         mTabHomeLayout = mBinding.tabHome;
         mScrollView = mBinding.homeScrollView;
@@ -63,21 +61,10 @@ public class HomeStudentFragment extends Fragment {
 
         mViewPager.setAdapter(adapter);
 
-        adapter.setmBackToHomeStudentListener(new Callbacks.testeBackToHomeStudentFragmentListener() {
-            @Override
-            public void onBackToHomeStudentFragment(Test test) {
-                onNotifyBackToHomePageAdapterListener.onNotifyBackToHomePageAdapter(test);
-            }
-        });
-
         mViewPager.addOnPageChangeListener(new TabLayout.TabLayoutOnPageChangeListener(mTabHomeLayout));
         mTabHomeLayout.addOnTabSelectedListener(getTabSelectedListener(mViewPager));
 
         return view;
-    }
-
-    public void setBackToHomePageAdapter (Callbacks.OnNotifyBackToHomePageAdapterListener onNotifyBackToHomePageAdapterListener) {
-        this.onNotifyBackToHomePageAdapterListener = onNotifyBackToHomePageAdapterListener;
     }
 
     @NonNull

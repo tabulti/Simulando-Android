@@ -14,19 +14,4 @@ public interface Callbacks {
         void onNotifySimulatesHomeFragment(int position);
     }
 
-    interface OnNotifyHomeStudentPageAdapterListener {
-        void onNotifyHomeStudentPageAdapter(Test test);
-    }
-
-    interface testeBackToHomeStudentFragmentListener {
-        void onBackToHomeStudentFragment(Test test);
-    }
-
-    interface OnNotifyBackToHomePageAdapterListener {
-        void onNotifyBackToHomePageAdapter(Test test);
-    }
-
-    interface OnNotifyBackToHomeActivityListener {
-        void onNotifyBackToHomeActivity(Test test);
-    }
 }

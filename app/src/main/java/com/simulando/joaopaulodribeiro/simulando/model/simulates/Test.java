@@ -1,26 +1,28 @@
 package com.simulando.joaopaulodribeiro.simulando.model.simulates;
 
 import java.io.Serializable;
+import java.util.List;
 
 /**
  * Created by joao.paulo.d.ribeiro on 30/09/2017.
  */
 
 public class Test implements Serializable{
-    Integer id;
-    String title;
-    String description;
-    String total_questions;
-    String estimated_time;
-    String test_start_date;
-    String test_end_date;
-    String created_at;
-    String updated_at;
-    String deleted_at;
+    private Integer id;
+    private String title;
+    private String description;
+    private String total_questions;
+    private String estimated_time;
+    private String test_start_date;
+    private String test_end_date;
+    private String created_at;
+    private String updated_at;
+    private String deleted_at;
+    private List<Question> questions;
 
     public Test(Integer id, String title, String description, String total_questions,
                 String estimated_time, String test_start_date, String test_end_date,
-                String created_at, String updated_at, String deleted_at) {
+                String created_at, String updated_at, String deleted_at, List<Question> questions) {
         this.id = id;
         this.title = title;
         this.description = description;
@@ -31,6 +33,7 @@ public class Test implements Serializable{
         this.created_at = created_at;
         this.updated_at = updated_at;
         this.deleted_at = deleted_at;
+        this.questions = questions;
     }
 
     public Integer getId() {
@@ -71,5 +74,9 @@ public class Test implements Serializable{
 
     public String getDeleted_at() {
         return deleted_at;
+    }
+
+    public List<Question> getQuestions() {
+        return questions;
     }
 }

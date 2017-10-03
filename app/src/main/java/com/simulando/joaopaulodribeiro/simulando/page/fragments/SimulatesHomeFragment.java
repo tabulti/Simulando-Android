@@ -10,25 +10,28 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.simulando.joaopaulodribeiro.simulando.MainActivity;
 import com.simulando.joaopaulodribeiro.simulando.R;
 import com.simulando.joaopaulodribeiro.simulando.databinding.FragmentSimulatesHomeBinding;
+import com.simulando.joaopaulodribeiro.simulando.model.simulates.FindSimulateByIdResponse;
 import com.simulando.joaopaulodribeiro.simulando.model.simulates.ListSimulatesResponse;
 import com.simulando.joaopaulodribeiro.simulando.model.simulates.Test;
+import com.simulando.joaopaulodribeiro.simulando.page.AnswerTestActivity;
 import com.simulando.joaopaulodribeiro.simulando.page.adapters.RecyclerSimulatesAdapter;
 import com.simulando.joaopaulodribeiro.simulando.Callbacks;
 import com.simulando.joaopaulodribeiro.simulando.retrofit.RetrofitImplementation;
 import com.simulando.joaopaulodribeiro.simulando.retrofit.SimulandoService;
 import com.simulando.joaopaulodribeiro.simulando.utils.Utils;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 public class SimulatesHomeFragment extends Fragment {
 
     private RecyclerView mSimulatesRv;
     private List<Test> mSimulates;
     private RecyclerView.LayoutManager mLayoutManager;
-
-    private Callbacks.OnNotifyHomeStudentPageAdapterListener mNotifyHomeStudentPageAdapterListener;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -38,7 +41,7 @@ public class SimulatesHomeFragment extends Fragment {
     }
 
     private void getSimulates() {
-        RetrofitImplementation.getInstance().ListTests(Utils.getUserToken(this.getContext()),
+        RetrofitImplementation.getInstance().listTests(Utils.getUserToken(this.getContext()),
                 new SimulandoService.ListTests() {
             @Override
             public void onListTests(final ListSimulatesResponse res, Error err) {
@@ -55,7 +58,12 @@ public class SimulatesHomeFragment extends Fragment {
                             adapter.setOnNotifySimulatesHomeFragment(new Callbacks.OnNotifySimulatesHomeFragmentListener() {
                                 @Override
                                 public void onNotifySimulatesHomeFragment(int position) {
-                                    mNotifyHomeStudentPageAdapterListener.onNotifyHomeStudentPageAdapter(mSimulates.get(position));
+
+                                    if (getActivity() != null) {
+                                        Map<String, Test> map = new HashMap();
+                                        map.put("Test", mSimulates.get(position));
+                                        ((MainActivity) getActivity()).goToPage(getContext(), AnswerTestActivity.class, map);
+                                    }
                                 }
                             });
                             //TODO: HideLoading
@@ -64,10 +72,6 @@ public class SimulatesHomeFragment extends Fragment {
                 }
             }
         });
-    }
-
-    public void setNotifyHomeStudentPageAdapterListener(final Callbacks.OnNotifyHomeStudentPageAdapterListener onNotifyHomeStudentPageAdapterListenerParam) {
-        this.mNotifyHomeStudentPageAdapterListener = onNotifyHomeStudentPageAdapterListenerParam;
     }
 
     @Override

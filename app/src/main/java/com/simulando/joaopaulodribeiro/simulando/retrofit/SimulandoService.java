@@ -1,5 +1,6 @@
 package com.simulando.joaopaulodribeiro.simulando.retrofit;
 
+import com.simulando.joaopaulodribeiro.simulando.model.simulates.FindSimulateByIdResponse;
 import com.simulando.joaopaulodribeiro.simulando.model.simulates.ListSimulatesResponse;
 import com.simulando.joaopaulodribeiro.simulando.model.student.AuthStudentBody;
 import com.simulando.joaopaulodribeiro.simulando.model.student.AuthStudentResponse;
@@ -11,6 +12,7 @@ import retrofit2.http.Body;
 import retrofit2.http.GET;
 import retrofit2.http.Header;
 import retrofit2.http.POST;
+import retrofit2.http.Path;
 
 /**
  * Created by joao.paulo.d.ribeiro on 21/09/2017.
@@ -30,6 +32,10 @@ public interface SimulandoService {
         void onListTests(ListSimulatesResponse res, Error err);
     }
 
+    interface FindSimulateById {
+        void onFindSimulateById(FindSimulateByIdResponse res, Error err);
+    }
+
     @POST("api/students")
     Call<RegisterStudentResponse> postStudent(@Body RegisterStudentBody body);
 
@@ -38,4 +44,8 @@ public interface SimulandoService {
 
     @GET("api/tests")
     Call<ListSimulatesResponse> listSimulates(@Header("Authorization") String userToken);
+
+    @GET("api/tests/{id}")
+    Call<FindSimulateByIdResponse> findSimulateById(@Header("Authorization") String userToken,
+                                                    @Path("id") int id);
 }

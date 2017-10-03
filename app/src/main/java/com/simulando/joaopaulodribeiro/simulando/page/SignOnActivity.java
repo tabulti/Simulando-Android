@@ -1,6 +1,7 @@
 package com.simulando.joaopaulodribeiro.simulando.page;
 
 import android.content.Context;
+import android.content.DialogInterface;
 import android.databinding.DataBindingUtil;
 import android.support.v7.app.AlertDialog;
 import android.os.Bundle;
@@ -84,15 +85,31 @@ public class SignOnActivity extends MainActivity implements View.OnClickListener
                 if (isEnterEmailEdtValid() && isPasswordEdtValid() && isConfirmPasswordValid()) {
                     final RegisterStudentBody body = new RegisterStudentBody(mPasswordEdt.getText().toString(),
                             mEmailEdt.getText().toString(), mConfirmPasswordEdt.getText().toString());
-                    RetrofitImplementation.getInstance().RegisterStudent(body, new SimulandoService.RegisterStudent() {
+                    RetrofitImplementation.getInstance().registerStudent(body, new SimulandoService.RegisterStudent() {
                         @Override
                         public void onRegisterStudent(RegisterStudentResponse res, Error err) {
                             if (res.getStatus().equals("success")) {
 
+                                if (res.getToken() != null && !res.getToken().isEmpty()) {
+                                    Utils.saveUserToken(SignOnActivity.this, res.getToken());
+                                }
+
                                 final AlertDialog.Builder builder = new AlertDialog.Builder(SignOnActivity.this);
                                 builder.setTitle(res.getStatus());
                                 builder.setMessage(res.getData().getUser().toString());
-                                builder.setPositiveButton("Ok", null);
+                                builder.setPositiveButton("Ok", new DialogInterface.OnClickListener() {
+                                    @Override
+                                    public void onClick(DialogInterface dialog, int which) {
+                                        runOnUiThread(new Runnable() {
+                                            @Override
+                                            public void run() {
+                                                showLoading(SignOnActivity.this, false);
+                                            }
+                                        });
+
+                                        goToPage(SignOnActivity.this, HomeActivity.class);
+                                    }
+                                });
 
                                 runOnUiThread(new Runnable() {
                                     @Override

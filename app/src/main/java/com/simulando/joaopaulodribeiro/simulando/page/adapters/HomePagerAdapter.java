@@ -21,7 +21,6 @@ import retrofit2.Call;
 public class HomePagerAdapter extends FragmentStatePagerAdapter {
 
     private int mNumberOfFragments;
-    private Callbacks.OnNotifyBackToHomeActivityListener onNotifyBackToHomeActivityListener;
 
     public HomePagerAdapter(FragmentManager fm, int numberOfFragments) {
         super(fm);
@@ -34,12 +33,6 @@ public class HomePagerAdapter extends FragmentStatePagerAdapter {
         switch (position) {
             case 0:
                 HomeStudentFragment homeStudentFragment = new HomeStudentFragment();
-                homeStudentFragment.setBackToHomePageAdapter(new Callbacks.OnNotifyBackToHomePageAdapterListener() {
-                    @Override
-                    public void onNotifyBackToHomePageAdapter(Test test) {
-                        onNotifyBackToHomeActivityListener.onNotifyBackToHomeActivity(test);
-                    }
-                });
                 return homeStudentFragment;
             case 1:
                 Home2Fragment home2Fragment = new Home2Fragment();
@@ -53,10 +46,6 @@ public class HomePagerAdapter extends FragmentStatePagerAdapter {
             default:
                 return null;
         }
-    }
-
-    public void setOnNotifyBackToHomeActivityListener(Callbacks.OnNotifyBackToHomeActivityListener onNotifyBackToHomeActivityListener) {
-        this.onNotifyBackToHomeActivityListener = onNotifyBackToHomeActivityListener;
     }
 
     @Override

@@ -57,15 +57,6 @@ public class HomeActivity extends MainActivity implements
 
         HomePagerAdapter adapter = new HomePagerAdapter(getSupportFragmentManager(), mBottommTabHomeLayout.getTabCount());
 
-        adapter.setOnNotifyBackToHomeActivityListener(new Callbacks.OnNotifyBackToHomeActivityListener() {
-            @Override
-            public void onNotifyBackToHomeActivity(Test test) {
-                Map<String, Test> map = new HashMap();
-                map.put("Test", test);
-                goToPage(HomeActivity.this, AnswerTestActivity.class, map);
-            }
-        });
-
         mViewPager.setAdapter(adapter);
         mViewPager.addOnPageChangeListener(new TabLayout.TabLayoutOnPageChangeListener(mBottommTabHomeLayout));
         mBottommTabHomeLayout.addOnTabSelectedListener(getTabSelectedListener(mViewPager));

@@ -3,6 +3,7 @@ package com.simulando.joaopaulodribeiro.simulando.retrofit;
 import android.accounts.AccountManager;
 import android.support.annotation.NonNull;
 
+import com.simulando.joaopaulodribeiro.simulando.model.simulates.FindSimulateByIdResponse;
 import com.simulando.joaopaulodribeiro.simulando.model.simulates.ListSimulatesResponse;
 import com.simulando.joaopaulodribeiro.simulando.model.student.AuthStudentBody;
 import com.simulando.joaopaulodribeiro.simulando.model.student.AuthStudentResponse;
@@ -62,7 +63,7 @@ public class RetrofitImplementation {
     }
 
 
-    public void RegisterStudent(RegisterStudentBody body, final SimulandoService.RegisterStudent handler) {
+    public void registerStudent(RegisterStudentBody body, final SimulandoService.RegisterStudent handler) {
 
         if (service != null) {
 
@@ -93,7 +94,7 @@ public class RetrofitImplementation {
         }
     }
 
-    public void AuthStudent(AuthStudentBody body, final SimulandoService.AuthStudent handler) {
+    public void authStudent(AuthStudentBody body, final SimulandoService.AuthStudent handler) {
         if (service != null) {
             final Call<AuthStudentResponse> res = service.authStudent(body);
             res.enqueue(new Callback<AuthStudentResponse>() {
@@ -120,7 +121,7 @@ public class RetrofitImplementation {
         }
     }
 
-    public void ListTests(@NonNull String userToken, final SimulandoService.ListTests handler) {
+    public void listTests(@NonNull String userToken, final SimulandoService.ListTests handler) {
         if (service != null) {
             final Call<ListSimulatesResponse> res = service.listSimulates(userToken);
 
@@ -143,6 +144,35 @@ public class RetrofitImplementation {
                 public void onFailure(Call<ListSimulatesResponse> call, Throwable t) {
                     if (t != null) {
                         handler.onListTests(null, new Error(t.toString()));
+                    }
+                }
+            });
+        }
+    }
+
+    public void findTestById(@NonNull String userToken, int id, final SimulandoService.FindSimulateById handler) {
+        if (service != null) {
+            final Call<FindSimulateByIdResponse> res = service.findSimulateById(userToken, id);
+
+            res.enqueue(new Callback<FindSimulateByIdResponse>() {
+                @Override
+                public void onResponse(Call<FindSimulateByIdResponse> call, Response<FindSimulateByIdResponse> response) {
+                    if(res != null) {
+                        if (response.errorBody() == null && response.body() != null){
+                            handler.onFindSimulateById(response.body(), null);
+                        } else {
+                            String err = "Code: " + response.raw().code() + "\n" +
+                                    "Message: " + response.raw().message();
+                            handler.onFindSimulateById(null, new Error(err));
+
+                        }
+                    }
+                }
+
+                @Override
+                public void onFailure(Call<FindSimulateByIdResponse> call, Throwable t) {
+                    if (t != null) {
+                        handler.onFindSimulateById(null, new Error(t.toString()));
                     }
                 }
             });
