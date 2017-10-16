@@ -7,6 +7,7 @@ import com.simulando.joaopaulodribeiro.simulando.model.simulates.FindSimulateByI
 import com.simulando.joaopaulodribeiro.simulando.model.simulates.ListSimulatesResponse;
 import com.simulando.joaopaulodribeiro.simulando.model.student.AuthStudentBody;
 import com.simulando.joaopaulodribeiro.simulando.model.student.AuthStudentResponse;
+import com.simulando.joaopaulodribeiro.simulando.model.student.RefreshTokenResponse;
 import com.simulando.joaopaulodribeiro.simulando.model.student.RegisterStudentBody;
 import com.simulando.joaopaulodribeiro.simulando.model.student.RegisterStudentResponse;
 import com.simulando.joaopaulodribeiro.simulando.utils.Utils;
@@ -173,6 +174,35 @@ public class RetrofitImplementation {
                 public void onFailure(Call<FindSimulateByIdResponse> call, Throwable t) {
                     if (t != null) {
                         handler.onFindSimulateById(null, new Error(t.toString()));
+                    }
+                }
+            });
+        }
+    }
+
+    public void refreshToken(@NonNull String userToken, final SimulandoService.RefreshToken handler) {
+        if (service != null) {
+            final Call<RefreshTokenResponse> res = service.refreshToken(userToken);
+
+            res.enqueue(new Callback<RefreshTokenResponse>() {
+                @Override
+                public void onResponse(Call<RefreshTokenResponse> call, Response<RefreshTokenResponse> response) {
+                    if(res != null) {
+                        if (response.errorBody() == null && response.body() != null){
+                            handler.onRefreshToken(response.body(), null);
+                        } else {
+                            String err = "Code: " + response.raw().code() + "\n" +
+                                    "Message: " + response.raw().message();
+                            handler.onRefreshToken(null, new Error(err));
+
+                        }
+                    }
+                }
+
+                @Override
+                public void onFailure(Call<RefreshTokenResponse> call, Throwable t) {
+                    if (t != null) {
+                        handler.onRefreshToken(null, new Error(t.toString()));
                     }
                 }
             });

@@ -20,6 +20,7 @@ import com.simulando.joaopaulodribeiro.simulando.Callbacks;
 import com.simulando.joaopaulodribeiro.simulando.model.simulates.Test;
 import com.simulando.joaopaulodribeiro.simulando.page.adapters.HomePagerAdapter;
 import com.simulando.joaopaulodribeiro.simulando.page.fragments.Home2Fragment;
+import com.simulando.joaopaulodribeiro.simulando.utils.Utils;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -77,7 +78,21 @@ public class HomeActivity extends MainActivity implements
                 Toast.makeText(this, "Notifications selected", Toast.LENGTH_SHORT).show();
                 return true;
 
-            case R.id.action_settings:
+            case R.id.action_exit_app:
+                AlertDialog.Builder builder = new AlertDialog.Builder(this);
+                builder.setTitle("Atenção");
+                builder.setMessage("Deseja fazer log-out e sair do app?");
+                builder.setPositiveButton("Sim", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        Utils.saveUserToken(HomeActivity.this, "");
+                        finishApp(HomeActivity.this);
+                    }
+                });
+                builder.setNegativeButton("Não", null);
+
+                AlertDialog alertDialog = builder.create();
+                alertDialog.show();
                 return true;
         }
 
@@ -86,19 +101,7 @@ public class HomeActivity extends MainActivity implements
 
     @Override
     public void onBackPressed() {
-        AlertDialog.Builder builder = new AlertDialog.Builder(this);
-        builder.setTitle("Atenção");
-        builder.setMessage("Deseja sair do app?");
-        builder.setPositiveButton("Sim", new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialog, int which) {
-                finishApp(HomeActivity.this);
-            }
-        });
-        builder.setNegativeButton("Não", null);
-
-        AlertDialog alertDialog = builder.create();
-        alertDialog.show();
+        finishApp(HomeActivity.this);
     }
 
     @NonNull

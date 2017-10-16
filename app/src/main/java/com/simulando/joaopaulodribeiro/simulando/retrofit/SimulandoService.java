@@ -4,6 +4,7 @@ import com.simulando.joaopaulodribeiro.simulando.model.simulates.FindSimulateByI
 import com.simulando.joaopaulodribeiro.simulando.model.simulates.ListSimulatesResponse;
 import com.simulando.joaopaulodribeiro.simulando.model.student.AuthStudentBody;
 import com.simulando.joaopaulodribeiro.simulando.model.student.AuthStudentResponse;
+import com.simulando.joaopaulodribeiro.simulando.model.student.RefreshTokenResponse;
 import com.simulando.joaopaulodribeiro.simulando.model.student.RegisterStudentBody;
 import com.simulando.joaopaulodribeiro.simulando.model.student.RegisterStudentResponse;
 
@@ -36,11 +37,18 @@ public interface SimulandoService {
         void onFindSimulateById(FindSimulateByIdResponse res, Error err);
     }
 
+    interface RefreshToken {
+        void onRefreshToken(RefreshTokenResponse res, Error err);
+    }
+
     @POST("api/students")
     Call<RegisterStudentResponse> postStudent(@Body RegisterStudentBody body);
 
     @POST("api/authenticate")
     Call<AuthStudentResponse> authStudent(@Body AuthStudentBody body);
+
+    @POST("api/refresh")
+    Call<RefreshTokenResponse> refreshToken(@Header("Authorization") String userToken);
 
     @GET("api/tests")
     Call<ListSimulatesResponse> listSimulates(@Header("Authorization") String userToken);

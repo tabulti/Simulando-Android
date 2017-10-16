@@ -2,13 +2,14 @@ package com.simulando.joaopaulodribeiro.simulando.model.simulates;
 
 import android.content.Intent;
 
+import java.io.Serializable;
 import java.util.List;
 
 /**
  * Created by joao.paulo.d.ribeiro on 02/10/2017.
  */
 
-public class Question {
+public class Question implements Serializable{
     Integer id;
     String title;
     String text;
@@ -107,7 +108,7 @@ public class Question {
 
     /********************************************************************/
 
-    public class Alternative {
+    public class Alternative implements Serializable{
         Integer id;
         String letter;
         String text;

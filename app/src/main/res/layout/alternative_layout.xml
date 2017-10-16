@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/alternative_background"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:background="@drawable/alternative_unselected_background_shape">
+
+        <TextView
+            android:id="@+id/alternativeLetter"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginRight="@dimen/spacing_xmicro"
+            android:layout_centerInParent="true"
+            android:paddingBottom="10dp"
+            android:paddingTop="10dp"
+            android:paddingRight="11dp"
+            android:paddingLeft="11dp"
+            android:text="A"
+            android:background="@drawable/alternative_border_shape"
+            android:layout_marginTop="@dimen/spacing_micro"
+            android:textColor="@color/black"
+            android:textSize="16sp"
+            android:textStyle="bold" />
+
+</RelativeLayout>

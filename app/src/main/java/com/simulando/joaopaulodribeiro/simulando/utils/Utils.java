@@ -12,6 +12,9 @@ import com.simulando.joaopaulodribeiro.simulando.R;
 
 public class Utils {
 
+    public static final String CALENDAR_TIME_SAVED = "calendar_time_saved_key";
+    public static final String COUNTDOWN_TIME_SAVED = "countdown_time_saved_key";
+
     public static boolean isValidEmail(String email){
         return !TextUtils.isEmpty(email) && android.util.Patterns.EMAIL_ADDRESS.matcher(email).matches();
     }
@@ -24,10 +27,36 @@ public class Utils {
     public static void saveUserToken (Context context, String userToken) {
         SharedPreferences.Editor editor = getPreferencesInstance(context).edit();
         editor.putString(context.getString(R.string.user_token), userToken);
-        editor.commit();
+        editor.apply();
     }
 
-    public static String getUserToken (Context context) {
+    public static void saveTimeInMilliseconds(Context context, long time, String key) {
+        SharedPreferences.Editor editor = getPreferencesInstance(context).edit();
+        editor.putLong(key, time);
+        editor.apply();
+    }
+
+    public static long getSavedTimeInMilliseconds(Context context, String key) {
+        return getPreferencesInstance(context).getLong(key, 0L);
+    }
+
+    public static String getUserToken(Context context) {
         return getPreferencesInstance(context).getString(context.getString(R.string.user_token), "");
+    }
+
+    public static void saveAnswer(Context context, String jsonValue, String key) {
+        SharedPreferences.Editor editor = getPreferencesInstance(context).edit();
+        editor.putString(key, jsonValue);
+        editor.apply();
+    }
+
+    /**
+     *
+     * @param context
+     * @param key
+     * @return is a json String
+     */
+    public static String getListOfAnswers (Context context, String key) {
+        return getPreferencesInstance(context).getString(key, "");
     }
 }

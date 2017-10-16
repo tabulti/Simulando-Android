@@ -1,40 +1,76 @@
 <?xml version="1.0" encoding="utf-8"?>
+
 <RelativeLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:background="@color/transparent_full"
-    android:layout_marginTop="?attr/actionBarSize">
-
-    <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_marginTop="18dp"
-        android:layout_marginBottom="18dp"
-        android:background="@color/white">
+        android:background="@color/transparent_full"
+        android:layout_marginTop="?attr/actionBarSize">
 
-        <RelativeLayout
-            android:id="@+id/simulate_cv_end_date_layout"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="22dp"
-            android:layout_marginLeft="22dp"
-            android:background="@drawable/answer_test_question_number_shape">
+        <ScrollView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
 
-            <TextView
-                android:id="@+id/simulate_cv_end_date_tv"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:paddingBottom="6dp"
-                android:paddingTop="6dp"
-                android:paddingRight="12dp"
-                android:paddingLeft="12dp"
-                android:textSize="18dp"
-                android:textColor="@color/white"
-                android:text="1 de 25"/>
-        </RelativeLayout>
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_marginTop="18dp"
+                android:paddingBottom="22dp"
+                android:background="@color/white">
 
+                <RelativeLayout
+                    android:id="@+id/simulate_cv_end_date_layout"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="22dp"
+                    android:layout_marginLeft="22dp"
+                    android:background="@drawable/answer_test_question_number_shape">
+
+                    <TextView
+                        android:id="@+id/simulate_cv_end_date_tv"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:paddingBottom="6dp"
+                        android:paddingTop="6dp"
+                        android:paddingRight="12dp"
+                        android:paddingLeft="12dp"
+                        android:textSize="18dp"
+                        android:textColor="@color/white"
+                        android:text="1 de 25"/>
+                </RelativeLayout>
+
+                <TextView
+                    android:id="@+id/question_msg_tv"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@id/simulate_cv_end_date_layout"
+                    android:fontFamily="serif"
+                    android:textSize="16sp"
+                    android:layout_marginLeft="22dp"
+                    android:layout_marginRight="22dp"
+                    android:layout_marginTop="22dp"/>
+
+                <TextView
+                    android:id="@+id/question_reference_tv"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:gravity="right"
+                    android:layout_marginLeft="152dp"
+                    android:layout_alignParentRight="true"
+                    android:layout_below="@id/question_msg_tv"
+                    android:layout_margin="22dp"
+                    android:fontFamily="serif"
+                    android:text="reference of question"/>
+
+                <include layout="@layout/alternatives_list_layout"
+                    android:layout_below="@id/question_reference_tv"
+                    android:layout_height="wrap_content"
+                    android:layout_width="match_parent"
+                    android:layout_alignParentBottom="true"
+                    android:layout_alignParentLeft="true"
+                    android:layout_alignParentStart="true" />
+
+            </RelativeLayout>
+        </ScrollView>
 
     </RelativeLayout>
-
-</RelativeLayout>

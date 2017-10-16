@@ -30,9 +30,11 @@ public class RecyclerSimulatesAdapter extends RecyclerView.Adapter<RecyclerSimul
 
 
     public RecyclerSimulatesAdapter(Context context, List<Test> simulates) {
-        this.mContext = context;
-        this.mSimulates = simulates;
-        this.mLayoutInflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+        if(context != null && simulates != null) {
+            this.mContext = context;
+            this.mSimulates = simulates;
+            this.mLayoutInflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+        }
     }
 
     @Override

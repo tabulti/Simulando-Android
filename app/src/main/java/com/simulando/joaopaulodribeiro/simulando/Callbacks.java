@@ -2,6 +2,7 @@ package com.simulando.joaopaulodribeiro.simulando;
 
 import android.view.View;
 
+import com.simulando.joaopaulodribeiro.simulando.model.simulates.AnswerTest;
 import com.simulando.joaopaulodribeiro.simulando.model.simulates.Test;
 
 /**
@@ -12,6 +13,18 @@ public interface Callbacks {
 
     interface OnNotifySimulatesHomeFragmentListener {
         void onNotifySimulatesHomeFragment(int position);
+    }
+
+    interface OnMillisUntilFinishedListener {
+        void onMillisUntilFinished(long millisUntilFinished);
+    }
+
+    interface OnQuestionAnsweredListener {
+        void OnQuestionAnswered(AnswerTest answerTest, int fragmentPosition);
+    }
+
+    interface OnViewPagerChangeFragmentListener {
+        void OnViewPagerChangeFragment();
     }
 
 }

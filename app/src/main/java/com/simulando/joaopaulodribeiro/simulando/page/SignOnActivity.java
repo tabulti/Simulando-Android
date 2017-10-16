@@ -94,31 +94,14 @@ public class SignOnActivity extends MainActivity implements View.OnClickListener
                                     Utils.saveUserToken(SignOnActivity.this, res.getToken());
                                 }
 
-                                final AlertDialog.Builder builder = new AlertDialog.Builder(SignOnActivity.this);
-                                builder.setTitle(res.getStatus());
-                                builder.setMessage(res.getData().getUser().toString());
-                                builder.setPositiveButton("Ok", new DialogInterface.OnClickListener() {
-                                    @Override
-                                    public void onClick(DialogInterface dialog, int which) {
-                                        runOnUiThread(new Runnable() {
-                                            @Override
-                                            public void run() {
-                                                showLoading(SignOnActivity.this, false);
-                                            }
-                                        });
-
-                                        goToPage(SignOnActivity.this, HomeActivity.class);
-                                    }
-                                });
-
                                 runOnUiThread(new Runnable() {
                                     @Override
                                     public void run() {
                                         showLoading(SignOnActivity.this, false);
-                                        AlertDialog alert = builder.create();
-                                        alert.show();
                                     }
                                 });
+
+                                goToPage(SignOnActivity.this, HomeActivity.class);
                             }
                         }
                     });

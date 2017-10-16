@@ -10,4 +10,11 @@
     <string name="fields_erros_msg">Parece que algum dos campos contém erros</string>
     <string name="preference_file_key">com.simulando.PREFERENCE_FILE_KEY</string>
     <string name="user_token">USER_TOKEN</string>
+    <string name="close_test_alert_msg">Está ciente de que se abandonar o simulado agora, TODO o seu progresso será perdido e o simulado não estará mais diponível?</string>
+    <string name="close_test_alert_title">Atenção</string>
+    <string name="close_test_alert_positive_btn">Sim, estou ciente</string>
+    <string name="close_test_alert_negative_button">Não, foi um engano.</string>
+    <string name="counter_zero">00:00:00</string>
+    <string name="send_answer_text">RESPONDER</string>
+    <string name="exit_app_text">Sair do app</string>
 </resources>

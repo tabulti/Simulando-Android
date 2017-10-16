@@ -78,22 +78,24 @@ public class LoginActivity extends MainActivity implements View.OnClickListener,
                     RetrofitImplementation.getInstance().authStudent(body, new SimulandoService.AuthStudent() {
                         @Override
                         public void onAuthStudent(AuthStudentResponse res, Error err) {
-                            if (res.getStatus().equals("success")) {
+                            if (res != null) {
+                                if (res.getStatus().equals("success")) {
 
-                                if (res.getToken() != null && !res.getToken().isEmpty()) {
-                                    Utils.saveUserToken(LoginActivity.this, res.getToken());
-                                }
-
-                                runOnUiThread(new Runnable() {
-                                    @Override
-                                    public void run() {
-                                        showLoading(LoginActivity.this, false);
+                                    if (res.getToken() != null && !res.getToken().isEmpty()) {
+                                        Utils.saveUserToken(LoginActivity.this, res.getToken());
                                     }
-                                });
 
-                                goToPage(LoginActivity.this, HomeActivity.class);
-                            } else {
-                                //TODO: tratar Códigos de erros do servidor
+                                    runOnUiThread(new Runnable() {
+                                        @Override
+                                        public void run() {
+                                            showLoading(LoginActivity.this, false);
+                                        }
+                                    });
+
+                                    goToPage(LoginActivity.this, HomeActivity.class);
+                                } else {
+                                    //TODO: tratar Códigos de erros do servidor
+                                }
                             }
                         }
                     });

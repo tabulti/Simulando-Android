@@ -33,7 +33,7 @@
                     android:layout_height="wrap_content"
                     android:layout_centerInParent="true"
                     android:elevation="4dp"
-                    android:text="@string/counter_zero"
+                    android:text="00:00:00"
                     android:textColor="@color/white"
                     android:textSize="22dp" />
 
@@ -63,7 +63,7 @@
                 android:layout_centerInParent="true"
                 android:paddingBottom="18dp"
                 android:paddingTop="18dp"
-                android:text="@string/send_answer_text"
+                android:text="RESPONDER"
                 android:textColor="@color/gray_3"
                 android:textStyle="bold" />
 
