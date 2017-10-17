@@ -19,6 +19,10 @@ public interface Callbacks {
         void onMillisUntilFinished(long millisUntilFinished);
     }
 
+    interface OnTimerCountDownFinishedListener {
+        void onTimerCountDownFinished();
+    }
+
     interface OnQuestionAnsweredListener {
         void OnQuestionAnswered(AnswerTest answerTest, int fragmentPosition);
     }

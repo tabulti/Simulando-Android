@@ -16,30 +16,33 @@ public class MyCountDownTimer extends CountDownTimer {
     private Context mContext;
     private TextView mTextView;
     private long timeInFuture;
-    private Callbacks.OnMillisUntilFinishedListener mListener;
+    private Callbacks.OnMillisUntilFinishedListener millisUntilFinishedListener;
+    private Callbacks.OnTimerCountDownFinishedListener timerCountDownFinishedListener;
 
 
     public MyCountDownTimer(Context context, TextView tv, long millisInFuture, long countDownInterval,
-                            Callbacks.OnMillisUntilFinishedListener listener) {
+                            Callbacks.OnMillisUntilFinishedListener millisUntilFinishedListener,
+                            Callbacks.OnTimerCountDownFinishedListener timerCountDownFinishedListener) {
         super(millisInFuture, countDownInterval);
         this.mTextView = tv;
         this.mContext = context;
         this.timeInFuture = millisInFuture;
-        this.mListener = listener;
+        this.millisUntilFinishedListener = millisUntilFinishedListener;
+        this.timerCountDownFinishedListener = timerCountDownFinishedListener;
     }
 
     @Override
     public void onTick(long millisUntilFinished) {
         timeInFuture = millisUntilFinished;
         mTextView.setText(getCorrectTimer(true, millisUntilFinished) + ":" + getCorrectTimer(false, millisUntilFinished));
-        mListener.onMillisUntilFinished(millisUntilFinished);
+        millisUntilFinishedListener.onMillisUntilFinished(millisUntilFinished);
     }
 
     @Override
     public void onFinish() {
         timeInFuture = 0L;
         mTextView.setText(getCorrectTimer(true, timeInFuture) + ":" + getCorrectTimer(false, timeInFuture));
-
+        timerCountDownFinishedListener.onTimerCountDownFinished();
     }
 
     private String getCorrectTimer(boolean isMinute, long millisUntilFinished) {

@@ -1,5 +1,7 @@
 package com.simulando.joaopaulodribeiro.simulando.page;
 
+import android.animation.Animator;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.databinding.DataBindingUtil;
 import android.os.Bundle;
@@ -13,6 +15,8 @@ import android.view.View;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import com.daimajia.androidanimations.library.Techniques;
+import com.daimajia.androidanimations.library.YoYo;
 import com.simulando.joaopaulodribeiro.simulando.Callbacks;
 import com.simulando.joaopaulodribeiro.simulando.MainActivity;
 import com.simulando.joaopaulodribeiro.simulando.R;
@@ -33,7 +37,7 @@ import java.util.List;
  * Created by joao.paulo.d.ribeiro on 01/10/2017.
  */
 
-public class AnswerTestActivity extends MainActivity implements Serializable, Callbacks.OnQuestionAnsweredListener{
+public class AnswerTestActivity extends MainActivity implements Serializable, Callbacks.OnQuestionAnsweredListener {
 
     private ViewPager mViewPager;
     private Toolbar mToolbar;
@@ -45,6 +49,7 @@ public class AnswerTestActivity extends MainActivity implements Serializable, Ca
     private List<QuestionAppModel> questionsAnsweredFragments;
     private QuestionAppModel questionAppModel;
     private RelativeLayout mSendAnswerLayout;
+    private RelativeLayout mAnswerTestContainerLayout;
 
     private void bindViews() {
         ActivityAnswerTestBinding binding = DataBindingUtil
@@ -56,6 +61,7 @@ public class AnswerTestActivity extends MainActivity implements Serializable, Ca
 
         mSendAnswerLayout = binding.sendAnswerLayout;
 
+        mAnswerTestContainerLayout = binding.answerTestContainerLayout;
     }
 
     @Override
@@ -94,18 +100,18 @@ public class AnswerTestActivity extends MainActivity implements Serializable, Ca
 
             mTimeLeftOnCountDown = Utils.getSavedTimeInMilliseconds(this, Utils.COUNTDOWN_TIME_SAVED);
 
-            long diference = Calendar.getInstance().getTimeInMillis() -
+            long difference = Calendar.getInstance().getTimeInMillis() -
                     Utils.getSavedTimeInMilliseconds(this, Utils.CALENDAR_TIME_SAVED);
 
-            diference = (mTimeLeftOnCountDown - diference);
+            difference = (mTimeLeftOnCountDown - difference);
 
-            setTimer(mTimerTv, diference);
+            setTimer(mTimerTv, difference);
             timer.start();
 
         } else {
             if (mTest != null) {
-                Long estimateTime = Long.valueOf(mTest.getEstimated_time()) * 60000L;
-                setTimer(mTimerTv, estimateTime);
+                Long estimatedTime = Utils.minutesToMilliseconds(Integer.valueOf(mTest.getEstimated_time()));
+                setTimer(mTimerTv, estimatedTime);
                 timer.start();
             }
         }
@@ -113,7 +119,28 @@ public class AnswerTestActivity extends MainActivity implements Serializable, Ca
 
     private void setTimer(TextView mTimerTv, long millisInFuture) {
         timer = new MyCountDownTimer(AnswerTestActivity.this, mTimerTv, millisInFuture, 1000L,
-                getOnMillisUntilFinishedListener());
+                getOnMillisUntilFinishedListener(), getTimerCountDownFinishedListener());
+    }
+
+    @NonNull
+    private Callbacks.OnTimerCountDownFinishedListener getTimerCountDownFinishedListener() {
+        return new Callbacks.OnTimerCountDownFinishedListener() {
+            @Override
+            public void onTimerCountDownFinished() {
+
+                AlertDialog.Builder builder = new AlertDialog.Builder(AnswerTestActivity.this);
+                builder.setTitle(R.string.alert_count_down_finished_title);
+                builder.setMessage(R.string.alert_count_down_finished_msg);
+                builder.setPositiveButton(R.string.ok, new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        AnswerTestActivity.this.finish();
+                    }
+                });
+
+                builder.show();
+            }
+        };
     }
 
     @NonNull
@@ -122,7 +149,7 @@ public class AnswerTestActivity extends MainActivity implements Serializable, Ca
             @Override
             public void onMillisUntilFinished(long millisUntilFinished) {
                 mTimeLeftOnCountDown = millisUntilFinished;
-                if (mTimeLeftOnCountDown <=0) {
+                if (mTimeLeftOnCountDown <= 0) {
                     timer.cancel();
                 }
             }
@@ -220,7 +247,31 @@ public class AnswerTestActivity extends MainActivity implements Serializable, Ca
         if (questionsAnsweredFragments.size() < totalQuestions) {
             mSendAnswerLayout.setVisibility(View.GONE);
         } else {
-            mSendAnswerLayout.setVisibility(View.VISIBLE);
+            YoYo.with(Techniques.SlideInUp)
+                    .duration(700)
+                    .withListener(new Animator.AnimatorListener() {
+                        @Override
+                        public void onAnimationStart(Animator animation) {
+                            mSendAnswerLayout.setVisibility(View.VISIBLE);
+                        }
+
+                        @Override
+                        public void onAnimationEnd(Animator animation) {
+                            mAnswerTestContainerLayout.setPadding(0, 0, 0, Utils
+                                    .dpToPixel(AnswerTestActivity.this, 56));
+                        }
+
+                        @Override
+                        public void onAnimationCancel(Animator animation) {
+
+                        }
+
+                        @Override
+                        public void onAnimationRepeat(Animator animation) {
+
+                        }
+                    })
+                    .playOn(mSendAnswerLayout);
         }
     }
 }

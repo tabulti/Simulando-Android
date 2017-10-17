@@ -1,17 +1,17 @@
 package com.simulando.joaopaulodribeiro.simulando.page;
 
 import android.content.Context;
-import android.content.DialogInterface;
 import android.databinding.DataBindingUtil;
-import android.support.v7.app.AlertDialog;
 import android.os.Bundle;
 import android.text.TextUtils;
+import android.view.KeyEvent;
 import android.view.View;
+import android.view.inputmethod.EditorInfo;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
-import android.widget.Toast;
+import android.widget.TextView;
 
 import com.simulando.joaopaulodribeiro.simulando.MainActivity;
 import com.simulando.joaopaulodribeiro.simulando.R;
@@ -22,7 +22,8 @@ import com.simulando.joaopaulodribeiro.simulando.retrofit.RetrofitImplementation
 import com.simulando.joaopaulodribeiro.simulando.retrofit.SimulandoService;
 import com.simulando.joaopaulodribeiro.simulando.utils.Utils;
 
-public class SignOnActivity extends MainActivity implements View.OnClickListener, View.OnFocusChangeListener{
+public class SignOnActivity extends MainActivity implements View.OnClickListener, View.OnFocusChangeListener,
+        TextView.OnEditorActionListener {
     private ActivitySignOnBinding mBinding;
 
     private Button mRegisterBtn;
@@ -55,6 +56,8 @@ public class SignOnActivity extends MainActivity implements View.OnClickListener
         mConfirmPasswordEdt.setOnClickListener(this);
         mConfirmPasswordEdt.setOnFocusChangeListener(this);
 
+        mConfirmPasswordEdt.setOnEditorActionListener(this);
+
         enterEmailSuccessIc = mBinding.enterEmailSuccessIc;
         enterEmailFailedIc = mBinding.enterEmailFailureIc;
 
@@ -63,6 +66,7 @@ public class SignOnActivity extends MainActivity implements View.OnClickListener
 
         confirmPasswordSuccessIc = mBinding.confirmPasswordSuccessIc;
         confirmPasswordFailedIc = mBinding.confirmPasswordFailureIc;
+
     }
 
     @Override
@@ -75,14 +79,14 @@ public class SignOnActivity extends MainActivity implements View.OnClickListener
     @Override
     public void onClick(View v) {
 
-        switch (v.getId()){
+        switch (v.getId()) {
             case R.id.register_button:
-                showLoading(SignOnActivity.this, true);
 
-                InputMethodManager imm = (InputMethodManager)getSystemService(Context.INPUT_METHOD_SERVICE);
+                InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
                 imm.hideSoftInputFromWindow(mConfirmPasswordEdt.getWindowToken(), 0);
 
                 if (isEnterEmailEdtValid() && isPasswordEdtValid() && isConfirmPasswordValid()) {
+                    showLoading(SignOnActivity.this, true);
                     final RegisterStudentBody body = new RegisterStudentBody(mPasswordEdt.getText().toString(),
                             mEmailEdt.getText().toString(), mConfirmPasswordEdt.getText().toString());
                     RetrofitImplementation.getInstance().registerStudent(body, new SimulandoService.RegisterStudent() {
@@ -106,7 +110,7 @@ public class SignOnActivity extends MainActivity implements View.OnClickListener
                         }
                     });
                 } else {
-                    Toast.makeText(this, R.string.fields_erros_msg, Toast.LENGTH_LONG).show();
+                    Utils.showErrorSnackBar(mRegisterBtn, R.string.fields_erros_msg);
                 }
                 break;
         }
@@ -123,7 +127,7 @@ public class SignOnActivity extends MainActivity implements View.OnClickListener
                 break;
 
             case R.id.enter_password_edt:
-                if(!hasFocus) {
+                if (!hasFocus) {
                     isPasswordEdtValid();
                 }
                 break;
@@ -137,7 +141,7 @@ public class SignOnActivity extends MainActivity implements View.OnClickListener
     }
 
     private boolean isEnterEmailEdtValid() {
-        if (Utils.isValidEmail(mEmailEdt.getText().toString())){
+        if (Utils.isValidEmail(mEmailEdt.getText().toString())) {
             showSuccessIcon(enterEmailSuccessIc, enterEmailFailedIc, true);
             return true;
         } else {
@@ -180,5 +184,13 @@ public class SignOnActivity extends MainActivity implements View.OnClickListener
             successIc.setVisibility(View.GONE);
             failureIcon.setVisibility(View.VISIBLE);
         }
+    }
+
+    @Override
+    public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
+        if (actionId == EditorInfo.IME_ACTION_DONE) {
+            mRegisterBtn.performClick();
+        }
+        return false;
     }
 }

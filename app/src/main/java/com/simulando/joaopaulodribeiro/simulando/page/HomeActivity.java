@@ -75,21 +75,21 @@ public class HomeActivity extends MainActivity implements
         int id = item.getItemId();
         switch (id) {
             case R.id.action_notifications:
-                Toast.makeText(this, "Notifications selected", Toast.LENGTH_SHORT).show();
+                Toast.makeText(this, R.string.notifications_selected, Toast.LENGTH_SHORT).show();
                 return true;
 
             case R.id.action_exit_app:
                 AlertDialog.Builder builder = new AlertDialog.Builder(this);
-                builder.setTitle("Atenção");
-                builder.setMessage("Deseja fazer log-out e sair do app?");
-                builder.setPositiveButton("Sim", new DialogInterface.OnClickListener() {
+                builder.setTitle(R.string.atention);
+                builder.setMessage(R.string.logout_alert_msg);
+                builder.setPositiveButton(R.string.yes, new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
                         Utils.saveUserToken(HomeActivity.this, "");
-                        finishApp(HomeActivity.this);
+                        goToPage(HomeActivity.this, WelcomeActivity.class);
                     }
                 });
-                builder.setNegativeButton("Não", null);
+                builder.setNegativeButton(R.string.no, null);
 
                 AlertDialog alertDialog = builder.create();
                 alertDialog.show();

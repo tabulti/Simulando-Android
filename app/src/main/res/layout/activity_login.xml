@@ -25,6 +25,7 @@
                 android:elevation="1dp"
                 android:hint="Email"
                 android:inputType="textEmailAddress"
+                android:imeOptions="actionNext"
                 android:paddingBottom="10dp"
                 android:paddingLeft="30dp"
                 android:paddingTop="10dp" />
@@ -69,6 +70,7 @@
                 android:elevation="1dp"
                 android:hint="Senha"
                 android:inputType="numberPassword"
+                android:imeOptions="actionDone"
                 android:paddingBottom="10dp"
                 android:paddingLeft="30dp"
                 android:paddingTop="10dp"/>

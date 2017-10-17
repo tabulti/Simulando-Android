@@ -15,6 +15,7 @@
     <color name="black">#000000</color>
     <color name="gold_1">#F4BB3E</color>
     <color name="success_green">#4BB543</color>
+    <color name="error_red">#ff0033</color>
     <color name="success_green_border">#23c739</color>
     <color name="color_purple_1">#f04482</color>
     <color name="color_purple_2">#dc5eb6</color>

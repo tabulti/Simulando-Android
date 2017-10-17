@@ -3,15 +3,15 @@
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
-    <LinearLayout
+    <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:orientation="vertical">
 
         <RelativeLayout
+            android:id="@+id/answer_test_container_layout"
             android:layout_width="match_parent"
-            android:layout_height="0dp"
-            android:layout_weight="1"
+            android:layout_height="match_parent"
             android:background="@color/colorAccent">
 
             <RelativeLayout
@@ -25,7 +25,10 @@
                     android:background="@color/gray_3"
                     android:elevation="4dp"
                     android:theme="@style/AppTheme.NoActionBar"
-                    app:popupTheme="@style/AppTheme.PopupOverlay" />
+                    app:popupTheme="@style/AppTheme.PopupOverlay"
+                    android:layout_alignParentTop="true"
+                    android:layout_alignParentLeft="true"
+                    android:layout_alignParentStart="true" />
 
                 <TextView
                     android:id="@+id/answer_test_timer"
@@ -53,9 +56,10 @@
         <RelativeLayout
             android:id="@+id/send_answer_layout"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="56dp"
+            android:layout_alignParentBottom="true"
             android:background="@color/alternative_choice"
-            android:visibility="gone">
+            android:visibility="invisible">
 
             <TextView
                 android:layout_width="wrap_content"
@@ -68,7 +72,7 @@
                 android:textStyle="bold" />
 
         </RelativeLayout>
-    </LinearLayout>
+    </RelativeLayout>
 
 
 </layout>

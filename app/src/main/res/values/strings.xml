@@ -16,5 +16,13 @@
     <string name="close_test_alert_negative_button">Não, foi um engano.</string>
     <string name="counter_zero">00:00:00</string>
     <string name="send_answer_text">RESPONDER</string>
-    <string name="exit_app_text">Sair do app</string>
+    <string name="exit_account">Sair da sua conta</string>
+    <string name="alert_count_down_finished_title">Tempo Encerrado :(</string>
+    <string name="alert_count_down_finished_msg">Infelizmente, o tempo para realização deste simulado acabou.</string>
+    <string name="ok">Ok</string>
+    <string name="logout_alert_msg">Deseja fazer log-out e sair da sua conta?</string>
+    <string name="atention">Atenção</string>
+    <string name="yes">Sim</string>
+    <string name="no">Não</string>
+    <string name="notifications_selected">Notifications selected</string>
 </resources>
