@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <!--Transaction list-->
+
+    <!--Welcome-->
+    <integer name="view_pager_indicator_ellipse_size">40</integer>
+
+    <!--TRANSACTION_DETAILS-->
+    <item name="transaction_details_footer_weight" format="float" type="dimen">0.30</item>
+
+    <!--FAQ-->
+    <integer name="faq_question_max_line">7</integer>
+    <item name="faq_question_footer_weight" format="float" type="dimen">0.3</item>
+
+    <!--CONTENTFUL-->
+    <integer name="contentful_promo_home_bg_weight">529</integer>
+    <integer name="contentful_promo_home_bg_height">936</integer>
+
+    <integer name="banner_club_smiles_weight">529</integer>
+
+    <integer name="club_smiles_weight">172</integer>
+    <integer name="club_smiles_height">90</integer>
+
+    <integer name="all_steps_finished_weight">564</integer>
+    <integer name="all_steps_finished_height">482</integer>
+
+    <integer name="congratulations_weight">599</integer>
+    <integer name="congratulations_height">341</integer>
+
+    <integer name="last_step_height">484</integer>
+
+    <integer name="start_popup_weight">492</integer>
+
+</resources>
