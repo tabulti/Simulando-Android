@@ -41,7 +41,7 @@ public class SimulatesHomeFragment extends Fragment {
     }
 
     private void getSimulates() {
-        RetrofitImplementation.getInstance().listTests(Utils.getUserToken(this.getContext()),
+        RetrofitImplementation.Companion.getInstance().listTests(Utils.getUserToken(this.getContext()),
                 new SimulandoService.ListTests() {
             @Override
             public void onListTests(final ListSimulatesResponse res, Error err) {

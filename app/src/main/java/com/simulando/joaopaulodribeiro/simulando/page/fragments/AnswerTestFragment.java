@@ -153,7 +153,7 @@ public class AnswerTestFragment extends Fragment implements Callbacks.OnMillisUn
     private void verifyIfAlternativeAlreadyMarked(View view, Question mCurrentQuestion, AnswerTest questionYetAnswered) {
         if (questionYetAnswered != null) {
             for (Question.Alternative alternative : mCurrentQuestion.getAlternatives()) {
-                if (alternative.getId().equals(questionYetAnswered.getAlternative_id())) {
+                if (alternative.getId() == questionYetAnswered.getAlternative_id()) {
 
                     RelativeLayout backGround = null;
 

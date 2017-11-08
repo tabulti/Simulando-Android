@@ -18,7 +18,7 @@ public class SplashActivity extends MainActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_splash);
 
-        RetrofitImplementation.getInstance().initRetrofit();
+        RetrofitImplementation.Companion.getInstance().initRetrofit();
 
 
         Handler handle = new Handler();
@@ -37,10 +37,10 @@ public class SplashActivity extends MainActivity {
         if (userToken.equals("")) {
             goToPage(SplashActivity.this, WelcomeActivity.class);
         } else {
-            RetrofitImplementation.getInstance().refreshToken(userToken, new SimulandoService.RefreshToken() {
+            RetrofitImplementation.Companion.getInstance().refreshToken(userToken, new SimulandoService.RefreshToken() {
                 @Override
                 public void onRefreshToken(RefreshTokenResponse res, Error err) {
-                    if (res.token.equals(userToken)) {
+                    if (res.getToken().equals(userToken)) {
                         goToPage(SplashActivity.this, HomeActivity.class);
                     } else {
                         goToPage(SplashActivity.this, WelcomeActivity.class);

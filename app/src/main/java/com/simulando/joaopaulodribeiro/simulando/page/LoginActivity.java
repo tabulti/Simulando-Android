@@ -82,7 +82,7 @@ public class LoginActivity extends MainActivity implements View.OnClickListener,
                     showLoading(LoginActivity.this, true);
                     final AuthStudentBody body = new AuthStudentBody(mEmailEdt.getText().toString(),
                             mPasswordEdt.getText().toString());
-                    RetrofitImplementation.getInstance().authStudent(body, new SimulandoService.AuthStudent() {
+                    RetrofitImplementation.Companion.getInstance().authStudent(body, new SimulandoService.AuthStudent() {
                         @Override
                         public void onAuthStudent(AuthStudentResponse res, Error err) {
                             if (res != null) {

@@ -89,7 +89,7 @@ public class SignOnActivity extends MainActivity implements View.OnClickListener
                     showLoading(SignOnActivity.this, true);
                     final RegisterStudentBody body = new RegisterStudentBody(mPasswordEdt.getText().toString(),
                             mEmailEdt.getText().toString(), mConfirmPasswordEdt.getText().toString());
-                    RetrofitImplementation.getInstance().registerStudent(body, new SimulandoService.RegisterStudent() {
+                    RetrofitImplementation.Companion.getInstance().registerStudent(body, new SimulandoService.RegisterStudent() {
                         @Override
                         public void onRegisterStudent(RegisterStudentResponse res, Error err) {
                             if (res.getStatus().equals("success")) {
